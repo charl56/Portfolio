@@ -164,8 +164,8 @@
             // Création de la scene init des élements graphiques
             ////
             function setupGraphics(){
-                //create clock for timing
-                clock = new THREE.Clock();
+                              //create clock for timing
+                              clock = new THREE.Clock();
                 // Init caméra
                 camera = new THREE.PerspectiveCamera(75,canvas.clientWidth / canvas.clientHeight,0.1,100);
                 // Position camera
@@ -1022,7 +1022,7 @@
                     if(rigidBodies[i].userData.tag == 'targetItem_zombie'){
                         // Position de la camera, l'endroit vers où le zombie regarde
                         let camPosX = camera.position.x
-                        // let camPosY = camera.position.y
+                        let camPosY = camera.position.y
                         let camPosZ = camera.position.z
                         rigidBodies[i].lookAt(camPosX, camPosY, camPosZ)
                         // 'Vitesse' du vecteur de direction

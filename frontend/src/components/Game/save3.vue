@@ -410,9 +410,9 @@
                             let motionState = new Ammo.btDefaultMotionState( transform );
                             // Hitbox
                             let colShape = new Ammo.btBoxShape( new Ammo.btVector3( 
-                                scale.x * 0.3, 
-                                scale.y,
-                                scale.z * 0.3, 
+                                scale.x * 0.8, 
+                                2,
+                                scale.z * 0.8, 
                             ));
                             colShape.setMargin( 0.05 );
                             // Inertie
@@ -637,7 +637,7 @@
                         physicsWorld.addRigidBody( body );
                         // Place balle et donne la velocite
                         tmpPos.copy(raycaster.ray.direction)
-                        tmpPos.multiplyScalar(80)
+                        tmpPos.multiplyScalar(60)
                         body.setLinearVelocity(new Ammo.btVector3(
                             tmpPos.x,
                             tmpPos.y,
@@ -1022,7 +1022,7 @@
                     if(rigidBodies[i].userData.tag == 'targetItem_zombie'){
                         // Position de la camera, l'endroit vers où le zombie regarde
                         let camPosX = camera.position.x
-                        // let camPosY = camera.position.y
+                        let camPosY = camera.position.y
                         let camPosZ = camera.position.z
                         rigidBodies[i].lookAt(camPosX, camPosY, camPosZ)
                         // 'Vitesse' du vecteur de direction
@@ -1050,8 +1050,8 @@
                         physicsBody.threeObject.position.y = 0
                         // physicsBody.position.y = 0
                         physicsBody.setLinearVelocity( resultantImpulse );
-                        console.log(physicsBody)
-                        console.log(physicsBody.threeObject)
+                        // console.log(physicsBody)
+                        // console.log(physicsBody.threeObject)
                     }
                 }
             };

@@ -214,7 +214,7 @@
                 transform.setRotation( new Ammo.btQuaternion(0, 0, 0, 1));
                 let motionState = new Ammo.btDefaultMotionState( transform );
                 // Equivalent hitbox
-                let colShape = new Ammo.btBoxShape( new Ammo.btVector3(100, 0.1, 100));
+                let colShape = new Ammo.btBoxShape( new Ammo.btVector3(35, 0.1, 35));
                 colShape.setMargin( 0.05 );
 
                 let localInertia = new Ammo.btVector3( 0, 0, 0 );
@@ -411,7 +411,7 @@
                             // Hitbox
                             let colShape = new Ammo.btBoxShape( new Ammo.btVector3( 
                                 scale.x * 0.8, 
-                                scale.y * 2,
+                                2,
                                 scale.z * 0.8, 
                             ));
                             colShape.setMargin( 0.05 );
@@ -599,7 +599,7 @@
                                 // On enleve du monde physic
                                 physicsWorld.removeRigidBody(bullet.userData.physicsBody)
                             }
-                        }, 3000)
+                        }, 2000)
                         // affiche bullet
                         bullet.alive = true;
                         bullets.push(bullet)                        
@@ -637,7 +637,7 @@
                         physicsWorld.addRigidBody( body );
                         // Place balle et donne la velocite
                         tmpPos.copy(raycaster.ray.direction)
-                        tmpPos.multiplyScalar(6)
+                        tmpPos.multiplyScalar(60)
                         body.setLinearVelocity(new Ammo.btVector3(
                             tmpPos.x,
                             tmpPos.y,
@@ -811,7 +811,7 @@
             function setupContactResultCallback(){
 
                 cbContactResult = new Ammo.ConcreteContactResultCallback();
-                cbContactResult.addSinglezResult = function(cp, colObj0Wrap, partId0, index0, colObj1Wrap, partId1, index1){
+                cbContactResult.addSingleResult = function(cp, colObj0Wrap, partId0, index0, colObj1Wrap, partId1, index1){
                     
                     let contactPoint = Ammo.wrapPointer( cp, Ammo.btManifoldPoint );
                     const distance = contactPoint.getDistance();
@@ -825,9 +825,10 @@
 
                     let threeObject0 = rb0.threeObject;
                     let threeObject1 = rb1.threeObject;
-
-                    console.log(threeObject0.userData.tag)
-                    console.log(threeObject1.userData.tag)
+                    let tag, localPos, worldPos
+                    // console.log(threeObject0.userData.tag)
+                    // console.log(threeObject1.userData.tag)
+                    // console.log(rigidBodies)
 
                     // Si la balle (dans threeObject0) touche un zombie (cible dans threeObject1)
                     if(threeObject1.userData.tag == "targetItem_zombie"){
@@ -851,14 +852,13 @@
                             // On decremente le nombre de zombie restant
                             remainZombie = remainZombie - 1
                         }     
+
                     } else if (threeObject0.userData.tag == "ammo_"+player.weapon && threeObject1.userData.tag == "sceneItem"){ // Sinon on enlève juste la balle
                     } else if(threeObject0.userData.tag == "ammo_"+player.weapon){
                         scene.remove(threeObject0)
                     }
                 }
             }
-
-
             function setupContactPairResultCallback(){
 
                 cbContactPairResult = new Ammo.ConcreteContactResultCallback();
@@ -890,6 +890,7 @@
             // Moteur de rendu, fait les frame
             ////
             function renderFrame() {
+
                 // Ecran de chargement
                 if(!ressourcesLoad){
                     requestAnimationFrame(renderFrame)
@@ -901,7 +902,6 @@
                     renderer.render(loadingScreen.scene, loadingScreen.camera)
                     return
                 } else {
-                    console.log(parseInt(camera.position.x), parseInt(camera.position.z))
                     // Menu pause stop le jeu
                     if(gameStop) return;
                     // Check nombre de zombie restant dans la manche
@@ -1024,7 +1024,7 @@
                         let camPosX = camera.position.x
                         let camPosY = camera.position.y
                         let camPosZ = camera.position.z
-                        rigidBodies[i].lookAt(camPosX, 0, camPosZ)
+                        rigidBodies[i].lookAt(camPosX, camPosY, camPosZ)
                         // 'Vitesse' du vecteur de direction
                         let scalingFactor = 1;
                         // Met à jour la position du zombie
