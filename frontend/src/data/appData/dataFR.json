@@ -1,0 +1,107 @@
+[
+    [
+        {
+            "welcome": "Bienvenue",
+            "presentation1": "Je suis Charles, étudiant en info",
+            "presentation2": "Sur mon portfolio, vous verrez quelques projets",
+            "loading1": "Chargement des photos",
+            "loading2": "Entrer"
+        }
+    ],[
+        {
+            "name": "4L Trophy",
+            "date": "05 - 15 mai 2022",
+            "intro": "Raid humanitaire à bord d'une Renault 4L",
+            "description": "Raid à bord d'une 4L pour amener des fournitures scolaires et sportives aux enfants du desert. 900 équipages de 2, au départ. 6000km parcourus entre la France, l'Espagne et le Maroc. Aventure, mécanique, découverte !",
+            "photos1": [
+                {"type": "img","src": "Trophy/voiture-debut.png"},
+                {"type": "img","src": "Trophy/voiture-moteur.png"},
+                {"type": "img","src": "Trophy/village-depart.png"},
+                {"type": "img","src": "Trophy/circuit.jpg"}
+            ],
+            "photos2": [
+                {"type": "img","src": "Trophy/voiture-desert.png"},
+                {"type": "img","src": "Trophy/voiture-palmier.png"},
+                {"type": "img","src": "Trophy/voiture-sable.png"},
+                {"type": "img","src": "Trophy/voiture-drapeau.png"}
+            ]
+        },
+        {
+            "name": "Stage chez Citegestion (EDF)",
+            "date": "23 mai - 12 aout 2022",
+            "intro": "Développement d'une application web de visualisation de données",
+            "description": "L'application permet d'afficher les données sous 2 façons différentes : la tendance d'une donnée, ou la corrélation entre 2 données. L'utilisateur glisse la/les donnée(s) dans des cases pour lancer une analyse. Il peut également choisir la fréquence d'échantillonage et la plage de date. Possibilité de tendance simple, ou multi-tendance, sur la période choisie",
+            "outils": [
+                {"name": "Flask (Python)"},
+                {"name": "VueJs"},
+                {"name": "MYSQL"},
+                {"name": "Docker"},
+                {"name": "GIT"}
+            ],
+            "outil": "Liste des outils utilisés : ",
+            "photos1": [
+                {"type": "img","src": "StageCitegestion/correlation-light-maquette.png"}
+            ],
+            "photos2": [
+                {"type": "img","src": "StageCitegestion/correlation-dark.png"},
+                {"type": "img","src": "StageCitegestion/tendance-light.png"}
+            ]
+        },
+        {
+            "name": "Jukebox",
+            "date": "septembre 2022 - mai 2023",
+            "intro": "Création d'une jukebox en 2 parties : une partie application web pour voir les CD disponibles, et en choisir un. Une deuxième partie \"machine\" (voir modé sur la droite), avec un système de moteurs et une ventouse, qui attrape le cd choisit pour le mettre dans un lecteur.",
+            "description": "Projet regroupant plusieurs domaines : développement web, électronique, mécanique, modélisation, gestion de projet. L'app web est prête, une bonne partie du code de gestion des composants est validé. Il reste à imprimer les pièces 3D et à commencer les tests sur la machine. <br />Projet en pause, car stage à l'étranger ne permettant pas d'amener le matériel sur place. Reprise en novembre 2023.",
+            "photos1": [
+                {"type": "img","src": "Jukebox/application-frontend.png"},
+                {"type": "img","src": "Jukebox/application-frontend-play.png"}
+            ],
+            "photos2": [
+                {"type": "img","src": "Jukebox/modelisation-cote.png"},
+                {"type": "img","src": "Jukebox/modelisation-face.png"}
+            ]    
+        },
+        {
+            "name": "Stage chez Angers Loire Campus ",
+            "date": "06 mars 2023 - 30 juin 2023",
+            "intro": "Conception d'une web app de cartographie des acteurs de l'innovation sur Angers Loire Métropole",
+            "description": "L'application regoupe des infos sur le domaine de l'innovation, et sont affichées en catégories, sous catégories et fiches. Il y a une partie gestion de l'app coté admin (données et utilisateurs). Sécurité avec des comptes de différents 'rôle'",
+            "outils": [
+                {"name": "NodeJs"},
+                {"name": "VueJs"},
+                {"name": "MYSQL"},
+                {"name": "Docker"},
+                {"name": "GIT"}
+            ],
+            "outil": "Liste des outils utilisés : "
+        },
+        {
+            "name": "Avion radio-commandé",
+            "date": "Mars - Avril 2023",
+            "intro": "Pour ce projet, j'ai commencé par acheter un planeur en EPP, et je l'ai équipé d'un moteur, 2 servo-moteurs, 1 récepteur et une batterie pour le piloter.",
+            "description": "Premier essai : 3 vols effectués d'une durée de 1 à 2 secondes. L'avion n'était pas assez équilibré pour être stable, et trop lourd, mais je m'en suis rendu compte plus tard.<br />2ème essai : 3 vols. Super équilibre mais poid de l'avion toujours trop lourd. J'ai donc décidé d'ajouter une deuxième aile sur le dessus. <br />3ème essaie, l'avion 'vol', ou plutôt plane. La 2ème aile à rendu l'avion moins stable, et le contôle est assez compliqué, mais il reste plus longtemps dans les airs. Après quelques figures involontaires, l'avion s'est crashé et une aile s'est cassée... J'ai donc décidé de passer sur un modèle plus sérieux.",
+            "photos1": [
+                {"src": "AvionRC1/avion-capot-ouvert.png"},
+                {"src": "AvionRC1/avion-monoplan.png"}
+            ],
+            "photos2": [
+                {"type": "img","src": "AvionRC1/avion-biplan.png"}
+            ]    
+        },
+        {
+            "name": "Avion radio-commandé V2",
+            "date": "Avril 2023 - aujourd'hui",
+            "intro": "Nouvelle version d'avion radio-commandé, plus grand et en carton.",
+            "description": "Pour ce modèle, j'ai récupéré les plans d'un avion radio-commandé sur internet. J'ai commencé par coller les plans sur du carton, pour découper chaque pièces. Une fois les pièces découpées, j'ai suivi l'assemblage pour coller les pièces, et ai réutilisé certains composants du premier avion. <br />Ensuite, vient le moment d'équilibrer l'avion, et de paramétrer les composants. Puis il faut le tester en vol ! <br />Conclusion après les premiers vols : le moteur n'est pas assez puissant pour le gabarit de l'avion, et l'équilibrage peut être amélioré. Mais l'avion est plus robuste, et plus dirigeable qur le premier, c'est encourageant ! En attente d'un moteur plus puissant.",
+            "photos1": [
+                {"type": "img", "src": "AvionRC2/plan.png"},
+                {"type": "img", "src": "AvionRC2/plan-carton.jpg"},
+                {"type": "img", "src": "AvionRC2/avion-carton.jpg"}
+            ],
+            "video": [
+                {"type": "video","src": "AvionRC2/vol-1.mp4"},
+                {"type": "video","src": "AvionRC2/vol-2.mp4"}                
+            ]
+        }
+    ]
+]

@@ -1,0 +1,107 @@
+[
+    [
+        {
+            "welcome": "Welcome",
+            "presentation1": "I'm Charles, student in computer sciences",
+            "presentation2": "On my portfolio, you will see some projets",
+            "loading1": "Pictures loading",
+            "loading2": "Let's in"
+        }
+    ],[
+        {
+            "name": "4L Trophy",
+            "date": "05 - 15 May of 2022",
+            "intro": "Humanitarian raid on board a Renault 4L",
+            "description": "Raid aboard a 4L to bring school and sports supplies to children in the desert. 900 crews of 2, at the start. 6000km covered between France, Spain and Morocco. Adventure, mechanics, discovery !",
+            "photos1": [
+                {"type": "img","src": "Trophy/voiture-debut.png"},
+                {"type": "img","src": "Trophy/voiture-moteur.png"},
+                {"type": "img","src": "Trophy/village-depart.png"},
+                {"type": "img","src": "Trophy/circuit.png"}
+            ],
+            "photos2": [
+                {"type": "img","src": "Trophy/voiture-desert.png"},
+                {"type": "img","src": "Trophy/voiture-palmier.png"},
+                {"type": "img","src": "Trophy/voiture-sable.png"},
+                {"type": "img","src": "Trophy/voiture-drapeau.png"}
+            ]
+        },
+        {
+            "name": "Internship at Citegestion (EDF)",
+            "date": "23 May - 12 August of 2022",
+            "intro": "Development of a web application for data visualization",
+            "description": "The application allows to display data in 2 different ways: the trend of a data, or the correlation between 2 data. The user drags the data into the boxes to launch an analysis. He can also choose the sampling frequency and the date range. Possibility of simple trend, or multi-trend, on the chosen period.",
+            "outils": [
+                {"name": "Flask (Python)"},
+                {"name": "VueJs"},
+                {"name": "MYSQL"},
+                {"name": "Docker"},
+                {"name": "GIT"}
+            ],
+            "outil": "List of tools used : ",
+            "photos1": [
+                {"type": "img","src": "StageCitegestion/correlation-light-maquette.png"}
+            ],
+            "photos2": [
+                {"type": "img","src": "StageCitegestion/correlation-dark.png"},
+                {"type": "img","src": "StageCitegestion/tendance-light.png"}
+            ]
+        },
+        {
+            "name": "Jukebox",
+            "date": "September 2022 - May 2023",
+            "intro": "Creation of a jukebox in 2 parts : a web application part to see the available CDs, and choose one. A second part \"machine\" (see model on the right), with a system of motors and a suction cup, which catches the chosen CD to put it in a player.",
+            "description": "Project gathering several domains: web development, electronics, mechanics, modeling, project management. The web app is ready, a good part of the component management code is validated. It remains to print the 3D parts and to start the tests on the machine. <br />Project in pause, because internship abroad does not allow to bring the material on site. Project to be resumed in November 2023.",
+            "photos1": [
+                {"type": "img","src": "Jukebox/application-frontend.png"},
+                {"type": "img","src": "Jukebox/application-frontend-play.png"}
+            ],
+            "photos2": [
+                {"type": "img","src": "Jukebox/modelisation-cote.png"},
+                {"type": "img","src": "Jukebox/modelisation-face.png"}
+            ]    
+        },
+        {
+            "name": "Internship at Angers Loire Campus ",
+            "date": "06 March - 30 June 2023",
+            "intro": "Design of a web app for mapping innovation actors in Angers Loire Metropole",
+            "description": "The application contains information about the innovation field, and is displayed in categories, sub-categories and cards. There is a management part of the app on the admin side (data and users). Security with different 'role' accounts",
+            "outils": [
+                {"name": "NodeJs"},
+                {"name": "VueJs"},
+                {"name": "MYSQL"},
+                {"name": "Docker"},
+                {"name": "GIT"}
+            ],
+            "outil": "List of tools used : "
+        },
+        {
+            "name": "Radio Controlled Aircraft",
+            "date": "March - April 2023",
+            "intro": "For this project, I started by buying an EPP glider, and I equipped it with a motor, 2 servo-motors, 1 receiver and a battery to control it.",
+            "description": "First test: 3 flights made of 1 to 2 seconds duration. The plane was not balanced enough to be stable, and too heavy, but I realized it later. <br />2nd try : 3 flights. Great balance but the weight of the plane was still too heavy. So I decided to add a second wing on top. <br />3rd try, the plane 'flies', or rather planes. The second wing made the plane less stable, and the control is quite complicated, but it stays longer in the air. After some involuntary tricks, the plane crashed and one wing broke... So I decided to switch to a more serious model.",
+            "photos1": [
+                {"type": "img","src": "AvionRC1/avion-capot-ouvert.png"},
+                {"type": "img","src": "AvionRC1/avion-monoplan.png"}
+            ],
+            "photos2": [
+                {"type": "img","src": "AvionRC1/avion-biplan.png"}
+            ]   
+        },
+        {
+            "name": "Radio Controlled Aircraft V2",
+            "date": "April 2023 - Today",
+            "intro": "New version of radio-controlled plane, bigger and made of cardboard.",
+            "description": "For this model, I found the plans of a radio-controlled plane on the internet. I started by gluing the plans on cardboard, to cut out each part. Once the parts were cut, I followed the assembly to glue the parts, and reused some components from the first plane. <br />Then, it's time to balance the plane, and to set up the components. Then it is time to test it in flight! <br />Conclusion after the first flights: the engine is not powerful enough for the size of the plane, and the balancing can be improved. But the plane is more robust, and more steerable than the first, it is encouraging! Waiting for a more powerful engine.",
+            "photos1": [
+                {"type": "img", "src": "AvionRC2/plan.png"},
+                {"type": "img", "src": "AvionRC2/plan-carton.jpg"},
+                {"type": "img", "src": "AvionRC2/avion-carton.jpg"}
+            ],
+            "video": [
+                {"type": "video","src": "AvionRC2/vol-1.mp4"},
+                {"type": "video","src": "AvionRC2/vol-2.mp4"}                
+            ]
+        }
+    ]
+]
