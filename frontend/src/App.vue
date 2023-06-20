@@ -29,13 +29,16 @@ export default {
   },
   data(){
     return {
-      game: true
+      game: true,
     }
   },
   created(){
     eventBus.on('gameOn', () => {
       this.game = true
     });
+    eventBus.on("restartGame", () => {    // Recharge la page pour relancer le jeu
+      window.open(window.location.href,"_self")
+    })
   }
 }
 </script>

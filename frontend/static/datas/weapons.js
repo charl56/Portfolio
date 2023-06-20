@@ -35,7 +35,8 @@ let weapons = {
             loader: 150,
             remainBullets: 150,
             remainLoaders: 5,
-        }
+        },
+        soundSrc: './static/Sounds/Actions/Suuu.mp3',
     },
     shotgun: {
         obj: './static/Models/Weapon_Pack/shotgun.obj',

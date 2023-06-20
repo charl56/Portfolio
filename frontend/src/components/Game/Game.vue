@@ -32,6 +32,7 @@
     import {sceneItems} from '../../../static/datas/Maps/Map_Zombie_Ville'
     import {spawnsCoord} from '../../../static/datas/Maps/Map_Zombie_Ville'
     import targetItems from '../../../static/datas/targetItems'
+    import sounds from '../../../static/datas/sounds'
     // Components
     import displayScore from './displays/displayScore.vue';
     import displayLoader from './displays/displayLoader.vue';
@@ -166,16 +167,11 @@
             function deathScreenAnim(){
                 deathScreen = {
                     scene: scene,
-                    camera: camera,
-                    box: new THREE.Mesh(
-                        new THREE.BoxGeometry(0.5, 0.5, 0.5),
-                        new THREE.MeshBasicMaterial({ color:0x4444ff })
-                    )
+                    camera: new THREE.PerspectiveCamera(90, 1280/720, 0.1, 100),
                 }
                 // Préparation de l'écran de chargement
-                deathScreen.box.position.set(0, 0, 5)
-                deathScreen.camera.lookAt(0, 0, 5)
-                deathScreen.scene.add(deathScreen.box)
+                deathScreen.camera.rotation.set(0, Math.PI, 0)
+                deathScreen.camera.position.set(0, 12, -11)
             }
             ////
             // Setup AmmoJs
@@ -229,8 +225,7 @@
 
                 const audioLoader = new THREE.AudioLoader()
                 backgroundSound = new THREE.Audio(listener)
-
-                audioLoader.load('./static/Sounds/Fond/Could_You_Be_Loved.mp3', function( buffer ){
+                audioLoader.load(sounds['CouldYouBeLoved'].soundSrc, function( buffer ){
                     backgroundSound.setBuffer(buffer)
                     backgroundSound.setLoop(true)
                     backgroundSound.setVolume(0.4)
@@ -396,9 +391,11 @@
                 // Ajout des items du fichier tagetItems.js
                 // Chaque zombie a : une partie graphic, une partie physique, une partie animation
                 const gltfLoader = new GLTFLoader();
+                // On récupère le zombie dans la liste des cibles
+                const zombieGltf = targetItems["zombieMale"]
                 for (let i = 0; i<parseInt(zombieNumber); i++) {   
                     try {
-                        gltfLoader.load('./static/Models/Animated_Character/glTF/Zombie_Male.gltf', (gltf) => {                                                   
+                        gltfLoader.load(zombieGltf.gltf, (gltf) => {                                                   
                             /////////////////////////
                             // ---------------THREEJS
                             // On récupère les positions de spawn dans une liste
@@ -716,8 +713,7 @@
                                     
                                     const audioLoader = new THREE.AudioLoader()
                                     let shootSound = new THREE.Audio(listener)
-                                    
-                                    audioLoader.load('./static/Sounds/Actions/Suuu.mp3', function( buffer ){
+                                    audioLoader.load(weapons[player.weapon].soundSrc, function( buffer ){
                                         shootSound.setBuffer(buffer)
                                         shootSound.setLoop(false)
                                         shootSound.setVolume(1.0)
@@ -803,7 +799,7 @@
                 if(keyboard[16]){       // Sprint
                     player.speed = 0.15
                 } else {
-                    player.speed = 0.095
+                    player.speed = 0.065
                 }
                 if(keyboard[27]){
                     if(!gameStop){
@@ -1033,27 +1029,16 @@
 
                     renderer.render(loadingScreen.scene, loadingScreen.camera)
                     return
-                } else if(!player.alive){
-                   
-                   
-                    // camera.position.y +=9.8*deltaTime;
-                   
-                   
-                   
+                } else if(!player.alive || gameStop){                   
                     requestAnimationFrame(renderFrame)
                     // Mouvement de la box
-                    deathScreen.box.position.x -= 0.5
-                    if(deathScreen.box.position.x < -5) deathScreen.box.position.x = 5
-                    deathScreen.box.position.y = Math.sin(deathScreen.box.position.x)
+                    deathScreen.camera.position.x -= 0.07
+                    if(deathScreen.camera.position.x < -10) deathScreen.camera.position.x = 13
+                    deathScreen.camera.position.y = Math.sin(deathScreen.camera.position.x) + 12
 
                     renderer.render(deathScreen.scene, deathScreen.camera)
                     return
                 } else {
-                    // Active la musique, si plein ecran
-                    if(window.screenTop && window.screenY && !backgroundSoundActive){
-                    }
-                    // Menu pause stop le jeu
-                    if(gameStop) return;
                     // Check nombre de zombie restant dans la manche
                     checkZombieRemain()
                     // AmmoJs update physics : create clock for timing
@@ -1214,7 +1199,7 @@
         data(){
             return {
                 // Variables déclarées ici pour être envoyé en tant que props, dans un component
-                player: {height: 1.8, canShoot: true, canJump: true, speed: 0.095, turnSpeed: Math.PI*0.02, alive: true, weapon: 'pistolSilencer', weaponMesh: null},
+                player: {height: 1.8, canShoot: true, canJump: true, speed: 0.065, turnSpeed: Math.PI*0.02, alive: true, weapon: 'pistolSilencer', weaponMesh: null},
                 viseur: '',         // Change la couleur du viseur
                 score: 0,                   // Score du jeu
                 remainBullets: 0,

@@ -8,6 +8,7 @@ node_modules
 *.tar
 .tar
 # Images
-
+!frontend/static/Sounds/Actions/*.mp3
+!frontend/static/Sounds/Fond/*.mp3
 Sounds/
 

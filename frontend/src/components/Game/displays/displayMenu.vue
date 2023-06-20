@@ -1,5 +1,5 @@
 <template>  
-    <v-dialog v-model="gameStop" v-if="gameStop" persistent class="menu d-flex">
+    <v-dialog v-model="gameStop" v-if="gameStop" persistent class="menu d-flex" style="opacity: 1">
         <v-row class="d-flex align-start justify-center mt-3">
             <p class="text-h5">Jeu en pause</p>
         </v-row>
@@ -9,6 +9,9 @@
         </v-row>
         <v-row class="justify-center mt-10">
             <p class="txt-h6">Appuiez de nouveau sur 'Echap' pour revenir en jeu</p>
+        </v-row>
+        <v-row class="justify-center mt-10">
+            <v-btn class="btn-restart" variant="outlined" @click="restart()">Recommencer</v-btn>
         </v-row>
     </v-dialog> 
 </template>
@@ -37,6 +40,9 @@ export default {
     methods:{
         changeValue(){
             eventBus.emit("isSound",this.sound)
+        },
+        restart(){
+            eventBus.emit("restartGame",true)
         }
     },
     computed: {
@@ -56,5 +62,9 @@ export default {
     background-color: rgb(218, 217, 217);
     position: fixed;
     z-index: 999;
+}
+
+.btn-restart:hover{
+    color: aliceblue;
 }
 </style>
