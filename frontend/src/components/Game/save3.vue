@@ -94,6 +94,7 @@
             let remainZombie = 0                    // Zombie restants    
             let velocity_y = 0                      // Hauteur du saut 
             let gameStop = false                    // Sert a mettre en pause le jeu
+            let clips                               // Liste des animations dispos
             // Mise en place du viseur 
             this.viseur = new URL('../../assets/Icons/viseur_black.png', import.meta.url).href
             this.remainBullets = weapons[player.weapon].parameters.remainBullets        // Met a 
@@ -346,12 +347,14 @@
                 // Formule nb zombie en fonction du round
                 let zombieNumber = (round * 1.41) + 2.6 
                 remainZombie = parseInt(zombieNumber)
+                // Vie par zombie = nombre de balles
+                let zombieLife = 2
                 // Ajout des items du fichier tagetItems.js
                 // Chaque zombie a : une partie graphic, une partie physique, une partie animation
                 const gltfLoader = new GLTFLoader();
                 for (let i = 0; i<parseInt(zombieNumber); i++) {   
                     try {
-                        gltfLoader.load('./static/Models/Animated_Character/glTF/Zombie_Male.gltf', (gltf) => {                        
+                        gltfLoader.load('./static/Models/Animated_Character/glTF/Zombie_Male.gltf', (gltf) => {                                                   
                             /////////////////////////
                             // ---------------THREEJS
                             // On récupère les positions de spawn dans une liste
@@ -377,14 +380,18 @@
                             // Echelle
                             zombie.scale.set(scale.x, scale.y, scale.z)
                             // Ajout d'un tag pour différencier
-                            zombie.userData.tag = "targetItem_zombie"        
+                            zombie.userData.tag = "targetItem_zombie"   
+                            // Vie du zombie
+                            zombie.userData.remainLife =  zombieLife   
+                            // Ajout d'un score 'donnable'
+                            zombie.userData.points = true
                             // Ajout à la scene
                             scene.add(zombie)
-                            
+
                             /////////////////////////
                             // -------------ANIMATION
                             let mixer = new THREE.AnimationMixer(zombie)
-                            const clips = gltf.animations
+                            clips = gltf.animations
                             const clip = THREE.AnimationClip.findByName(clips, 'Walk')
                             let action = (mixer.clipAction(clip))
                             action.play()
@@ -432,7 +439,6 @@
                             rigidBodies.push(zombie)
                             zombie.userData.physicsBody = body
                             body.threeObject = zombie
-    
                         }, undefined, (error) => {
                             console.log(error)
                         })      
@@ -599,7 +605,7 @@
                                 // On enleve du monde physic
                                 physicsWorld.removeRigidBody(bullet.userData.physicsBody)
                             }
-                        }, 2000)
+                        }, 3000)
                         // affiche bullet
                         bullet.alive = true;
                         bullets.push(bullet)                        
@@ -826,36 +832,63 @@
                     let threeObject0 = rb0.threeObject;
                     let threeObject1 = rb1.threeObject;
                     let tag, localPos, worldPos
-                    // console.log(threeObject0.userData.tag)
-                    // console.log(threeObject1.userData.tag)
-                    // console.log(rigidBodies)
 
                     // Si la balle (dans threeObject0) touche un zombie (cible dans threeObject1)
                     if(threeObject1.userData.tag == "targetItem_zombie"){
-                        // On recupere les index physic des objects
-                        const physicAmmo = rigidBodies.findIndex((obj) => obj.uuid === threeObject0.uuid);
-                        const physicTarget = rigidBodies.findIndex((obj) => obj.uuid === threeObject1.uuid);
-                        // Si index > -1, c'est que les objets sont dans la liste, donc sur la scene
-                        if (physicAmmo > -1 && physicTarget > -1) {
-                            // On enleve la partie physic de la liste
-                            rigidBodies.splice(physicAmmo, 1);
-                            rigidBodies.splice(physicTarget, 1);
-                            // On enleve du monde physic
-                            physicsWorld.removeRigidBody(threeObject0.userData.physicsBody)
-                            physicsWorld.removeRigidBody(threeObject1.userData.physicsBody)
-                            // On enleve la partie graphic
-                            scene.remove(threeObject0)
-                            scene.remove(threeObject1)
-                            // On met à jour le score
-                            score ++
-                            eventBus.emit("scoreChange", score)
-                            // On decremente le nombre de zombie restant
-                            remainZombie = remainZombie - 1
-                        }     
+        
+                        // Si la vie est > 0, on décremente, sinon on tue
+                        if(threeObject1.userData.remainLife > 0){
+                            threeObject1.userData.remainLife -= 1
 
+                        } else { // Mort
+                            // Permet de changer l'animation du zombie
+                            mixers.forEach((mixer, index) => {
+                                // Celui qui correspond à l'uuid du zomb touché
+                                if(mixer._root.uuid == threeObject1.uuid && mixer._actions[0]._clip.name == 'Walk'){
+                                    // On commence par stopper l'animation
+                                    mixers.splice(index, 1)
+                                    // On créé un nouveau mixer, pour ne pas avoir l'anim précédente
+                                    const clip = THREE.AnimationClip.findByName(clips, 'Roll')
+                                    let mixer2 = new THREE.AnimationMixer(threeObject1)
+                                    let action = (mixer2.clipAction(clip))
+                                    action.play()
+                                    // On l'ajoute à la liste des anim, pour lancer l'animation tomber
+                                    mixers.push(mixer2)
+                                    // Les points sont utilisés
+                                    threeObject1.userData.points = false
+                                }
+                            }) 
+                        
+                            // On enlève le zombie 2 secondes apres
+                            let killInterval = setInterval(function(){     
+                                if(!threeObject1.userData.points){
+                                    // On recupere les index physic des objects
+                                    const physicAmmo = rigidBodies.findIndex((obj) => obj.uuid === threeObject0.uuid);
+                                    const physicTarget = rigidBodies.findIndex((obj) => obj.uuid === threeObject1.uuid);
+                                    // Si index > -1, c'est que les objets sont dans la liste, donc sur la scene
+                                    if (physicAmmo > -1 && physicTarget > -1) {
+                                        // On enleve la partie physic de la liste
+                                        rigidBodies.splice(physicAmmo, 1);
+                                        rigidBodies.splice(physicTarget, 1);
+                                        // On enleve du monde physic
+                                        physicsWorld.removeRigidBody(threeObject0.userData.physicsBody)
+                                        physicsWorld.removeRigidBody(threeObject1.userData.physicsBody)
+                                        // On enleve la partie graphic
+                                        scene.remove(threeObject0)
+                                        scene.remove(threeObject1)
+                                        // On met à jour le score
+                                        score ++
+                                        eventBus.emit("scoreChange", score)
+                                        // On decremente le nombre de zombie restant
+                                        remainZombie = remainZombie - 1
+                                        clearInterval(killInterval);
+                                    }
+                                }                
+                            }, 2900)
+                        }
                     } else if (threeObject0.userData.tag == "ammo_"+player.weapon && threeObject1.userData.tag == "sceneItem"){ // Sinon on enlève juste la balle
                     } else if(threeObject0.userData.tag == "ammo_"+player.weapon){
-                        scene.remove(threeObject0)
+                        // scene.remove(threeObject0)
                     }
                 }
             }
@@ -881,7 +914,7 @@
                     setTimeout(async function(){
                         setTarget()
                         ressourcesLoad = true
-                    }, 1500)
+                    }, 3000)
                 }
             }
 
@@ -902,6 +935,7 @@
                     renderer.render(loadingScreen.scene, loadingScreen.camera)
                     return
                 } else {
+                    console.log(parseInt(camera.position.x), parseInt(camera.position.z))
                     // Menu pause stop le jeu
                     if(gameStop) return;
                     // Check nombre de zombie restant dans la manche
@@ -1019,10 +1053,10 @@
                         objThree.quaternion.set( q.x(), q.y(), q.z(), q.w() );
                     }
                     // Rotation et déplacement des zombies
-                    if(rigidBodies[i].userData.tag == 'targetItem_zombie'){
+                    if(rigidBodies[i].userData.tag == 'targetItem_zombie' && rigidBodies[i].userData.remainLife > 0){
                         // Position de la camera, l'endroit vers où le zombie regarde
                         let camPosX = camera.position.x
-                        let camPosY = camera.position.y
+                        let camPosY = camera.position.y/2
                         let camPosZ = camera.position.z
                         rigidBodies[i].lookAt(camPosX, camPosY, camPosZ)
                         // 'Vitesse' du vecteur de direction
@@ -1047,11 +1081,10 @@
                         resultantImpulse.op_mul(scalingFactor);
                         // Assignation vecteur pour déplacement
                         let physicsBody = rigidBodies[i].userData.physicsBody;
+                        // Collé au sol
                         physicsBody.threeObject.position.y = 0
-                        // physicsBody.position.y = 0
+                        // Ajout le vecteur de déplacement                 
                         physicsBody.setLinearVelocity( resultantImpulse );
-                        // console.log(physicsBody)
-                        // console.log(physicsBody.threeObject)
                     }
                 }
             };

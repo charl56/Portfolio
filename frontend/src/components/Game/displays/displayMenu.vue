@@ -5,6 +5,7 @@
         </v-row>
         <v-row class="justify-center">
             <p class="text-h5"></p>
+            <v-switch v-model="sound" :value="sound" label="Sond du jeu" color="success" @change="changeValue()" :true-value="true" :false-value="false" inset hide-details></v-switch>
         </v-row>
         <v-row class="justify-center mt-10">
             <p class="txt-h6">Appuiez de nouveau sur 'Echap' pour revenir en jeu</p>
@@ -29,11 +30,14 @@ export default {
     },
     data () {
         return {
-            gameStop: false
+            gameStop: false,
+            sound: false,
         }
     },
     methods:{
-
+        changeValue(){
+            eventBus.emit("isSound",this.sound)
+        }
     },
     computed: {
     }
