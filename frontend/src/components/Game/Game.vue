@@ -22,8 +22,8 @@
     import { MTLLoader } from 'three/addons/loaders/MTLLoader.js';
     import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
     import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
-
-    import { FirstPersonControls } from 'three/addons/controls/FirstPersonControls.js';
+    // POV
+    import { FirstPersonControls } from '../../plugins/FirstPersonControls';
     // Plugins
     import { eventBus } from '../../plugins/eventBus'
     import '../../plugins/ammo'
@@ -57,7 +57,6 @@
             eventBus.on('remainBullets', (data) => {
                 this.remainBullets = data
             })
-            // MAJ arme
             // MAJ Zombie restant, pour changement de round
             eventBus.on('remainZombie')
 
@@ -89,6 +88,7 @@
             let cbContactPairResult;
             const STATE = { DISABLE_DEACTIVATION : 4 };
             // Game
+            let fpsControls
             let player = this.player
             let zoomView = 'not-aim'
             let bullets = []                    // Listes des balles en jeu
@@ -105,9 +105,14 @@
             let newRound                            // Pour savoir nouvelle manches
             let backgroundSound                     // Son de fond
             let backgroundSoundActive = false
-            let isSound = this.isSound
+            let isSound = this.isSound              // Parametre active son
+            // POV
+            let currentMouseX, currentMouseXDelta, currentMouseY, currentMouseYDelta, previousMouseX, previousMouseY    // Pos souris
+            let phi, theta
+            let rotation = new THREE.Quaternion()
+            let translation = new THREE.Vector3()
             // Mise en place du viseur 
-            this.viseur = new URL('../../assets/Icons/viseur_black.png', import.meta.url).href
+            this.viseur = new URL('../../assets/Icons/viseur_white.png', import.meta.url).href
             this.remainBullets = weapons[player.weapon].parameters.remainBullets        // Met a 
             
 
@@ -198,13 +203,16 @@
                 camera.position.set(0, player.height, 0)
                 camera.lookAt(0, player.height, 0)
                 camera.userData.tag = 'cameraPlayer'
-                
                 // Init rendu
                 renderer.setSize(canvas.clientWidth, canvas.clientHeight);  // taille
                 renderer.shadowMap.enabled = true               // Active les ombres
                 renderer.shadowMap.type = THREE.BasicShadowMap  // Type d'ombres
+                
                 // Créer le canvas
                 canvas.appendChild(renderer.domElement);
+                // POV
+                fpsControls = new FirstPersonCamera(camera);
+
                 // Création scene
                 scene = new THREE.Scene()
                 scene.background = new THREE.Color( 0x000000 );
@@ -218,7 +226,6 @@
                 light.shadow.camera.near = 0.1
                 light.shadow.camera.far = 25
                 scene.add(light) 
-
                 // Musique de fond
                 const listener = new THREE.AudioListener()
                 camera.add(listener)
@@ -228,7 +235,7 @@
                 audioLoader.load(sounds['CouldYouBeLoved'].soundSrc, function( buffer ){
                     backgroundSound.setBuffer(buffer)
                     backgroundSound.setLoop(true)
-                    backgroundSound.setVolume(0.4)
+                    backgroundSound.setVolume(0.8)
                 })
             }   
             ////
@@ -547,7 +554,7 @@
             // Mise en place des fonction d'évenement
             ////
             function setupEventHandlers(){
-                document.addEventListener('mousemove', (e) => onMouseMove(e), false)
+                // document.addEventListener('mousemove', (e) => onMouseMove(e), false)
                 document.addEventListener('click', (e) => onClick(e), false)
                 document.addEventListener('contextmenu', (e) => onContextMenu(e), false)
                 document.addEventListener('keyup', (e) => keyUp(e), false)
@@ -556,191 +563,197 @@
             // Déplace a vue, avec la souris
             function onMouseMove(e){
                 if(player.alive){       // Si joueur en vie
-                    // Point milieu de l'écran
-                    const middleX = window.innerWidth / 2
-                    const middleY = window.innerHeight / 2
+                    // Pos actuel de la souris
+                    currentMouseX = e.pageX - window.innerWidth / 2
+                    currentMouseY = e.pageY - window.innerHeight / 2
+                 
+                    // Différence avec pos souyris précédente
+                    currentMouseXDelta = currentMouseX - previousMouseX
+                    currentMouseYDelta = currentMouseY - previousMouseY
+                 
+                 
+                    // // Point milieu de l'écran
+                    // const middleX = window.innerWidth / 2
+                    // const middleY = window.innerHeight / 2
                     
-                    // Différence entre le milieu, et le curseur
-                    const diffX = middleX - e.x
-                    const diffY = middleY - e.y
-                    // Conversion des px en angle valable pour la rotation
-                    const angleRotY = (diffX / window.innerWidth * 2 * Math.PI) + Math.PI
-                    const angleVertical = (diffY / window.innerHeight * 2 * Math.PI / 3)
-                    // Conversions deplacement vertical en angles de rotation x et z
-                    const angleRotX = Math.cos( angleRotY ) * angleVertical
-                    const angleRotZ = Math.pow(Math.pow(Math.sin( angleRotY ), 2), 0.3)
+                    // // Différence entre le milieu, et le curseur
+                    // const diffX = middleX - e.x
+                    // const diffY = middleY - e.y
+                    // // Conversion des px en angle valable pour la rotation
+                    // const angleRotY = (diffX / window.innerWidth * 2 * Math.PI) + Math.PI
+                    // const angleVertical = (diffY / window.innerHeight * 2 * Math.PI / 3)
+                    // // Conversions deplacement vertical en angles de rotation x et z
+                    // const angleRotX = Math.cos( angleRotY ) * angleVertical
+                    // const angleRotZ = Math.pow(Math.pow(Math.sin( angleRotY ), 2), 0.3)
                     
-                    -Math.pow(Math.cos( angleRotY + Math.PI/2 ), 2) * angleVertical
-                    // Assignement des angles à la cam     
-                    camera.rotation.set(
-                        0,
-                        angleRotY, 
-                        0,
-                        )
+                    // -Math.pow(Math.cos( angleRotY + Math.PI/2 ), 2) * angleVertical
+                    // // Assignement des angles à la cam     
+                    // camera.rotation.set(
+                    //     0,
+                    //     angleRotY, 
+                    //     0,
+                    //     )
                 }
             }
             // Tire au click
             function onClick(e){
-                if(!gameStop){
-                    if(player.alive){
-                        if(player.canShoot){
-                            // Permet de limiter le nombre de tire par secondes, en fonction des armes
-                            player.canShoot = false
-                            // Parametres de l'arme du jour. Mise dans variable pour simplifier les appels ensuite
-                            let playerWeaponParameters = weapons[player.weapon].parameters
-                            // Si il reste des balles dans le chargeur, -1, et tirer normalement
-                            if(playerWeaponParameters.remainBullets > 0){
-                                playerWeaponParameters.remainBullets = playerWeaponParameters.remainBullets - 1
-                                // Timer de cadence de tire
-                                setTimeout(function(){
-                                    player.canShoot = true
-                                }, playerWeaponParameters.shootTimer)
+                if(gameStop || !player.alive || !player.canShoot){
+                } else {
+                    // Permet de limiter le nombre de tire par secondes, en fonction des armes
+                    player.canShoot = false
+                    // Parametres de l'arme du jour. Mise dans variable pour simplifier les appels ensuite
+                    let playerWeaponParameters = weapons[player.weapon].parameters
+                    // Si il reste des balles dans le chargeur, -1, et tirer normalement
+                    if(playerWeaponParameters.remainBullets > 0){
+                        playerWeaponParameters.remainBullets = playerWeaponParameters.remainBullets - 1
+                        // Timer de cadence de tire
+                        setTimeout(function(){
+                            player.canShoot = true
+                        }, playerWeaponParameters.shootTimer)
 
-                                // ------ THREEJS SECTION
-                                // Balle, en fonction de l'arme
-                                let bullet = weapons[player.weapon].ammo.mesh.clone()   
+                        // ------ THREEJS SECTION
+                        // Balle, en fonction de l'arme
+                        let bullet = weapons[player.weapon].ammo.mesh.clone()   
 
-                                let bulletPos
+                        let bulletPos
 
-                                // Position de départ de la balle, en fonction de la vue (visé ou non)
-                                if(zoomView == 'not-aim'){
-                                    bulletPos = new THREE.Vector3(
-                                        camera.position.x - Math.sin(camera.rotation.y - Math.PI/6) * 0.6,
-                                        camera.position.y - 0.13,
-                                        camera.position.z - Math.cos(camera.rotation.y - Math.PI/6) * 0.6
-                                    )
-                                } else {
-                                    bulletPos = new THREE.Vector3(
-                                        camera.position.x - Math.sin(camera.rotation.y) * 0.6,
-                                        camera.position.y - playerWeaponParameters.positionAimY,    // Position en fonction de l'arme
-                                        camera.position.z - Math.cos(camera.rotation.y) * 0.6
-                                    )
-                                }
-                                // Position de la balle, en fonction de la vue (visé ou non)
-                                bullet.position.set(
-                                    bulletPos.x,
-                                    bulletPos.y,
-                                    bulletPos.z
-                                )
-                                // Coord 2 vector
-                                let middleScreen =  new THREE.Vector2(0, 0)
-                                raycaster.setFromCamera(middleScreen, camera)        
-                                raycaster.ray.origin = bulletPos
-                                // Set ray vector
-                                tmpPos.copy(raycaster.ray.direction)
-                                tmpPos.add(raycaster.ray.origin)
-                                // Ombre
-                                bullet.receiveShadow = true
-                                // Aligne la balle par rapport à l'arme
-                                bullet.rotation.set(
-                                    camera.rotation.x,
-                                    camera.rotation.y + Math.PI/2,
-                                    camera.rotation.z - Math.PI/2
-                                )
-                                // Timer 'durée de vie' de la balle
-                                setTimeout(function(){
-                                    bullet.alive = false
-                                    // On enleve le graphic
-                                    scene.remove(bullet)
-                                    // On cherche l'index de la bullet
-                                    const physicBullet = rigidBodies.findIndex((obj) => obj.uuid === bullet.uuid);
-                                    // Si index > -1, c'est que l'objet est dans la liste, donc sur la scene
-                                    if (physicBullet > -1) {
-                                        // On enleve la partie physique de la liste
-                                        rigidBodies.splice(physicBullet, 1);
-                                        // On enleve du monde physic
-                                        physicsWorld.removeRigidBody(bullet.userData.physicsBody)
-                                    }
-                                }, 3000)
-                                // affiche bullet
-                                bullet.alive = true;
-                                bullets.push(bullet)                        
-                                // Ajout la bullet à la scene
-                                scene.add(bullet)
-                                //// -------------------
-                                // ------ AMMOJS SECTION
-                                let mass = 1    // Mass=0 : objet immobile
-                                let transform = new Ammo.btTransform()  
-                                transform.setIdentity()
-                                // Position de départ de la balle, en fonction de la vue (visé ou non)
-                                transform.setOrigin( new Ammo.btVector3( 
-                                    bulletPos.x,
-                                    bulletPos.y,
-                                    bulletPos.z
-                                ));
-                                // Rotation
-                                transform.setRotation( new Ammo.btQuaternion(
-                                    camera.rotation.x,
-                                    camera.rotation.y + Math.PI/2,
-                                    camera.rotation.z - Math.PI/2,
-                                    1
-                                ));
-                                let motionState = new Ammo.btDefaultMotionState( transform );
-                                // Object autour, qui va avoir la colision
-                                let colShape = new Ammo.btBoxShape( new Ammo.btVector3( 0.1, 0.1, 0.1));
-                                colShape.setMargin( 0.05 );
-                                // Inertie
-                                let localInertia = new Ammo.btVector3( 0, 0, 0 );
-                                colShape.calculateLocalInertia( mass, localInertia );
-                                // Création de l'element physique, avec ses attributs
-                                let rbInfo = new Ammo.btRigidBodyConstructionInfo( mass, motionState, colShape, localInertia );
-                                let body = new Ammo.btRigidBody( rbInfo );                        
-                                // Ajout du body au monde physique, avec contraintes de colisions
-                                physicsWorld.addRigidBody( body );
-                                // Place balle et donne la velocite
-                                tmpPos.copy(raycaster.ray.direction)
-                                tmpPos.multiplyScalar(60)
-                                body.setLinearVelocity(new Ammo.btVector3(
-                                    tmpPos.x,
-                                    tmpPos.y,
-                                    tmpPos.z
-                                ))
-                                bullet.userData.physicsBody = body
-                                rigidBodies.push(bullet)
-                                body.threeObject = bullet
-                                ////
-                                // Recule au tir
-                                ////
-                                // updateRecoil()
-
-                                ////
-                                // Son au tire
-                                ////
-                                if((isSound[isSound.length - 1])){
-
-                                    const listener = new THREE.AudioListener()
-                                    camera.add(listener)
-                                    
-                                    const audioLoader = new THREE.AudioLoader()
-                                    let shootSound = new THREE.Audio(listener)
-                                    audioLoader.load(weapons[player.weapon].soundSrc, function( buffer ){
-                                        shootSound.setBuffer(buffer)
-                                        shootSound.setLoop(false)
-                                        shootSound.setVolume(1.0)
-                                        shootSound.play()
-                                    })                              
-                                }
-
-                                // Si plus de balles dans chargeur, recharge
-                                if(playerWeaponParameters.remainBullets == 0){
-                                    // On enlève un chargeur
-                                    playerWeaponParameters.remainLoaders = playerWeaponParameters.remainLoaders - 1
-                                    // Le joueur peut pas tirer pendant le chargement
-                                    player.canShoot = false    
-                                    // Timer chargement arme
-                                    setTimeout(function(){
-                                        // Remises des balles dans le chargeur
-                                        playerWeaponParameters.remainBullets = playerWeaponParameters.loader
-                                        // Peut tirer
-                                        player.canShoot = true
-                                        // MAJ Nombre de balle restantes
-                                        eventBus.emit("remainBullets", (playerWeaponParameters.remainBullets))
-                                    }, playerWeaponParameters.loadTimer)
-                                }
+                        // Position de départ de la balle, en fonction de la vue (visé ou non)
+                        if(zoomView == 'not-aim'){
+                            bulletPos = new THREE.Vector3(
+                                camera.position.x - Math.sin(camera.rotation.y - Math.PI/6) * 0.6,
+                                camera.position.y - 0.13,
+                                camera.position.z - Math.cos(camera.rotation.y - Math.PI/6) * 0.6
+                            )
+                        } else {
+                            bulletPos = new THREE.Vector3(
+                                camera.position.x - Math.sin(camera.rotation.y) * 0.6,
+                                camera.position.y - playerWeaponParameters.positionAimY,    // Position en fonction de l'arme
+                                camera.position.z - Math.cos(camera.rotation.y) * 0.6
+                            )
+                        }
+                        // Position de la balle, en fonction de la vue (visé ou non)
+                        bullet.position.set(
+                            bulletPos.x,
+                            bulletPos.y,
+                            bulletPos.z
+                        )
+                        // Coord 2 vector
+                        let middleScreen =  new THREE.Vector2(0, 0)
+                        raycaster.setFromCamera(middleScreen, camera)        
+                        raycaster.ray.origin = bulletPos
+                        // Set ray vector
+                        tmpPos.copy(raycaster.ray.direction)
+                        tmpPos.add(raycaster.ray.origin)
+                        // Ombre
+                        bullet.receiveShadow = true
+                        // Aligne la balle par rapport à l'arme
+                        bullet.rotation.set(
+                            camera.rotation.x,
+                            camera.rotation.y + Math.PI/2,
+                            camera.rotation.z - Math.PI/2
+                        )
+                        // Timer 'durée de vie' de la balle
+                        setTimeout(function(){
+                            bullet.alive = false
+                            // On enleve le graphic
+                            scene.remove(bullet)
+                            // On cherche l'index de la bullet
+                            const physicBullet = rigidBodies.findIndex((obj) => obj.uuid === bullet.uuid);
+                            // Si index > -1, c'est que l'objet est dans la liste, donc sur la scene
+                            if (physicBullet > -1) {
+                                // On enleve la partie physique de la liste
+                                rigidBodies.splice(physicBullet, 1);
+                                // On enleve du monde physic
+                                physicsWorld.removeRigidBody(bullet.userData.physicsBody)
                             }
-                            eventBus.emit("remainBullets", (playerWeaponParameters.remainBullets))
+                        }, 3000)
+                        // affiche bullet
+                        bullet.alive = true;
+                        bullets.push(bullet)                        
+                        // Ajout la bullet à la scene
+                        scene.add(bullet)
+                        //// -------------------
+                        // ------ AMMOJS SECTION
+                        let mass = 1    // Mass=0 : objet immobile
+                        let transform = new Ammo.btTransform()  
+                        transform.setIdentity()
+                        // Position de départ de la balle, en fonction de la vue (visé ou non)
+                        transform.setOrigin( new Ammo.btVector3( 
+                            bulletPos.x,
+                            bulletPos.y,
+                            bulletPos.z
+                        ));
+                        // Rotation
+                        transform.setRotation( new Ammo.btQuaternion(
+                            camera.rotation.x,
+                            camera.rotation.y + Math.PI/2,
+                            camera.rotation.z - Math.PI/2,
+                            1
+                        ));
+                        let motionState = new Ammo.btDefaultMotionState( transform );
+                        // Object autour, qui va avoir la colision
+                        let colShape = new Ammo.btBoxShape( new Ammo.btVector3( 0.1, 0.1, 0.1));
+                        colShape.setMargin( 0.05 );
+                        // Inertie
+                        let localInertia = new Ammo.btVector3( 0, 0, 0 );
+                        colShape.calculateLocalInertia( mass, localInertia );
+                        // Création de l'element physique, avec ses attributs
+                        let rbInfo = new Ammo.btRigidBodyConstructionInfo( mass, motionState, colShape, localInertia );
+                        let body = new Ammo.btRigidBody( rbInfo );                        
+                        // Ajout du body au monde physique, avec contraintes de colisions
+                        physicsWorld.addRigidBody( body );
+                        // Place balle et donne la velocite
+                        tmpPos.copy(raycaster.ray.direction)
+                        tmpPos.multiplyScalar(60)
+                        body.setLinearVelocity(new Ammo.btVector3(
+                            tmpPos.x,
+                            tmpPos.y,
+                            tmpPos.z
+                        ))
+                        bullet.userData.physicsBody = body
+                        rigidBodies.push(bullet)
+                        body.threeObject = bullet
+                        ////
+                        // Recule au tir
+                        ////
+                        // updateRecoil()
+
+                        ////
+                        // Son au tire
+                        ////
+                        if((isSound[isSound.length - 1])){
+
+                            const listener = new THREE.AudioListener()
+                            camera.add(listener)
+                            
+                            const audioLoader = new THREE.AudioLoader()
+                            let shootSound = new THREE.Audio(listener)
+                            audioLoader.load(weapons[player.weapon].soundSrc, function( buffer ){
+                                shootSound.setBuffer(buffer)
+                                shootSound.setLoop(false)
+                                shootSound.setVolume(0.3)
+                                shootSound.play()
+                            })                              
+                        }
+
+                        // Si plus de balles dans chargeur, recharge
+                        if(playerWeaponParameters.remainBullets == 0){
+                            // On enlève un chargeur
+                            playerWeaponParameters.remainLoaders = playerWeaponParameters.remainLoaders - 1
+                            // Le joueur peut pas tirer pendant le chargement
+                            player.canShoot = false    
+                            // Timer chargement arme
+                            setTimeout(function(){
+                                // Remises des balles dans le chargeur
+                                playerWeaponParameters.remainBullets = playerWeaponParameters.loader
+                                // Peut tirer
+                                player.canShoot = true
+                                // MAJ Nombre de balle restantes
+                                eventBus.emit("remainBullets", (playerWeaponParameters.remainBullets))
+                            }, playerWeaponParameters.loadTimer)
                         }
                     }
+                    eventBus.emit("remainBullets", (playerWeaponParameters.remainBullets))
                 }
             }
             // Recul au tir
@@ -786,7 +799,6 @@
                 zoom = !zoom
             }
             function keyDown(e){
-                console.log(e.keyCode)
                 keyboard[e.keyCode] = true
                 keyUse()
             }
@@ -796,12 +808,12 @@
             }
 
             function keyUse(){
-                if(keyboard[16]){       // Sprint
-                    player.speed = 0.15
-                } else {
-                    player.speed = 0.065
-                }
-                if(keyboard[27]){
+                // if(keyboard[16]){       // Sprint
+                //     player.speed = 0.15
+                // } else {
+                //     player.speed = 0.065
+                // }
+                if(keyboard[27]){       // Menu pause
                     if(!gameStop){
                         gameStop = true
                     } else {
@@ -824,8 +836,8 @@
 
             }    
             function testDeath(){
-                console.log("mort")
                 player.alive = false
+                eventBus.emit("playerDeath")
             }
 
             function backgroundSoundPlay(){
@@ -935,7 +947,7 @@
                         if(threeObject1.userData.remainLife > 0){
                             threeObject1.userData.remainLife -= 1
 
-                        } else { // Mort
+                        } else { // Zombie mort
                             // Permet de changer l'animation du zombie
                             mixers.forEach((mixer, index) => {
                                 // Celui qui correspond à l'uuid du zomb touché
@@ -1005,7 +1017,10 @@
             ////
             function checkZombieRemain(){
                 if(remainZombie == 0 && newRound){
+                    // On va changer de round
                     newRound = false
+                    // On fait clignoter le nombre de manche, prévenir à la suivante
+                    eventBus.emit("onChangeRound")
                     setTimeout(async function(){
                         setTarget()
                         ressourcesLoad = true
@@ -1033,11 +1048,12 @@
                     requestAnimationFrame(renderFrame)
                     // Mouvement de la box
                     deathScreen.camera.position.x -= 0.07
+                    
                     if(deathScreen.camera.position.x < -10) deathScreen.camera.position.x = 13
                     deathScreen.camera.position.y = Math.sin(deathScreen.camera.position.x) + 12
-
+                     
                     renderer.render(deathScreen.scene, deathScreen.camera)
-                    return
+                    // return
                 } else {
                     // Check nombre de zombie restant dans la manche
                     checkZombieRemain()
@@ -1065,6 +1081,10 @@
                         }
                         physicsWorld.contactTest( bullets[i].userData.physicsBody , cbContactResult );
                     }
+                    //////
+                    // POV
+                    //////
+                    fpsControls.update(deltaTime)
                     
                     ////
                     // Affichage de l'arme, en fonction de la visée 
@@ -1076,6 +1096,7 @@
                             weaponActuel = object
                         }
                     });
+
                     if(zoomView == 'not-aim'){      // Vue normal
                         // Vision gun : Position
                         weaponActuel.position.set(
@@ -1103,43 +1124,6 @@
                             camera.rotation.z
                         )
                     }   
-                    ////
-                    // Movements
-                    ////
-                    if(keyboard[90]){   // Z : avancer
-                        camera.position.x -= Math.sin(camera.rotation.y) * player.speed
-                        camera.position.z -= Math.cos(camera.rotation.y) * player.speed
-                    } else if(keyboard[83]){   // S : reculer
-                        camera.position.x += Math.sin(camera.rotation.y) * player.speed
-                        camera.position.z -= -Math.cos(camera.rotation.y) * player.speed
-                    } 
-                    if(keyboard[81]){   // Q : gauche
-                        camera.position.x += -Math.sin(camera.rotation.y + Math.PI/2) * player.speed
-                        camera.position.z += -Math.cos(camera.rotation.y + Math.PI/2) * player.speed
-                    } else if(keyboard[68]){   // D : droite
-                        camera.position.x += -Math.sin(camera.rotation.y - Math.PI/2) * player.speed
-                        camera.position.z += -Math.cos(camera.rotation.y - Math.PI/2) * player.speed
-                    }   
-                    // Snike
-                    if (keyboard[20]) { 
-                        camera.position.y = 1;
-                    } else if(player.canJump) {
-                        camera.position.y = player.height;
-                    }
-                    
-                    if (keyboard[32] && player.canJump) { // Space : jump !
-                        player.canJump = false
-                        velocity_y = 8;
-                    }
-                    camera.position.y+=velocity_y*deltaTime;
-                    if(!player.canJump){
-                        velocity_y-=9.8*2*deltaTime;
-                        if(camera.position.y<=1.8){
-                        player.canJump = true
-                        velocity_y=0;
-                        camera.position.y= 1.8;
-                        }
-                    }
                 };
             }
             // AmmoJs
@@ -1195,6 +1179,184 @@
                     }
                 }
             };
+            ///////////////////////////////////////////////////////////
+            // Class controle POV
+            const KEYS = {
+                'z': 90,
+                's': 83,
+                'q': 81,
+                'd': 68,
+            };
+
+            function clamp(x, a, b) {
+                return Math.min(Math.max(x, a), b);
+            }
+
+            class InputController {
+                constructor(target) {
+                    this.target_ = target || document;
+                    this.initialize_();    
+                }
+
+                initialize_() {
+                    this.current_ = {
+                    mouseXDelta: 0,
+                    mouseYDelta: 0,
+                    mouseX: 0,
+                    mouseY: 0,
+                    };
+                    this.previous_ = null;
+                    this.keys_ = {};
+                    this.previousKeys_ = {};
+                    this.target_.addEventListener('mousemove', (e) => this.onMouseMove_(e), false);
+                    this.target_.addEventListener('keydown', (e) => this.onKeyDown_(e), false);
+                    this.target_.addEventListener('keyup', (e) => this.onKeyUp_(e), false);
+                }
+
+                onMouseMove_(e) {
+                    this.current_.mouseX = e.pageX - window.innerWidth / 2;
+                    this.current_.mouseY = e.pageY - window.innerHeight / 2;
+
+                    if (this.previous_ === null) {
+                    this.previous_ = {...this.current_};
+                    }
+
+                    this.current_.mouseXDelta = this.current_.mouseX - this.previous_.mouseX;
+                    this.current_.mouseYDelta = this.current_.mouseY - this.previous_.mouseY;
+                }
+
+                onKeyDown_(e) {
+                    this.keys_[e.keyCode] = true;
+                }
+
+                onKeyUp_(e) {
+                    this.keys_[e.keyCode] = false;
+                }
+
+                key(keyCode) {
+                    return !!this.keys_[keyCode];
+                }
+
+                update(_) {
+                    if (this.previous_ !== null) {
+                    this.current_.mouseXDelta = this.current_.mouseX - this.previous_.mouseX;
+                    this.current_.mouseYDelta = this.current_.mouseY - this.previous_.mouseY;
+
+                    this.previous_ = {...this.current_};
+                    }
+                }
+            };
+
+            class FirstPersonCamera {
+                constructor(camera) {
+                    this.camera_ = camera;
+                    this.input_ = new InputController();
+                    this.rotation_ = new THREE.Quaternion();
+                    this.translation_ = new THREE.Vector3(0, 2, 0);
+                    this.phi_ = 0;
+                    this.phiSpeed_ = 8;
+                    this.theta_ = 0;
+                    this.thetaSpeed_ = 5;
+                    this.playerSpeed = 7
+                    this.velocity_y = 0
+                    this.playerCanJump = true
+                    this.clock = new THREE.Clock()
+                    this.deltaTime = null
+                }
+
+                update(timeElapsedS) {
+                    this.updateRotation_(timeElapsedS);
+                    this.updateCamera_(timeElapsedS);
+                    this.updateTranslation_(timeElapsedS);
+                    this.input_.update(timeElapsedS);
+                }
+
+                updateCamera_(_) {
+                    this.camera_.quaternion.copy(this.rotation_);
+                    this.camera_.position.copy(this.translation_);
+
+                    let deltaTime = 0.0165
+                    // Snike : accroupi
+                    if(this.input_.key(20)){      
+                        this.camera_.position.y = 1
+                    } 
+                    // Space : jump !
+                    if (this.input_.key(32) && this.playerCanJump) { 
+                        this.playerCanJump = false
+                        this.velocity_y = 100;
+                        this.camera_.position.y+=(this.velocity_y/2)*deltaTime;
+                    }
+                    this.camera_.position.y+=this.velocity_y*deltaTime;
+                    if(!this.playerCanJump){
+                        this.velocity_y-=9.8*30*deltaTime;
+                        console.log(this.velocity_y, "\n", deltaTime)
+                        if(this.camera_.position.y<=1.8){
+                            this.playerCanJump = true
+                            this.velocity_y=0;
+                            this.camera_.position.y= 1.8;
+                        }
+                    }
+                    const forward = new THREE.Vector3(0, 0, -1);
+                    forward.applyQuaternion(this.rotation_);
+
+                    const dir = forward.clone();
+
+                    forward.multiplyScalar(100);
+                    forward.add(this.translation_);
+
+                    let closest = forward;
+                    const result = new THREE.Vector3();
+                    const ray = new THREE.Ray(this.translation_, dir);
+
+                    this.camera_.lookAt(closest);
+                }
+
+                updateTranslation_(timeElapsedS) {
+                    const forwardVelocity = (this.input_.key(KEYS.z) ? 1 : 0) + (this.input_.key(KEYS.s) ? -1 : 0)
+                    const strafeVelocity = (this.input_.key(KEYS.q) ? 1 : 0) + (this.input_.key(KEYS.d) ? -1 : 0)
+
+                    const qx = new THREE.Quaternion();
+                    qx.setFromAxisAngle(new THREE.Vector3(0, 1, 0), this.phi_);
+
+                    // Sprint ou marche normal
+                    if(this.input_.key(16)){      
+                        this.playerSpeed = 11
+                    } else {
+                        this.playerSpeed = 7
+                    }
+
+                    const forward = new THREE.Vector3(0, 0, -1);
+                    forward.applyQuaternion(qx);
+                    forward.multiplyScalar(forwardVelocity * timeElapsedS * this.playerSpeed);
+
+                    const left = new THREE.Vector3(-1, 0, 0);
+                    left.applyQuaternion(qx);
+                    left.multiplyScalar(strafeVelocity * timeElapsedS * this.playerSpeed);
+
+                    this.translation_.add(forward);
+                    this.translation_.add(left);
+                }
+
+                updateRotation_(timeElapsedS) {
+                    const xh = this.input_.current_.mouseXDelta / window.innerWidth;
+                    const yh = this.input_.current_.mouseYDelta / window.innerHeight;
+
+                    this.phi_ += -xh * this.phiSpeed_;
+                    this.theta_ = clamp(this.theta_ + -yh * this.thetaSpeed_, -Math.PI / 3, Math.PI / 3);
+
+                    const qx = new THREE.Quaternion();
+                    qx.setFromAxisAngle(new THREE.Vector3(0, 1, 0), this.phi_);
+                    const qz = new THREE.Quaternion();
+                    qz.setFromAxisAngle(new THREE.Vector3(1, 0, 0), this.theta_);
+
+                    const q = new THREE.Quaternion();
+                    q.multiply(qx);
+                    q.multiply(qz);
+
+                    this.rotation_.copy(q);
+                }
+            }
+
         },
         data(){
             return {

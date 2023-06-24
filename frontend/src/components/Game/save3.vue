@@ -32,6 +32,7 @@
     import {sceneItems} from '../../../static/datas/Maps/Map_Zombie_Ville'
     import {spawnsCoord} from '../../../static/datas/Maps/Map_Zombie_Ville'
     import targetItems from '../../../static/datas/targetItems'
+    import sounds from '../../../static/datas/sounds'
     // Components
     import displayScore from './displays/displayScore.vue';
     import displayLoader from './displays/displayLoader.vue';
@@ -60,6 +61,11 @@
             // MAJ Zombie restant, pour changement de round
             eventBus.on('remainZombie')
 
+            // MAJ sound
+            eventBus.on('isSound', (data) => {
+                this.isSound.push(data)
+            })
+
         },
         mounted() {
 
@@ -68,6 +74,7 @@
             ////
             // Ecran de chargement
             let ressourcesLoad = false, loadingScreen
+            let deathScreen
             // ThreeJs : graphic
             let scene, camera, clock, deltaTime, weaponActuel
             let renderer = new THREE.WebGLRenderer()        // Fonction de rendu
@@ -95,6 +102,10 @@
             let velocity_y = 0                      // Hauteur du saut 
             let gameStop = false                    // Sert a mettre en pause le jeu
             let clips                               // Liste des animations dispos
+            let newRound                            // Pour savoir nouvelle manches
+            let backgroundSound                     // Son de fond
+            let backgroundSoundActive = false
+            let isSound = this.isSound
             // Mise en place du viseur 
             this.viseur = new URL('../../assets/Icons/viseur_black.png', import.meta.url).href
             this.remainBullets = weapons[player.weapon].parameters.remainBullets        // Met a 
@@ -117,6 +128,8 @@
                 setupPhysicsWorld()
                 // Crée l'élement scene et les différents élement permettant l'affichage
                 setupGraphics()
+                // Prepare anim de la mort
+                deathScreenAnim()
                 // Ajout les élement à la scene
                 await initScene()
                 // Ajout des cibles
@@ -148,6 +161,18 @@
                 loadingScreen.camera.lookAt(0, 0, 5)
                 loadingScreen.scene.add(loadingScreen.box)
             }
+            //////////////////
+            // Ecran anim mort 
+            //////////////////
+            function deathScreenAnim(){
+                deathScreen = {
+                    scene: scene,
+                    camera: new THREE.PerspectiveCamera(90, 1280/720, 0.1, 100),
+                }
+                // Préparation de l'écran de chargement
+                deathScreen.camera.rotation.set(0, Math.PI, 0)
+                deathScreen.camera.position.set(0, 12, -11)
+            }
             ////
             // Setup AmmoJs
             ////
@@ -171,7 +196,7 @@
                 camera = new THREE.PerspectiveCamera(75,canvas.clientWidth / canvas.clientHeight,0.1,100);
                 // Position camera
                 camera.position.set(0, player.height, 0)
-                camera.lookAt(40, player.height, 40)
+                camera.lookAt(0, player.height, 0)
                 camera.userData.tag = 'cameraPlayer'
                 
                 // Init rendu
@@ -193,6 +218,18 @@
                 light.shadow.camera.near = 0.1
                 light.shadow.camera.far = 25
                 scene.add(light) 
+
+                // Musique de fond
+                const listener = new THREE.AudioListener()
+                camera.add(listener)
+
+                const audioLoader = new THREE.AudioLoader()
+                backgroundSound = new THREE.Audio(listener)
+                audioLoader.load(sounds['CouldYouBeLoved'].soundSrc, function( buffer ){
+                    backgroundSound.setBuffer(buffer)
+                    backgroundSound.setLoop(true)
+                    backgroundSound.setVolume(0.8)
+                })
             }   
             ////
             // Ajout des élements à la scene, chargement graphique des éléments
@@ -344,6 +381,8 @@
                 // MAJ nombre de round
                 round ++
                 eventBus.emit("roundNumber", round)
+                // Mise a jour nouvelle manche
+                newRound = true
                 // Formule nb zombie en fonction du round
                 let zombieNumber = (round * 1.41) + 2.6 
                 remainZombie = parseInt(zombieNumber)
@@ -352,9 +391,11 @@
                 // Ajout des items du fichier tagetItems.js
                 // Chaque zombie a : une partie graphic, une partie physique, une partie animation
                 const gltfLoader = new GLTFLoader();
+                // On récupère le zombie dans la liste des cibles
+                const zombieGltf = targetItems["zombieMale"]
                 for (let i = 0; i<parseInt(zombieNumber); i++) {   
                     try {
-                        gltfLoader.load('./static/Models/Animated_Character/glTF/Zombie_Male.gltf', (gltf) => {                                                   
+                        gltfLoader.load(zombieGltf.gltf, (gltf) => {                                                   
                             /////////////////////////
                             // ---------------THREEJS
                             // On récupère les positions de spawn dans une liste
@@ -514,30 +555,34 @@
             }
             // Déplace a vue, avec la souris
             function onMouseMove(e){
-                // Point milieu de l'écran
-                const middleX = window.innerWidth / 2
-                const middleY = window.innerHeight / 2
-                
-                // Différence entre le milieu, et le curseur
-                const diffX = middleX - e.x
-                const diffY = middleY - e.y
-                // Rapport entre x et y
-                const rapport = (window.innerWidth / window.innerHeight)
-                // Equivalence entre la différence en px, et l'angle de la cam
-                const angleRotX = (diffX / window.innerWidth * 2 * Math.PI) + Math.PI
-                const angleRotY = diffY / window.innerHeight * Math.PI
-                // Assignement des angles à la cam     
-                // ROTATION : 1 tour = 2PI
-                // ROTATION : 1 tour = 2PI
-                camera.rotation.set(
-                    0,
-                    angleRotX, 
-                    0
-                )
+                if(player.alive){       // Si joueur en vie
+                    // Point milieu de l'écran
+                    const middleX = window.innerWidth / 2
+                    const middleY = window.innerHeight / 2
+                    
+                    // Différence entre le milieu, et le curseur
+                    const diffX = middleX - e.x
+                    const diffY = middleY - e.y
+                    // Conversion des px en angle valable pour la rotation
+                    const angleRotY = (diffX / window.innerWidth * 2 * Math.PI) + Math.PI
+                    const angleVertical = (diffY / window.innerHeight * 2 * Math.PI / 3)
+                    // Conversions deplacement vertical en angles de rotation x et z
+                    const angleRotX = Math.cos( angleRotY ) * angleVertical
+                    const angleRotZ = Math.pow(Math.pow(Math.sin( angleRotY ), 2), 0.3)
+                    
+                    -Math.pow(Math.cos( angleRotY + Math.PI/2 ), 2) * angleVertical
+                    // Assignement des angles à la cam     
+                    camera.rotation.set(
+                        0,
+                        angleRotY, 
+                        0,
+                        )
+                }
             }
             // Tire au click
             function onClick(e){
-                if(player.canShoot){
+                if(gameStop || !player.alive || !player.canShoot){
+                } else {
                     // Permet de limiter le nombre de tire par secondes, en fonction des armes
                     player.canShoot = false
                     // Parametres de l'arme du jour. Mise dans variable pour simplifier les appels ensuite
@@ -657,6 +702,23 @@
                         ////
                         // updateRecoil()
 
+                        ////
+                        // Son au tire
+                        ////
+                        if((isSound[isSound.length - 1])){
+
+                            const listener = new THREE.AudioListener()
+                            camera.add(listener)
+                            
+                            const audioLoader = new THREE.AudioLoader()
+                            let shootSound = new THREE.Audio(listener)
+                            audioLoader.load(weapons[player.weapon].soundSrc, function( buffer ){
+                                shootSound.setBuffer(buffer)
+                                shootSound.setLoop(false)
+                                shootSound.setVolume(0.3)
+                                shootSound.play()
+                            })                              
+                        }
 
                         // Si plus de balles dans chargeur, recharge
                         if(playerWeaponParameters.remainBullets == 0){
@@ -728,6 +790,7 @@
                 keyboard[e.keyCode] = false
                 keyUse()
             }
+
             function keyUse(){
                 if(keyboard[16]){       // Sprint
                     player.speed = 0.15
@@ -738,13 +801,41 @@
                     if(!gameStop){
                         gameStop = true
                     } else {
+                        if(!(isSound[isSound.length - 1])){
+                            backgroundSound.pause()
+                        }
                         gameStop = false
                         renderFrame()
                     }
                     eventBus.emit("gameStop", gameStop)
+
                 }
+                // Active le son de fond
+                if(keyboard[80]){
+                    backgroundSoundPlay()
+                } 
+                if(keyboard[76]){
+                    testDeath()
+                } 
 
             }    
+            function testDeath(){
+                player.alive = false
+                eventBus.emit("playerDeath")
+            }
+
+            function backgroundSoundPlay(){
+                if((isSound[isSound.length - 1])){    
+                    if(backgroundSoundActive){
+                        backgroundSound.pause()
+                    } else{
+                        backgroundSound.play()
+                    }
+                    backgroundSoundActive = !backgroundSoundActive
+                }
+            }
+       
+
             ////
             // Permet de changer d'arme en fonction du score
             ////
@@ -840,7 +931,7 @@
                         if(threeObject1.userData.remainLife > 0){
                             threeObject1.userData.remainLife -= 1
 
-                        } else { // Mort
+                        } else { // Zombie mort
                             // Permet de changer l'animation du zombie
                             mixers.forEach((mixer, index) => {
                                 // Celui qui correspond à l'uuid du zomb touché
@@ -860,7 +951,7 @@
                             }) 
                         
                             // On enlève le zombie 2 secondes apres
-                            let killInterval = setInterval(function(){     
+                            let killInterval = setInterval(function(){   
                                 if(!threeObject1.userData.points){
                                     // On recupere les index physic des objects
                                     const physicAmmo = rigidBodies.findIndex((obj) => obj.uuid === threeObject0.uuid);
@@ -909,12 +1000,15 @@
             // Gestion zombie restant, et nombre de manche
             ////
             function checkZombieRemain(){
-                if(remainZombie == 0){
-                    ressourcesLoad = false
+                if(remainZombie == 0 && newRound){
+                    // On va changer de round
+                    newRound = false
+                    // On fait clignoter le nombre de manche, prévenir à la suivante
+                    eventBus.emit("onChangeRound")
                     setTimeout(async function(){
                         setTarget()
                         ressourcesLoad = true
-                    }, 3000)
+                    }, 3000) 
                 }
             }
 
@@ -934,10 +1028,18 @@
 
                     renderer.render(loadingScreen.scene, loadingScreen.camera)
                     return
+                } else if(!player.alive || gameStop){                   
+                    requestAnimationFrame(renderFrame)
+                    // Mouvement de la box
+                    deathScreen.camera.position.x -= 0.07
+                    
+                    if(deathScreen.camera.position.x < -10) deathScreen.camera.position.x = 13
+                    deathScreen.camera.position.y = Math.sin(deathScreen.camera.position.x) + 12
+                     
+                    renderer.render(deathScreen.scene, deathScreen.camera)
+                    // return
                 } else {
-                    console.log(parseInt(camera.position.x), parseInt(camera.position.z))
-                    // Menu pause stop le jeu
-                    if(gameStop) return;
+                    console.log(player.speed)
                     // Check nombre de zombie restant dans la manche
                     checkZombieRemain()
                     // AmmoJs update physics : create clock for timing
@@ -1005,6 +1107,7 @@
                     ////
                     // Movements
                     ////
+                    console.log("cameRotY : ",camera.rotation.y, "\n", camera.rotation.y+Math.PI/2, "\n", Math.abs(camera.rotation.y))
                     if(keyboard[90]){   // Z : avancer
                         camera.position.x -= Math.sin(camera.rotation.y) * player.speed
                         camera.position.z -= Math.cos(camera.rotation.y) * player.speed
@@ -1019,6 +1122,12 @@
                         camera.position.x += -Math.sin(camera.rotation.y - Math.PI/2) * player.speed
                         camera.position.z += -Math.cos(camera.rotation.y - Math.PI/2) * player.speed
                     }   
+                    // Snike
+                    if (keyboard[20]) { 
+                        camera.position.y = 1;
+                    } else if(player.canJump) {
+                        camera.position.y = player.height;
+                    }
                     
                     if (keyboard[32] && player.canJump) { // Space : jump !
                         player.canJump = false
@@ -1084,7 +1193,7 @@
                         // Collé au sol
                         physicsBody.threeObject.position.y = 0
                         // Ajout le vecteur de déplacement                 
-                        physicsBody.setLinearVelocity( resultantImpulse );
+                        physicsBody.setLinearVelocity( resultantImpulse )
                     }
                 }
             };
@@ -1092,10 +1201,11 @@
         data(){
             return {
                 // Variables déclarées ici pour être envoyé en tant que props, dans un component
-                player: {height: 1.8, canShoot: true, canJump: true, speed: 0.095, turnSpeed: Math.PI*0.02, weapon: 'pistolSilencer', weaponMesh: null},
+                player: {height: 1.8, canShoot: true, canJump: true, speed: 0.095, turnSpeed: Math.PI*0.02, alive: true, weapon: 'pistolSilencer', weaponMesh: null},
                 viseur: '',         // Change la couleur du viseur
                 score: 0,                   // Score du jeu
-                remainBullets: 0
+                remainBullets: 0,
+                isSound: [false],
             }
         },
     };

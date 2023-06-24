@@ -22,8 +22,8 @@
     import { MTLLoader } from 'three/addons/loaders/MTLLoader.js';
     import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
     import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
-
-    import { FirstPersonControls } from 'three/addons/controls/FirstPersonControls.js';
+    // POV
+    import { FirstPersonControls } from '../../plugins/FirstPersonControls';
     // Plugins
     import { eventBus } from '../../plugins/eventBus'
     import '../../plugins/ammo'
@@ -32,6 +32,7 @@
     import {sceneItems} from '../../../static/datas/Maps/Map_Zombie_Ville'
     import {spawnsCoord} from '../../../static/datas/Maps/Map_Zombie_Ville'
     import targetItems from '../../../static/datas/targetItems'
+    import sounds from '../../../static/datas/sounds'
     // Components
     import displayScore from './displays/displayScore.vue';
     import displayLoader from './displays/displayLoader.vue';
@@ -56,9 +57,13 @@
             eventBus.on('remainBullets', (data) => {
                 this.remainBullets = data
             })
-            // MAJ arme
             // MAJ Zombie restant, pour changement de round
             eventBus.on('remainZombie')
+
+            // MAJ sound
+            eventBus.on('isSound', (data) => {
+                this.isSound.push(data)
+            })
 
         },
         mounted() {
@@ -68,6 +73,7 @@
             ////
             // Ecran de chargement
             let ressourcesLoad = false, loadingScreen
+            let deathScreen
             // ThreeJs : graphic
             let scene, camera, clock, deltaTime, weaponActuel
             let renderer = new THREE.WebGLRenderer()        // Fonction de rendu
@@ -82,6 +88,7 @@
             let cbContactPairResult;
             const STATE = { DISABLE_DEACTIVATION : 4 };
             // Game
+            let fpsControls
             let player = this.player
             let zoomView = 'not-aim'
             let bullets = []                    // Listes des balles en jeu
@@ -94,8 +101,18 @@
             let remainZombie = 0                    // Zombie restants    
             let velocity_y = 0                      // Hauteur du saut 
             let gameStop = false                    // Sert a mettre en pause le jeu
+            let clips                               // Liste des animations dispos
+            let newRound                            // Pour savoir nouvelle manches
+            let backgroundSound                     // Son de fond
+            let backgroundSoundActive = false
+            let isSound = this.isSound              // Parametre active son
+            // POV
+            let currentMouseX, currentMouseXDelta, currentMouseY, currentMouseYDelta, previousMouseX, previousMouseY    // Pos souris
+            let phi, theta
+            let rotation = new THREE.Quaternion()
+            let translation = new THREE.Vector3()
             // Mise en place du viseur 
-            this.viseur = new URL('../../assets/Icons/viseur_black.png', import.meta.url).href
+            this.viseur = new URL('../../assets/Icons/viseur_white.png', import.meta.url).href
             this.remainBullets = weapons[player.weapon].parameters.remainBullets        // Met a 
             
 
@@ -116,6 +133,8 @@
                 setupPhysicsWorld()
                 // Crée l'élement scene et les différents élement permettant l'affichage
                 setupGraphics()
+                // Prepare anim de la mort
+                deathScreenAnim()
                 // Ajout les élement à la scene
                 await initScene()
                 // Ajout des cibles
@@ -147,6 +166,18 @@
                 loadingScreen.camera.lookAt(0, 0, 5)
                 loadingScreen.scene.add(loadingScreen.box)
             }
+            //////////////////
+            // Ecran anim mort 
+            //////////////////
+            function deathScreenAnim(){
+                deathScreen = {
+                    scene: scene,
+                    camera: new THREE.PerspectiveCamera(90, 1280/720, 0.1, 100),
+                }
+                // Préparation de l'écran de chargement
+                deathScreen.camera.rotation.set(0, Math.PI, 0)
+                deathScreen.camera.position.set(0, 12, -11)
+            }
             ////
             // Setup AmmoJs
             ////
@@ -164,21 +195,24 @@
             // Création de la scene init des élements graphiques
             ////
             function setupGraphics(){
-                              //create clock for timing
-                              clock = new THREE.Clock();
+                //create clock for timing
+                clock = new THREE.Clock();
                 // Init caméra
                 camera = new THREE.PerspectiveCamera(75,canvas.clientWidth / canvas.clientHeight,0.1,100);
                 // Position camera
                 camera.position.set(0, player.height, 0)
-                camera.lookAt(40, player.height, 40)
+                camera.lookAt(0, player.height, 0)
                 camera.userData.tag = 'cameraPlayer'
-                
                 // Init rendu
                 renderer.setSize(canvas.clientWidth, canvas.clientHeight);  // taille
                 renderer.shadowMap.enabled = true               // Active les ombres
                 renderer.shadowMap.type = THREE.BasicShadowMap  // Type d'ombres
+                
                 // Créer le canvas
                 canvas.appendChild(renderer.domElement);
+                // POV
+                fpsControls = new FirstPersonCamera(camera);
+
                 // Création scene
                 scene = new THREE.Scene()
                 scene.background = new THREE.Color( 0x000000 );
@@ -192,6 +226,17 @@
                 light.shadow.camera.near = 0.1
                 light.shadow.camera.far = 25
                 scene.add(light) 
+                // Musique de fond
+                const listener = new THREE.AudioListener()
+                camera.add(listener)
+
+                const audioLoader = new THREE.AudioLoader()
+                backgroundSound = new THREE.Audio(listener)
+                audioLoader.load(sounds['CouldYouBeLoved'].soundSrc, function( buffer ){
+                    backgroundSound.setBuffer(buffer)
+                    backgroundSound.setLoop(true)
+                    backgroundSound.setVolume(0.8)
+                })
             }   
             ////
             // Ajout des élements à la scene, chargement graphique des éléments
@@ -343,15 +388,21 @@
                 // MAJ nombre de round
                 round ++
                 eventBus.emit("roundNumber", round)
+                // Mise a jour nouvelle manche
+                newRound = true
                 // Formule nb zombie en fonction du round
                 let zombieNumber = (round * 1.41) + 2.6 
                 remainZombie = parseInt(zombieNumber)
+                // Vie par zombie = nombre de balles
+                let zombieLife = 2
                 // Ajout des items du fichier tagetItems.js
                 // Chaque zombie a : une partie graphic, une partie physique, une partie animation
                 const gltfLoader = new GLTFLoader();
+                // On récupère le zombie dans la liste des cibles
+                const zombieGltf = targetItems["zombieMale"]
                 for (let i = 0; i<parseInt(zombieNumber); i++) {   
                     try {
-                        gltfLoader.load('./static/Models/Animated_Character/glTF/Zombie_Male.gltf', (gltf) => {                        
+                        gltfLoader.load(zombieGltf.gltf, (gltf) => {                                                   
                             /////////////////////////
                             // ---------------THREEJS
                             // On récupère les positions de spawn dans une liste
@@ -377,14 +428,18 @@
                             // Echelle
                             zombie.scale.set(scale.x, scale.y, scale.z)
                             // Ajout d'un tag pour différencier
-                            zombie.userData.tag = "targetItem_zombie"        
+                            zombie.userData.tag = "targetItem_zombie"   
+                            // Vie du zombie
+                            zombie.userData.remainLife =  zombieLife   
+                            // Ajout d'un score 'donnable'
+                            zombie.userData.points = true
                             // Ajout à la scene
                             scene.add(zombie)
-                            
+
                             /////////////////////////
                             // -------------ANIMATION
                             let mixer = new THREE.AnimationMixer(zombie)
-                            const clips = gltf.animations
+                            clips = gltf.animations
                             const clip = THREE.AnimationClip.findByName(clips, 'Walk')
                             let action = (mixer.clipAction(clip))
                             action.play()
@@ -410,9 +465,9 @@
                             let motionState = new Ammo.btDefaultMotionState( transform );
                             // Hitbox
                             let colShape = new Ammo.btBoxShape( new Ammo.btVector3( 
-                                scale.x * 0.3, 
-                                scale.y,
-                                scale.z * 0.3, 
+                                scale.x * 0.8, 
+                                2,
+                                scale.z * 0.8, 
                             ));
                             colShape.setMargin( 0.05 );
                             // Inertie
@@ -432,7 +487,6 @@
                             rigidBodies.push(zombie)
                             zombie.userData.physicsBody = body
                             body.threeObject = zombie
-    
                         }, undefined, (error) => {
                             console.log(error)
                         })      
@@ -500,7 +554,7 @@
             // Mise en place des fonction d'évenement
             ////
             function setupEventHandlers(){
-                document.addEventListener('mousemove', (e) => onMouseMove(e), false)
+                // document.addEventListener('mousemove', (e) => onMouseMove(e), false)
                 document.addEventListener('click', (e) => onClick(e), false)
                 document.addEventListener('contextmenu', (e) => onContextMenu(e), false)
                 document.addEventListener('keyup', (e) => keyUp(e), false)
@@ -508,30 +562,43 @@
             }
             // Déplace a vue, avec la souris
             function onMouseMove(e){
-                // Point milieu de l'écran
-                const middleX = window.innerWidth / 2
-                const middleY = window.innerHeight / 2
-                
-                // Différence entre le milieu, et le curseur
-                const diffX = middleX - e.x
-                const diffY = middleY - e.y
-                // Rapport entre x et y
-                const rapport = (window.innerWidth / window.innerHeight)
-                // Equivalence entre la différence en px, et l'angle de la cam
-                const angleRotX = (diffX / window.innerWidth * 2 * Math.PI) + Math.PI
-                const angleRotY = diffY / window.innerHeight * Math.PI
-                // Assignement des angles à la cam     
-                // ROTATION : 1 tour = 2PI
-                // ROTATION : 1 tour = 2PI
-                camera.rotation.set(
-                    0,
-                    angleRotX, 
-                    0
-                )
+                if(player.alive){       // Si joueur en vie
+                    // Pos actuel de la souris
+                    currentMouseX = e.pageX - window.innerWidth / 2
+                    currentMouseY = e.pageY - window.innerHeight / 2
+                 
+                    // Différence avec pos souyris précédente
+                    currentMouseXDelta = currentMouseX - previousMouseX
+                    currentMouseYDelta = currentMouseY - previousMouseY
+                 
+                 
+                    // // Point milieu de l'écran
+                    // const middleX = window.innerWidth / 2
+                    // const middleY = window.innerHeight / 2
+                    
+                    // // Différence entre le milieu, et le curseur
+                    // const diffX = middleX - e.x
+                    // const diffY = middleY - e.y
+                    // // Conversion des px en angle valable pour la rotation
+                    // const angleRotY = (diffX / window.innerWidth * 2 * Math.PI) + Math.PI
+                    // const angleVertical = (diffY / window.innerHeight * 2 * Math.PI / 3)
+                    // // Conversions deplacement vertical en angles de rotation x et z
+                    // const angleRotX = Math.cos( angleRotY ) * angleVertical
+                    // const angleRotZ = Math.pow(Math.pow(Math.sin( angleRotY ), 2), 0.3)
+                    
+                    // -Math.pow(Math.cos( angleRotY + Math.PI/2 ), 2) * angleVertical
+                    // // Assignement des angles à la cam     
+                    // camera.rotation.set(
+                    //     0,
+                    //     angleRotY, 
+                    //     0,
+                    //     )
+                }
             }
             // Tire au click
             function onClick(e){
-                if(player.canShoot){
+                if(gameStop || !player.alive || !player.canShoot){
+                } else {
                     // Permet de limiter le nombre de tire par secondes, en fonction des armes
                     player.canShoot = false
                     // Parametres de l'arme du jour. Mise dans variable pour simplifier les appels ensuite
@@ -599,7 +666,7 @@
                                 // On enleve du monde physic
                                 physicsWorld.removeRigidBody(bullet.userData.physicsBody)
                             }
-                        }, 2000)
+                        }, 3000)
                         // affiche bullet
                         bullet.alive = true;
                         bullets.push(bullet)                        
@@ -637,7 +704,7 @@
                         physicsWorld.addRigidBody( body );
                         // Place balle et donne la velocite
                         tmpPos.copy(raycaster.ray.direction)
-                        tmpPos.multiplyScalar(80)
+                        tmpPos.multiplyScalar(60)
                         body.setLinearVelocity(new Ammo.btVector3(
                             tmpPos.x,
                             tmpPos.y,
@@ -651,6 +718,23 @@
                         ////
                         // updateRecoil()
 
+                        ////
+                        // Son au tire
+                        ////
+                        if((isSound[isSound.length - 1])){
+
+                            const listener = new THREE.AudioListener()
+                            camera.add(listener)
+                            
+                            const audioLoader = new THREE.AudioLoader()
+                            let shootSound = new THREE.Audio(listener)
+                            audioLoader.load(weapons[player.weapon].soundSrc, function( buffer ){
+                                shootSound.setBuffer(buffer)
+                                shootSound.setLoop(false)
+                                shootSound.setVolume(0.3)
+                                shootSound.play()
+                            })                              
+                        }
 
                         // Si plus de balles dans chargeur, recharge
                         if(playerWeaponParameters.remainBullets == 0){
@@ -722,23 +806,52 @@
                 keyboard[e.keyCode] = false
                 keyUse()
             }
+
             function keyUse(){
-                if(keyboard[16]){       // Sprint
-                    player.speed = 0.15
-                } else {
-                    player.speed = 0.095
-                }
-                if(keyboard[27]){
+                // if(keyboard[16]){       // Sprint
+                //     player.speed = 0.15
+                // } else {
+                //     player.speed = 0.065
+                // }
+                if(keyboard[27]){       // Menu pause
                     if(!gameStop){
                         gameStop = true
                     } else {
+                        if(!(isSound[isSound.length - 1])){
+                            backgroundSound.pause()
+                        }
                         gameStop = false
                         renderFrame()
                     }
                     eventBus.emit("gameStop", gameStop)
+
                 }
+                // Active le son de fond
+                if(keyboard[80]){
+                    backgroundSoundPlay()
+                } 
+                if(keyboard[76]){
+                    testDeath()
+                } 
 
             }    
+            function testDeath(){
+                player.alive = false
+                eventBus.emit("playerDeath")
+            }
+
+            function backgroundSoundPlay(){
+                if((isSound[isSound.length - 1])){    
+                    if(backgroundSoundActive){
+                        backgroundSound.pause()
+                    } else{
+                        backgroundSound.play()
+                    }
+                    backgroundSoundActive = !backgroundSoundActive
+                }
+            }
+       
+
             ////
             // Permet de changer d'arme en fonction du score
             ////
@@ -826,36 +939,63 @@
                     let threeObject0 = rb0.threeObject;
                     let threeObject1 = rb1.threeObject;
                     let tag, localPos, worldPos
-                    // console.log(threeObject0.userData.tag)
-                    // console.log(threeObject1.userData.tag)
-                    // console.log(rigidBodies)
 
                     // Si la balle (dans threeObject0) touche un zombie (cible dans threeObject1)
                     if(threeObject1.userData.tag == "targetItem_zombie"){
-                        // On recupere les index physic des objects
-                        const physicAmmo = rigidBodies.findIndex((obj) => obj.uuid === threeObject0.uuid);
-                        const physicTarget = rigidBodies.findIndex((obj) => obj.uuid === threeObject1.uuid);
-                        // Si index > -1, c'est que les objets sont dans la liste, donc sur la scene
-                        if (physicAmmo > -1 && physicTarget > -1) {
-                            // On enleve la partie physic de la liste
-                            rigidBodies.splice(physicAmmo, 1);
-                            rigidBodies.splice(physicTarget, 1);
-                            // On enleve du monde physic
-                            physicsWorld.removeRigidBody(threeObject0.userData.physicsBody)
-                            physicsWorld.removeRigidBody(threeObject1.userData.physicsBody)
-                            // On enleve la partie graphic
-                            scene.remove(threeObject0)
-                            scene.remove(threeObject1)
-                            // On met à jour le score
-                            score ++
-                            eventBus.emit("scoreChange", score)
-                            // On decremente le nombre de zombie restant
-                            remainZombie = remainZombie - 1
-                        }     
+        
+                        // Si la vie est > 0, on décremente, sinon on tue
+                        if(threeObject1.userData.remainLife > 0){
+                            threeObject1.userData.remainLife -= 1
 
+                        } else { // Zombie mort
+                            // Permet de changer l'animation du zombie
+                            mixers.forEach((mixer, index) => {
+                                // Celui qui correspond à l'uuid du zomb touché
+                                if(mixer._root.uuid == threeObject1.uuid && mixer._actions[0]._clip.name == 'Walk'){
+                                    // On commence par stopper l'animation
+                                    mixers.splice(index, 1)
+                                    // On créé un nouveau mixer, pour ne pas avoir l'anim précédente
+                                    const clip = THREE.AnimationClip.findByName(clips, 'Roll')
+                                    let mixer2 = new THREE.AnimationMixer(threeObject1)
+                                    let action = (mixer2.clipAction(clip))
+                                    action.play()
+                                    // On l'ajoute à la liste des anim, pour lancer l'animation tomber
+                                    mixers.push(mixer2)
+                                    // Les points sont utilisés
+                                    threeObject1.userData.points = false
+                                }
+                            }) 
+                        
+                            // On enlève le zombie 2 secondes apres
+                            let killInterval = setInterval(function(){   
+                                if(!threeObject1.userData.points){
+                                    // On recupere les index physic des objects
+                                    const physicAmmo = rigidBodies.findIndex((obj) => obj.uuid === threeObject0.uuid);
+                                    const physicTarget = rigidBodies.findIndex((obj) => obj.uuid === threeObject1.uuid);
+                                    // Si index > -1, c'est que les objets sont dans la liste, donc sur la scene
+                                    if (physicAmmo > -1 && physicTarget > -1) {
+                                        // On enleve la partie physic de la liste
+                                        rigidBodies.splice(physicAmmo, 1);
+                                        rigidBodies.splice(physicTarget, 1);
+                                        // On enleve du monde physic
+                                        physicsWorld.removeRigidBody(threeObject0.userData.physicsBody)
+                                        physicsWorld.removeRigidBody(threeObject1.userData.physicsBody)
+                                        // On enleve la partie graphic
+                                        scene.remove(threeObject0)
+                                        scene.remove(threeObject1)
+                                        // On met à jour le score
+                                        score ++
+                                        eventBus.emit("scoreChange", score)
+                                        // On decremente le nombre de zombie restant
+                                        remainZombie = remainZombie - 1
+                                        clearInterval(killInterval);
+                                    }
+                                }                
+                            }, 2900)
+                        }
                     } else if (threeObject0.userData.tag == "ammo_"+player.weapon && threeObject1.userData.tag == "sceneItem"){ // Sinon on enlève juste la balle
                     } else if(threeObject0.userData.tag == "ammo_"+player.weapon){
-                        scene.remove(threeObject0)
+                        // scene.remove(threeObject0)
                     }
                 }
             }
@@ -876,12 +1016,15 @@
             // Gestion zombie restant, et nombre de manche
             ////
             function checkZombieRemain(){
-                if(remainZombie == 0){
-                    ressourcesLoad = false
+                if(remainZombie == 0 && newRound){
+                    // On va changer de round
+                    newRound = false
+                    // On fait clignoter le nombre de manche, prévenir à la suivante
+                    eventBus.emit("onChangeRound")
                     setTimeout(async function(){
                         setTarget()
                         ressourcesLoad = true
-                    }, 1500)
+                    }, 3000) 
                 }
             }
 
@@ -901,9 +1044,17 @@
 
                     renderer.render(loadingScreen.scene, loadingScreen.camera)
                     return
+                } else if(!player.alive || gameStop){                   
+                    requestAnimationFrame(renderFrame)
+                    // Mouvement de la box
+                    deathScreen.camera.position.x -= 0.07
+                    
+                    if(deathScreen.camera.position.x < -10) deathScreen.camera.position.x = 13
+                    deathScreen.camera.position.y = Math.sin(deathScreen.camera.position.x) + 12
+                     
+                    renderer.render(deathScreen.scene, deathScreen.camera)
+                    // return
                 } else {
-                    // Menu pause stop le jeu
-                    if(gameStop) return;
                     // Check nombre de zombie restant dans la manche
                     checkZombieRemain()
                     // AmmoJs update physics : create clock for timing
@@ -930,6 +1081,10 @@
                         }
                         physicsWorld.contactTest( bullets[i].userData.physicsBody , cbContactResult );
                     }
+                    //////
+                    // POV
+                    //////
+                    fpsControls.update(deltaTime)
                     
                     ////
                     // Affichage de l'arme, en fonction de la visée 
@@ -941,6 +1096,7 @@
                             weaponActuel = object
                         }
                     });
+
                     if(zoomView == 'not-aim'){      // Vue normal
                         // Vision gun : Position
                         weaponActuel.position.set(
@@ -968,25 +1124,15 @@
                             camera.rotation.z
                         )
                     }   
-                    ////
-                    // Movements
-                    ////
-                    if(keyboard[90]){   // Z : avancer
-                        camera.position.x -= Math.sin(camera.rotation.y) * player.speed
-                        camera.position.z -= Math.cos(camera.rotation.y) * player.speed
-                    } else if(keyboard[83]){   // S : reculer
-                        camera.position.x += Math.sin(camera.rotation.y) * player.speed
-                        camera.position.z -= -Math.cos(camera.rotation.y) * player.speed
-                    } 
-                    if(keyboard[81]){   // Q : gauche
-                        camera.position.x += -Math.sin(camera.rotation.y + Math.PI/2) * player.speed
-                        camera.position.z += -Math.cos(camera.rotation.y + Math.PI/2) * player.speed
-                    } else if(keyboard[68]){   // D : droite
-                        camera.position.x += -Math.sin(camera.rotation.y - Math.PI/2) * player.speed
-                        camera.position.z += -Math.cos(camera.rotation.y - Math.PI/2) * player.speed
-                    }   
-                    
-                    if (keyboard[32] && player.canJump) { // Space : jump !
+
+                    // Snike
+                    // if (keyboard[20]) { 
+                    //     camera.position.y = 1;
+                    // } else if(player.canJump) {
+                    //     camera.position.y = player.height;
+                    // }
+                    // Space : jump !
+                    if (keyboard[32] && player.canJump) { 
                         player.canJump = false
                         velocity_y = 8;
                     }
@@ -1019,10 +1165,10 @@
                         objThree.quaternion.set( q.x(), q.y(), q.z(), q.w() );
                     }
                     // Rotation et déplacement des zombies
-                    if(rigidBodies[i].userData.tag == 'targetItem_zombie'){
+                    if(rigidBodies[i].userData.tag == 'targetItem_zombie' && rigidBodies[i].userData.remainLife > 0){
                         // Position de la camera, l'endroit vers où le zombie regarde
                         let camPosX = camera.position.x
-                        let camPosY = camera.position.y
+                        let camPosY = camera.position.y/2
                         let camPosZ = camera.position.z
                         rigidBodies[i].lookAt(camPosX, camPosY, camPosZ)
                         // 'Vitesse' du vecteur de direction
@@ -1047,22 +1193,182 @@
                         resultantImpulse.op_mul(scalingFactor);
                         // Assignation vecteur pour déplacement
                         let physicsBody = rigidBodies[i].userData.physicsBody;
+                        // Collé au sol
                         physicsBody.threeObject.position.y = 0
-                        // physicsBody.position.y = 0
-                        physicsBody.setLinearVelocity( resultantImpulse );
-                        console.log(physicsBody)
-                        console.log(physicsBody.threeObject)
+                        // Ajout le vecteur de déplacement                 
+                        physicsBody.setLinearVelocity( resultantImpulse )
                     }
                 }
             };
+            ///////////////////////////////////////////////////////////
+            // Class controle POV
+            const KEYS = {
+                'z': 90,
+                's': 83,
+                'q': 81,
+                'd': 68,
+            };
+
+            function clamp(x, a, b) {
+                return Math.min(Math.max(x, a), b);
+            }
+
+            class InputController {
+                constructor(target) {
+                    this.target_ = target || document;
+                    this.initialize_();    
+                }
+
+                initialize_() {
+                    this.current_ = {
+                    mouseXDelta: 0,
+                    mouseYDelta: 0,
+                    mouseX: 0,
+                    mouseY: 0,
+                    };
+                    this.previous_ = null;
+                    this.keys_ = {};
+                    this.previousKeys_ = {};
+                    this.target_.addEventListener('mousemove', (e) => this.onMouseMove_(e), false);
+                    this.target_.addEventListener('keydown', (e) => this.onKeyDown_(e), false);
+                    this.target_.addEventListener('keyup', (e) => this.onKeyUp_(e), false);
+                }
+
+                onMouseMove_(e) {
+                    this.current_.mouseX = e.pageX - window.innerWidth / 2;
+                    this.current_.mouseY = e.pageY - window.innerHeight / 2;
+
+                    if (this.previous_ === null) {
+                    this.previous_ = {...this.current_};
+                    }
+
+                    this.current_.mouseXDelta = this.current_.mouseX - this.previous_.mouseX;
+                    this.current_.mouseYDelta = this.current_.mouseY - this.previous_.mouseY;
+                }
+
+                onKeyDown_(e) {
+                    this.keys_[e.keyCode] = true;
+                }
+
+                onKeyUp_(e) {
+                    this.keys_[e.keyCode] = false;
+                }
+
+                key(keyCode) {
+                    return !!this.keys_[keyCode];
+                }
+
+                update(_) {
+                    if (this.previous_ !== null) {
+                    this.current_.mouseXDelta = this.current_.mouseX - this.previous_.mouseX;
+                    this.current_.mouseYDelta = this.current_.mouseY - this.previous_.mouseY;
+
+                    this.previous_ = {...this.current_};
+                    }
+                }
+            };
+
+            class FirstPersonCamera {
+                constructor(camera) {
+                    this.camera_ = camera;
+                    this.input_ = new InputController();
+                    this.rotation_ = new THREE.Quaternion();
+                    this.translation_ = new THREE.Vector3(0, 2, 0);
+                    this.phi_ = 0;
+                    this.phiSpeed_ = 8;
+                    this.theta_ = 0;
+                    this.thetaSpeed_ = 5;
+                    this.playerSpeed = 7
+                }
+
+                update(timeElapsedS) {
+                    this.updateRotation_(timeElapsedS);
+                    this.updateCamera_(timeElapsedS);
+                    this.updateTranslation_(timeElapsedS);
+                    this.input_.update(timeElapsedS);
+                }
+
+                updateCamera_(_) {
+                    this.camera_.quaternion.copy(this.rotation_);
+                    this.camera_.position.copy(this.translation_);
+
+                    // Snike
+                    if(this.input_.key(20)){      
+                        this.camera_.position.y = 1
+                    } else {
+                        this.camera_.position.y = 1.8
+                    }
+
+                    const forward = new THREE.Vector3(0, 0, -1);
+                    forward.applyQuaternion(this.rotation_);
+
+                    const dir = forward.clone();
+
+                    forward.multiplyScalar(100);
+                    forward.add(this.translation_);
+
+                    let closest = forward;
+                    const result = new THREE.Vector3();
+                    const ray = new THREE.Ray(this.translation_, dir);
+
+                    this.camera_.lookAt(closest);
+                }
+
+                updateTranslation_(timeElapsedS) {
+                    const forwardVelocity = (this.input_.key(KEYS.z) ? 1 : 0) + (this.input_.key(KEYS.s) ? -1 : 0)
+                    const strafeVelocity = (this.input_.key(KEYS.q) ? 1 : 0) + (this.input_.key(KEYS.d) ? -1 : 0)
+
+                    const qx = new THREE.Quaternion();
+                    qx.setFromAxisAngle(new THREE.Vector3(0, 1, 0), this.phi_);
+
+                    // Sprint ou marche normal
+                    if(this.input_.key(16)){      
+                        this.playerSpeed = 11
+                    } else {
+                        this.playerSpeed = 7
+                    }
+
+                    const forward = new THREE.Vector3(0, 0, -1);
+                    forward.applyQuaternion(qx);
+                    forward.multiplyScalar(forwardVelocity * timeElapsedS * this.playerSpeed);
+
+                    const left = new THREE.Vector3(-1, 0, 0);
+                    left.applyQuaternion(qx);
+                    left.multiplyScalar(strafeVelocity * timeElapsedS * this.playerSpeed);
+
+                    this.translation_.add(forward);
+                    this.translation_.add(left);
+                }
+
+                updateRotation_(timeElapsedS) {
+                    const xh = this.input_.current_.mouseXDelta / window.innerWidth;
+                    const yh = this.input_.current_.mouseYDelta / window.innerHeight;
+
+                    this.phi_ += -xh * this.phiSpeed_;
+                    this.theta_ = clamp(this.theta_ + -yh * this.thetaSpeed_, -Math.PI / 3, Math.PI / 3);
+
+                    const qx = new THREE.Quaternion();
+                    qx.setFromAxisAngle(new THREE.Vector3(0, 1, 0), this.phi_);
+                    const qz = new THREE.Quaternion();
+                    qz.setFromAxisAngle(new THREE.Vector3(1, 0, 0), this.theta_);
+
+                    const q = new THREE.Quaternion();
+                    q.multiply(qx);
+                    q.multiply(qz);
+
+                    this.rotation_.copy(q);
+                }
+            }
+
         },
         data(){
             return {
                 // Variables déclarées ici pour être envoyé en tant que props, dans un component
-                player: {height: 1.8, canShoot: true, canJump: true, speed: 0.095, turnSpeed: Math.PI*0.02, weapon: 'pistolSilencer', weaponMesh: null},
+                player: {height: 1.8, canShoot: true, canJump: true, speed: 0.065, turnSpeed: Math.PI*0.02, alive: true, weapon: 'pistolSilencer', weaponMesh: null},
                 viseur: '',         // Change la couleur du viseur
                 score: 0,                   // Score du jeu
-                remainBullets: 0
+                remainBullets: 0,
+                isSound: [false],
             }
         },
     };
