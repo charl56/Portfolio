@@ -164,9 +164,11 @@
 
                 let rbInfo = new Ammo.btRigidBodyConstructionInfo( mass, motionState, colShape, localInertia );
                 let body = new Ammo.btRigidBody( rbInfo );
-                console.log(physicsWorld)
-                console.log(body)
+
                 physicsWorld.addRigidBody( body );
+                
+                blockPlane.userData.physicsBody = body;
+                rigidBodies.push(blockPlane);
             }
 
 
@@ -203,7 +205,7 @@
                     let rbInfo = new Ammo.btRigidBodyConstructionInfo( ballElement.mass, motionState, colShape, localInertia );
                     let body = new Ammo.btRigidBody( rbInfo );
 
-                    physicsWorld.addRigidBody( body, colGroupGreenBall | colGroupRedBall, colGroupRedBall);
+                    physicsWorld.addRigidBody( body);
 
                     ball.userData.physicsBody = body;
                     rigidBodies.push(ball);
@@ -244,10 +246,11 @@
                 let rbInfo = new Ammo.btRigidBodyConstructionInfo( mass, motionState, colShape, localInertia );
                 let body = new Ammo.btRigidBody( rbInfo );
 
-                physicsWorld.addRigidBody( body, colGroupRedBall, colGroupPlane | colGroupGreenBall );
+                physicsWorld.addRigidBody( body );
                 
                 ball.userData.physicsBody = body;
                 rigidBodies.push(ball);
+                
             }
 
             function updatePhysics( deltaTime ){

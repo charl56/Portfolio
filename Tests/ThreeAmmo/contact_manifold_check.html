@@ -7,677 +7,437 @@
         </style>
     </head>
     <body>
-        <div class="scene" ref="scene" id="scene">
-            <v-col class="menu-color d-flex flex-column">
-        </div>
         <script src="js/three.js"></script>
         <script src="js/ammo.js"></script>
-        <script src="js/main.js" type="module"></script>
+        <script>
+
+            //variable declaration section
+            let physicsWorld, scene, camera, renderer, rigidBodies = [], pos = new THREE.Vector3(), tmpTrans = null;
+            let ball, moveDirection = { left: 0, right: 0, forward: 0, back: 0, up: 0, down: 0 };
+
+            const STATE = { DISABLE_DEACTIVATION : 4 };
+
+            let cbContactResult;
+            let redTile, cbContactPairResult;
+
+            //Ammojs Initialization
+            Ammo().then(start)
+
+            function start (){
+
+                tmpTrans = new Ammo.btTransform();
+
+                setupPhysicsWorld();
+
+                setupGraphics();
+
+                createFloorTiles();
+
+                createBall();
+
+                setupContactResultCallback();
+
+                setupContactPairResultCallback();
+
+                setupEventHandlers();
+                
+                renderFrame();
+
+            }
+
+            function setupPhysicsWorld(){
+
+                let collisionConfiguration  = new Ammo.btDefaultCollisionConfiguration(),
+                    dispatcher              = new Ammo.btCollisionDispatcher(collisionConfiguration),
+                    overlappingPairCache    = new Ammo.btDbvtBroadphase(),
+                    solver                  = new Ammo.btSequentialImpulseConstraintSolver();
+
+                physicsWorld           = new Ammo.btDiscreteDynamicsWorld(dispatcher, overlappingPairCache, solver, collisionConfiguration);
+                physicsWorld.setGravity(new Ammo.btVector3(0, -10, 0));
+
+            }
+
+
+            function setupGraphics(){
+
+                //create clock for timing
+                clock = new THREE.Clock();
+
+                //create the scene
+                scene = new THREE.Scene();
+                scene.background = new THREE.Color( 0xabfeff );
+
+                //create camera
+                camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 0.2, 5000 );
+                camera.position.set( 0, 80, 40 );
+                camera.lookAt(new THREE.Vector3(0, 0, 0));
+
+                //Add hemisphere light
+                let hemiLight = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.1 );
+                hemiLight.color.setHSL( 0.6, 0.6, 0.6 );
+                hemiLight.groundColor.setHSL( 0.1, 1, 0.4 );
+                hemiLight.position.set( 0, 50, 0 );
+                scene.add( hemiLight );
+
+                //Add directional light
+                let dirLight = new THREE.DirectionalLight( 0xffffff , 1);
+                dirLight.color.setHSL( 0.1, 1, 0.95 );
+                dirLight.position.set( -1, 1.75, 1 );
+                dirLight.position.multiplyScalar( 100 );
+                scene.add( dirLight );
+
+                dirLight.castShadow = true;
+
+                dirLight.shadow.mapSize.width = 2048;
+                dirLight.shadow.mapSize.height = 2048;
+
+                let d = 50;
+
+                dirLight.shadow.camera.left = -d;
+                dirLight.shadow.camera.right = d;
+                dirLight.shadow.camera.top = d;
+                dirLight.shadow.camera.bottom = -d;
+
+                dirLight.shadow.camera.far = 13500;
+
+                //Setup the renderer
+                renderer = new THREE.WebGLRenderer( { antialias: true } );
+                renderer.setClearColor( 0xbfd1e5 );
+                renderer.setPixelRatio( window.devicePixelRatio );
+                renderer.setSize( window.innerWidth, window.innerHeight );
+                document.body.appendChild( renderer.domElement );
+
+                renderer.gammaInput = true;
+                renderer.gammaOutput = true;
+
+                renderer.shadowMap.enabled = true;
+
+            }
 
         
-        <!-- <script type="module" src="datas/weapons.js"></script>
-        <script type="module" src="datas/sceneItems.js"></script>
-        <script type="module" src="datas/targetItems.js"></script> -->
+            function renderFrame(){
 
-
-        <script>
-            console.log(new returnWeapons())
-            ////
-            // VARIABLES
-            ////
-
-            // Ecran de chargement
-            let ressourcesLoad = false, loadingScreen
-            // ThreeJs : graphic
-            let scene, camera, renderer
-            const canvas = document.getElementById("scene")
-            //  AmmoJs : physic
-            let physicsWorld, tmpTrans, AmmoJs, rigidBodies = [], colGroupItems = 1, colGroupBullets = 2
-            // Game
-            let player = {height: 1.8, canShoot: true, speed: 0.2, turnSpeed: Math.PI*0.02, weapon: 'pistolSilencer', weaponMesh: null}
-            let zoomList = ['not-aim']          // Liste des vue, dernière = celle actuel. Liste pour animate()
-            let bullets = []                    // Listes des balles en jeu
-            let zoom = false                    // Permet de savoir si on vise, ou non
-            let keyboard = {}                   // Liste des touches actives, ou non
-            let lastWeaponList = ['pistolSilencer']  // Liste des armes, la dernière est l'actuel. Liste pour fonction animate
-            let previousWeapon = []
-            let score = 0
-            
-
-            // AmmoJs : création physiques
-            Ammo().then(
-                start
-            )
-            async function start(){
-                // On commence par afficher l'ecran de chargemement
-                loadScreen()
-                //
-                tmpTrans = new Ammo.btTransform();
-                // Physic : Ammo
-                setupPhysicsWorld()
-                // Crée l'élement scene et les différents élement permettant l'affichage
-                setupGraphics()
-                // Ajout les élement à la scene
-                await initScene()
-                // Ajout des cibles
-                await setTarget()
-                // Chargement des armes
-                await setWeapons()
-                // Setup des event clavier/souris
-                setupEventHandlers()
-                // Enlève l'ecran de chargement
-                ressourcesLoad = true
-                // Moteur de rendu, fait les frame
-                renderFrame()
-            }
-            ////
-            // Loading screen
-            ////
-            function loadScreen(){
-                loadingScreen = {
-                    scene: new THREE.Scene(),
-                    camera: new THREE.PerspectiveCamera(90, 1280/720, 0.1, 100),
-                    box: new THREE.Mesh(
-                        new THREE.BoxGeometry(0.5, 0.5, 0.5),
-                        new THREE.MeshBasicMaterial({ color:0x4444ff })
-                    )
-                }
-                // Préparation de l'écran de chargement
-                loadingScreen.box.position.set(0, 0, 5)
-                loadingScreen.camera.lookAt(0, 0, 5)
-                loadingScreen.scene.add(loadingScreen.box)
-            }
-            ////
-            // Setup AmmoJs
-            ////
-            function setupPhysicsWorld(){          
-                // J'ai pas tout capté, mais tous les premier éléments sont nécessaires pour la variable physicsWorld (où simulation physique s'effectue)
-                let collisionConfiguration = new Ammo.btDefaultCollisionConfiguration()
-                let dispatcher = new Ammo.btCollisionDispatcher(collisionConfiguration)
-                let overlappingPairCache = new Ammo.btDbvtBroadphase()
-                let solver = new Ammo.btSequentialImpulseConstraintSolver()
-                // Création monde physique
-                physicsWorld = new Ammo.btDiscreteDynamicsWorld(dispatcher, overlappingPairCache, solver, collisionConfiguration);
-                physicsWorld.setGravity(new Ammo.btVector3(0, -10, 0));
-                // Ouai ma vie c'est le truman show
-                tmpTrans = new Ammo.btTransform();
-                //
-            }
-            ////
-            // Création de la scene init des élements graphiques
-            ////
-            function setupGraphics(){
-                // Init caméra
-                camera = new THREE.PerspectiveCamera(75,canvas.clientWidth / canvas.clientHeight,0.1,100);
-                // Position camera
-                camera.position.set(0, player.height, 0)
-                camera.lookAt(40, player.height, 40)
-                // Init rendu
-                renderer = new THREE.WebGLRenderer()  // Import threejs
-                renderer.setSize(canvas.clientWidth, canvas.clientHeight);  // taille
-                renderer.shadowMap.enabled = true               // Active les ombres
-                renderer.shadowMap.type = THREE.BasicShadowMap  // Type d'ombres
-                // Créer le canvas
-                canvas.appendChild(renderer.domElement);
-                // Création scene
-                scene = new THREE.Scene()
-                // Ambient ligth
-                let ambientLight = new THREE.AmbientLight(0xffffff, 0.2)
-                scene.add(ambientLight)
-                // Light 
-                let light = new THREE.PointLight(0xfffffff, 0.8, 18)
-                light.position.set(2, 2, 2)
-                light.castShadow = true
-                light.shadow.camera.near = 0.1
-                light.shadow.camera.far = 25
-                scene.add(light) 
-            }   
-            ////
-            // Ajout des élements à la scene, chargement graphique des éléments
-            ////
-            async function initScene(){
-                // Sol
-                const floor = new THREE.Mesh(
-                    new THREE.PlaneGeometry(35, 35, 10, 10),
-                    new THREE.MeshBasicMaterial({color: 0x808080, wireframe: false})
-                )
-                floor.rotation.x -= Math.PI / 2;
-                scene.add(floor)
-                // Ajout des items du fichier sceneItems.js
-                const keys = Object.keys(sceneItems);
-                // Pour chaques items
-                for (const element of keys) {   
-                    const key = element;
-                    const sceneItem = sceneItems[key];
-                    try {
-                        // ------ THREEJS SECTION
-                        // Load items for scene
-                        const materialItem = await loadMTL(sceneItem.mtl);
-                        await materialItem.preload();
-
-                        const materielMesh = await loadOBJ(sceneItem.obj, materialItem);
-                        // Ombre de l'objet
-                        materielMesh.receiveShadow = true
-                        // Position
-                        materielMesh.position.set(
-                            sceneItem.position.x,
-                            sceneItem.position.y,
-                            sceneItem.position.z
-                        );
-                        // Rotation
-                        materielMesh.rotation.set(
-                            sceneItem.rotation.x,
-                            sceneItem.rotation.y,
-                            sceneItem.rotation.z,
-                        )
-                        // Echelle
-                        materielMesh.scale.set(
-                            sceneItem.scale, 
-                            sceneItem.scale, 
-                            sceneItem.scale
-                        );
-                        // Ajout de la mesh à l'objet de l'item
-                        sceneItem.mesh = materielMesh;
-                        // Ajout à la scene
-                        scene.add(materielMesh)
-
-                    } catch (error) {
-                        console.error("Erreur lors du chargement d'un élement de scene", error);
-                    } try {
-                        // ------ AMMOJS SECTION
-                        const AmmoJs = await new Ammo()
-                        let mass = 0    // Mass=0 : objet immobile
-                        let transform = new Ammo.btTransform()
-                        transform.setIdentity()
-                        // Position
-                        transform.setOrigin( new Ammo.btVector3( 
-                            sceneItem.position.x,
-                            sceneItem.position.y,
-                            sceneItem.position.z
-                        ));
-                        // Rotation
-                        transform.setRotation( new Ammo.btQuaternion( 0, 0, 0, 1 ) );
-                        let motionState = new Ammo.btDefaultMotionState( transform );
-                        // Echelle
-                        let colShape = new Ammo.btBoxShape( new Ammo.btVector3( 
-                            sceneItem.scale * 0.5, 
-                            sceneItem.scale * 0.5, 
-                            sceneItem.scale * 0.5
-                        ));
-                        colShape.setMargin( 0.05 );
-                        // Inertie
-                        let localInertia = new Ammo.btVector3( 0, 0, 0 );
-                        colShape.calculateLocalInertia( mass, localInertia );
-                        // Création de l'element physique, avec ses attributs
-                        let rbInfo = new Ammo.btRigidBodyConstructionInfo( mass, motionState, colShape, localInertia );
-                        let body = new Ammo.btRigidBody( rbInfo );                        
-                        // Ajout du body au monde physique, avec contraintes de colisions
-                        console.log("before add rigidBody")
-                        console.log(physicsWorld)
-                        console.log(body)
-                        physicsWorld.addRigidBody( body );
-                        // physicsWorld.addRigidBody( body, colGroupItems, colGroupBullets);
-                        console.log("after add rigidBody")
-                        // fonction 'createBlock', retourne même erreur que 'setScene' : RuntimeError: null function or function signature mismatch
-                        // Pourtant elle est appelée de la même façon dans index.html, Ammo est importé de la même façon, même version
-                        // Commencer par toute mettre dans le 'mounted' pour faire pareil que index.html
-                        // Vérifier que meme 'ammo.js' import
-
-                    } catch (error) {
-                        console.error("Erreur lors du chargement de la physique d'un élement", error);
-                    }
-                }
-                // // Image en 360 : stade
-                // const hdrTexture = new URL('../../assets/FondHdr/stadium.hdr', import.meta.url);
-                // const loader = new RGBELoader()
-                // // Set hdr on background
-                // loader.load(hdrTexture, function(texture){
-                //     texture.mapping = THREE.EquirectangularReflectionMapping
-                //     scene.background = texture;
-                // })
-            }
-            ////
-            // Fonctions pour charger les élements 'obj' et 'mtl'
-            ////
-            async function loadMTL(mtlPath) {                  // Decoupe de la fonction setWeapons, pour les await/async
-                return new Promise((resolve, reject) => {
-                    const mtlLoader = new MTLLoader();
-                    mtlLoader.load(mtlPath, resolve, undefined, reject);
-                });
-            }
-            async function loadOBJ(objPath, materials) {       // Decoupe de la fonction setWeapons, pour les await/async
-                return new Promise((resolve, reject) => {
-                    const objLoader = new OBJLoader();
-                    objLoader.setMaterials(materials);
-                    objLoader.load(objPath, resolve, undefined, reject);
-                });
-            }
-            ////
-            // Ajout des cibles sur la scene, chargement élements graphiques
-            ////
-            async function setTarget(){
-                // Ajout des items du fichier tagetItems.js
-                const keys = Object.keys(targetItems);
-                // Pour chaques items
-                for (const element of keys) {   
-                    const key = element;
-                    const targetItem = targetItems[key];
-                    try {
-                        // Load weapons
-                        const materialItem = await loadMTL(targetItem.mtl);
-                        await materialItem.preload();
-
-                        const materielMesh = await loadOBJ(targetItem.obj, materialItem);
-                        // Ombre de l'objet
-                        materielMesh.receiveShadow = true
-                        // Position
-                        materielMesh.position.set(
-                            targetItem.position.x,
-                            targetItem.position.y,
-                            targetItem.position.z
-                        );
-                        // Rotation
-                        materielMesh.rotation.set(
-                            targetItem.rotation.x,
-                            targetItem.rotation.y,
-                            targetItem.rotation.z,
-                        )
-                        // Echelle
-                        materielMesh.scale.set(
-                            targetItem.scale, 
-                            targetItem.scale, 
-                            targetItem.scale
-                        );
-                        // Ajout de la mesh à l'objet de l'item
-                        targetItem.mesh = materielMesh;
-                        // Ajout à la scene
-                        scene.add(materielMesh)
-
-                    } catch (error) {
-                    console.error("Erreur lors du chargement de l'arme", error);
-                    }
-                }
-            }
-            ////
-            // Chargement graphique des armes
-            ////
-            async function setWeapons(){
-                let playerWeapon = player.weapon
-                // Permet d'avoir un id par item
-                const keys = Object.keys(weapons);
-                // Pour chaques items
-                for (const element of keys) {   
-                    const key = element;
-                    const weapon = weapons[key];
-
-                    try {
-                        // Load weapons
-                        const materials = await loadMTL(weapon.mtl);
-
-                        await materials.preload();
-
-                        const weaponMesh = await loadOBJ(weapon.obj, materials);
-                        weaponMesh.receiveShadow = true
-                        // Position et taille de l'arme
-                        weaponMesh.position.set(1, 2, 0);
-                        weaponMesh.scale.set(5, 5, 5);
-                        weaponMesh.name = key
-                        weapon.mesh = weaponMesh;
-
-                        if(playerWeapon == key){
-                            player.weapon = key
-                            player.weaponMesh = weaponMesh
-                            await scene.add(weaponMesh);
-                        }
-                        // Load ammo for weapon
-                        const ammoMaterials = await loadMTL(weapon.ammo.mtl);
-
-                        await materials.preload();
-
-                        const ammoMesh = await loadOBJ(weapon.ammo.obj, ammoMaterials);
-                        ammoMesh.receiveShadow = true
-                        ammoMesh.scale.set(8,8,8)
-
-                        weapon.ammo.mesh = ammoMesh;
-                    } catch (error) {
-                    console.error("Erreur lors du chargement de l'arme", error);
-                    }
-                }
-            }
-            ////
-            // Mise en place des fonction d'évenement
-            ////
-            function setupEventHandlers(){
-                document.addEventListener('mousemove', (e) => onMouseMove(e), false)
-                document.addEventListener('click', (e) => onClick(e), false)
-                document.addEventListener('contextmenu', (e) => onContextMenu(e), false)
-                document.addEventListener('keyup', (e) => keyUp(e), false)
-                document.addEventListener('keydown', (e) => keyDown(e), false)
-            }
-            // Déplace a vue, avec la souris
-            function onMouseMove(e){
-                // Point milieu de l'écran
-                const middleX = window.innerWidth / 2
-                const middleY = window.innerHeight / 2
-                
-                // Différence entre le milieu, et le curseur
-                const diffX = middleX - e.x
-                const diffY = middleY - e.y
-                // Rapport entre x et y
-                const rapport = (window.innerWidth / window.innerHeight)
-                // Equivalence entre la différence en px, et l'angle de la cam
-                const angleRotX = ((diffX * 360)/window.innerWidth)/65 + 260
-                const angleRotY = ((diffY * 360)/window.innerHeight)/(25*rapport) 
-                // Assignement des angles à la cam     
-                // ROTATION : 1 tour = 2PI
-                // ROTATION : 1 tour = 2PI
-                camera.rotation.set(
-                    0,
-                    angleRotX, 
-                    0
-                )
-            }
-            // Tire au click
-            function onClick(e){
-                if(player.canShoot){
-                    // Permet de limiter le nombre de tire par secondes, en fonction des armes
-                    player.canShoot = false
-                    // Parametres de l'arme du jour. Mise dans variable pour simplifier les appels ensuite
-                    let playerWeaponParameters = weapons[player.weapon].parameters
-                    // Si il reste des balles dans le chargeur, -1, et tirer normalement
-                    if(playerWeaponParameters.remainBullets > 0){
-                        playerWeaponParameters.remainBullets = playerWeaponParameters.remainBullets - 1
-                        // Timer de cadence de tire
-                        setTimeout(function(){
-                            player.canShoot = true
-                        }, playerWeaponParameters.shootTimer)
-
-                        // Balle, en fonction de l'arme
-                        let bullet = weapons[player.weapon].ammo.mesh.clone()   
-                        // Position de départ de la munition, en fonction de la vue (visé ou non)
-                        if(zoomList[zoomList.length - 1] == 'not-aim'){
-                            bullet.position.x = camera.position.x - Math.sin(camera.rotation.y - Math.PI/6) * 0.6,
-                            bullet.position.y = player.height - 0.13
-                            bullet.position.z = camera.position.z - Math.cos(camera.rotation.y - Math.PI/6) * 0.6
-                        } else {
-                            bullet.position.set(
-                                camera.position.x - Math.sin(camera.rotation.y) * 0.6,
-                                camera.position.y - playerWeaponParameters.positionAimY,    // Position en fonction de l'arme
-                                camera.position.z - Math.cos(camera.rotation.y) * 0.6
-                            )
-                        }
-                        // Ombre
-                        bullet.receiveShadow = true
-                        // Aligne la balle par rapport à l'arme
-                        bullet.rotation.set(
-                            camera.rotation.x,
-                            camera.rotation.y + Math.PI/2,
-                            camera.rotation.z - Math.PI/2
-                        )
-                        // Direction de déplacement des balles, en fonction de la caméra
-                        bullet.velocity = new THREE.Vector3(
-                            -Math.sin(camera.rotation.y),
-                            0,                      // Math.sin(this.camera.rotation.x),
-                            -Math.cos(camera.rotation.y),
-                        )
-                        bullet.speed = 2
-                        // affiche bullet
-                        bullet.alive = true;
-                        // Timer 'durée de vie' de la balle
-                        setTimeout(function(){
-                            bullet.alive = false
-                            scene.remove(bullet)
-                        }, 2000)
-                        // Ajout à la liste des balles
-                        bullets.push(bullet)
-                        // Ajout la bullet à la scene
-                        scene.add(bullet)
-                        // Si plus de balles dans chargeur, recharge
-                        if(playerWeaponParameters.remainBullets == 0){
-                            // On enlève un chargeur
-                            playerWeaponParameters.remainLoaders = playerWeaponParameters.remainLoaders - 1
-                            // Le joueur peut pas tirer pendant le chargement
-                            player.canShoot = false    
-                            // Timer chargement arme
-                            setTimeout(function(){
-                                // Remises des balles dans le chargeur
-                                playerWeaponParameters.remainBullets = playerWeaponParameters.loader
-                                // Peut tirer
-                                player.canShoot = true
-                            }, playerWeaponParameters.loadTimer)
-                        }
-                    }
-                }
-            }
-            // Click droit = viser !
-            function onContextMenu(e){
-                // Désactive le menu en clique droit
-                e.preventDefault()
-                // Active le zoom ou non
-                if(zoom){
-                    camera.fov = 40;
-                    camera.updateProjectionMatrix();
-                    document.getElementsByClassName('icon-viseur')[0].style.height = '60px'
-                    document.getElementsByClassName('icon-viseur')[0].style.width = '60px'
-                    // Passe l'arme en mode 'visé'
-                    zoomList.push("aim")
-                } else {
-                    camera.fov = 75;
-                    camera.updateProjectionMatrix();
-                    document.getElementsByClassName('icon-viseur')[0].style.height = '40px'
-                    document.getElementsByClassName('icon-viseur')[0].style.width = '40px'
-                    // Passe l'arme en mode visé
-                    zoomList.push("not-aim")
-                }
-                zoom = !zoom
-            }
-            function keyDown(e){
-                keyboard[e.keyCode] = true
-                keyUse()
-            }
-            function keyUp(e){
-                keyboard[e.keyCode] = false
-            }
-            function keyUse(){
-                // if(keyboard[49]){   // Keyboard 1
-                //     this.viseur = new URL('../../assets/Icons/viseur_white.png', import.meta.url).href
-                // } else if(keyboard[50]){   // Keyboard 2
-                //     this.viseur = new URL('../../assets/Icons/viseur_red.png', import.meta.url).href
-                // } else if(keyboard[51]){   // Keyboard 3
-                //     this.viseur = new URL('../../assets/Icons/viseur_yellow.png', import.meta.url).href
-                // } else if(keyboard[52]){   // Keyboard 4
-                //     this.viseur = new URL('../../assets/Icons/viseur_green.png', import.meta.url).href
-                // } else if(keyboard[53]){   // Keyboard 5
-                //     this.viseur = new URL('../../assets/Icons/viseur_blue.png', import.meta.url).href
-                // } else if(keyboard[54]){   // Keyboard 6
-                //     this.viseur = new URL('../../assets/Icons/viseur_purple.png', import.meta.url).href
-                // } else if(keyboard[55]){   // Keyboard 7
-                //     this.viseur = new URL('../../assets/Icons/viseur_black.png', import.meta.url).href
-                // } 
-                // else if(this.keyboard[90]){   // Z : avancer
-                //     this.camera.position.x += 0.1
-                // } else if(this.keyboard[83]){   // S : reculer
-                //     this.camera.position.x -= 0.1
-                // } else if(this.keyboard[81]){   // Q : gauche
-		        //     this.camera.position.z += 0.1
-                // } else if(this.keyboard[68]){   // D : droite
-		        //     this.camera.position.z -= 0.1
-                // }
-            }    
-            ////
-            // Permet de changer d'arme en fonction du score
-            ////
-            function changeWeapon(){ // Fonction qui permet de changer d'arme
-                let change = false
-                // On commence par choisir l'arme en fonction du score, on active change, et set l'arme précédente
-                if(score == 2){
-                    previousWeapon.push('pistolSilencer')
-                    player.weapon = 'shotgun'
-                    change = true
-                } else if(score == 4){
-                    previousWeapon.push('shotgun')
-                    player.weapon = 'uzi'
-                    change = true
-                } else if(score == 6){
-                    previousWeapon.push('uzi')
-                    player.weapon = 'uziLongSilencer'
-                    change = true
-                } else if(score == 8){
-                    previousWeapon.push('uziLongSilencer')
-                    player.weapon = 'machinegun'
-                    change = true
-                } else if(score == 10){
-                    previousWeapon.push('machinegun')
-                    player.weapon = 'sniperCamo'
-                    change = true
-                } else if(score == 12){
-                    previousWeapon.push('sniperCamo')
-                    player.weapon = 'rocketlauncher'
-                    change = true
-                } else if(score == 14){
-                    previousWeapon.push('rocketlauncher')
-                    player.weapon = 'flamethrower'
-                    change = true
-                }
-                if(change){ // Si besoin de changer d'arme
-                    let objectToRemove = null                   // Var qui va recevoir l'objet de l'ancienne arme, à enlever
-                    let nextWeapon = player.weapon         // Récupère arme actuel, dans les données user
-                    lastWeaponList.push(nextWeapon)        // On ajout à la liste des armes, pour la boucle animate 
-                    let previousWeapon = previousWeapon[previousWeapon.length - 1]        // Arme précédente, pour trouver quel objet supprimer
-                    // On 'traverse' la liste des objets sur la scene, pour trouver les meshs
-                    scene.traverse( function( object ) {
-                        if(object.isObject3D && object.name == previousWeapon){  // 3DObject peut être enlevé de la scène
-                            objectToRemove = object
-                        }
-                    });
-                    // Supprime de la scene 
-                    scene.remove(objectToRemove)
-                    // Créer un nouveau mesh pour poser l'arme 
-                    let newMeshWeapon = weapons[nextWeapon].mesh.clone()
-                    // Vision gun : Position
-                    let time = Date.now() * 0.0005
-                    newMeshWeapon.position.set(
-                        camera.position.x - Math.sin(camera.rotation.y - Math.PI/6) * 0.6,
-                        camera.position.y - 0.2 + Math.sin(time*4 + camera.rotation.x + camera.rotation.z)*0.01,
-                        camera.position.z - Math.cos(camera.rotation.y - Math.PI/6) * 0.6
-                    )
-                    // Rotation
-                    newMeshWeapon.rotation.set(
-                        camera.rotation.x,
-                        camera.rotation.y + Math.PI,
-                        camera.rotation.z
-                    )
-                    scene.add(newMeshWeapon)
-                }
-            } 
-            ////
-            // Moteur de rendu, fait les frame
-            ////
-            function renderFrame() {
-                // Ecran de chargement
-                if(!ressourcesLoad){
-                    requestAnimationFrame(renderFrame)
-                    // Mouvement de la box
-                    loadingScreen.box.position.x -= 0.05
-                    if(loadingScreen.box.position.x < -10) loadingScreen.box.position.x = 10
-                    loadingScreen.box.position.y = Math.sin(loadingScreen.box.position.x)
-
-                    renderer.render(loadingScreen.scene, loadingScreen.camera)
-                    return
-                }
-                // AmmoJs update physics : create clock for timing
-                let clock = new THREE.Clock();
                 let deltaTime = clock.getDelta();
+
+                moveBall();
+
                 updatePhysics( deltaTime );
 
-                renderer.render(scene, camera);
-                requestAnimationFrame(renderFrame);
-                // Movement 
-                let time = Date.now() * 0.0005
-                let actualWeaponAnimate = lastWeaponList[lastWeaponList.length - 1] // Dernier élément de la liste
+                renderer.render( scene, camera );
+
+                requestAnimationFrame( renderFrame );
+
+            }
+
+
+            function setupEventHandlers(){
+
+                window.addEventListener( 'resize', onWindowResize, false );
+                window.addEventListener( 'keydown', handleKeyDown, false);
+                window.addEventListener( 'keyup', handleKeyUp, false);
+
+            }
+
+
+            function onWindowResize() {
+
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+
+                renderer.setSize( window.innerWidth, window.innerHeight );
+
+            }
+
+            
+            function handleKeyDown(event){
+
+                let keyCode = event.keyCode;
+
+                switch(keyCode){
+
+                    case 87: //W: FORWARD
+                        moveDirection.forward = 1;
+                        break;
+                        
+                    case 83: //S: BACK
+                        moveDirection.back = 1;
+                        break;
+                        
+                    case 65: //A: LEFT
+                        moveDirection.left = 1;
+                        break;
+                        
+                    case 68: //D: RIGHT
+                        moveDirection.right = 1;
+                        break;
+
+                    case 84://T
+                        checkContact();
+                        break;
+                                            
+                    case 74://J
+                        jump();
+                        break;
+                        
+                }
+            }
+
+
+            function handleKeyUp(event){
+                let keyCode = event.keyCode;
+
+                switch(keyCode){
+                    case 87: //W: FORWARD
+                        moveDirection.forward = 0;
+                        break;
+                        
+                    case 83: //S: BACK
+                        moveDirection.back = 0;
+                        break;
+                        
+                    case 65: //A: LEFT
+                        moveDirection.left = 0;
+                        break;
+                        
+                    case 68: //D: RIGHT
+                        moveDirection.right = 0;
+                        break;
+                }
+
+            }
+
+
+            function createFloorTiles(){
+                let tiles = [
+                    { name: "yellow", color: 0xFFFF00, pos: {x: -20, y: 0, z: 20} },
+                    { name: "red", color: 0xFF0000, pos: {x: 20, y: 0, z: 20} },
+                    { name: "green", color: 0x008000, pos: {x: 20, y: 0, z: -20} },
+                    { name: "blue", color: 0x0000FF, pos: {x: -20, y: 0, z: -20} }
+                ]
                 
-                let weaponActuel = null
-                // On récupère l'objet mesh de l'arme, pour pouvoir modifier sa position, rotation...
-                scene.traverse( function( object ) {
-                    if(object.isObject3D && object.name == actualWeaponAnimate){  
-                        weaponActuel = object
-                    }
-                });
-                let zoomView = zoomList[zoomList.length - 1]
-                if(zoomView == 'not-aim'){      // Vue normal
-                    // Vision gun : Position
-                    weaponActuel.position.set(
-                        camera.position.x - Math.sin(camera.rotation.y - Math.PI/6) * 0.6,
-                        camera.position.y - 0.2 + Math.sin(time*4 + camera.rotation.x + camera.rotation.z)*0.01,
-                        camera.position.z - Math.cos(camera.rotation.y - Math.PI/6) * 0.6
-                    )
-                    // Rotation
-                    weaponActuel.rotation.set(
-                        camera.rotation.x,
-                        camera.rotation.y + Math.PI,
-                        camera.rotation.z
-                    )
-                } else {                        // Vue visé
-                    // Vision gun : Position
-                    weaponActuel.position.set(
-                        camera.position.x - Math.sin(camera.rotation.y) * 0.6,
-                        camera.position.y - weapons[actualWeaponAnimate].parameters.positionAimY,    // Position en fonction de l'arme
-                        camera.position.z - Math.cos(camera.rotation.y) * 0.6
-                    )
-                    // Rotation
-                    weaponActuel.rotation.set(
-                        camera.rotation.x,
-                        camera.rotation.y + Math.PI,
-                        camera.rotation.z
-                    )
+                let scale = {x: 40, y: 6, z: 40};
+                let quat = {x: 0, y: 0, z: 0, w: 1};
+                let mass = 0;
+
+                for (const tile of tiles) {
+                        
+                    //threeJS Section
+                    let pos = tile.pos;
+                    let mesh = new THREE.Mesh(new THREE.BoxBufferGeometry(), new THREE.MeshPhongMaterial({color: tile.color}));
+
+                    mesh.position.set(pos.x, pos.y, pos.z);
+                    mesh.scale.set(scale.x, scale.y, scale.z);
+
+                    mesh.castShadow = true;
+                    mesh.receiveShadow = true;
+
+                    mesh.userData.tag = tile.name;
+
+                    scene.add(mesh);
+
+
+                    //Ammojs Section
+                    let transform = new Ammo.btTransform();
+                    transform.setIdentity();
+                    transform.setOrigin( new Ammo.btVector3( pos.x, pos.y, pos.z ) );
+                    transform.setRotation( new Ammo.btQuaternion( quat.x, quat.y, quat.z, quat.w ) );
+                    let motionState = new Ammo.btDefaultMotionState( transform );
+
+                    let colShape = new Ammo.btBoxShape( new Ammo.btVector3( scale.x * 0.5, scale.y * 0.5, scale.z * 0.5 ) );
+                    colShape.setMargin( 0.05 );
+
+                    let localInertia = new Ammo.btVector3( 0, 0, 0 );
+                    colShape.calculateLocalInertia( mass, localInertia );
+
+                    let rbInfo = new Ammo.btRigidBodyConstructionInfo( mass, motionState, colShape, localInertia );
+                    let body = new Ammo.btRigidBody( rbInfo );
+
+                    body.setFriction(4);
+                    body.setRollingFriction(10);
+
+                    physicsWorld.addRigidBody( body );
+
+                    body.threeObject = mesh;
+
+                    if( tile.name == "red"){
+
+                        mesh.userData.physicsBody = body;
+                        redTile = mesh;
+
+                    } 
+                    
                 }
-                // Permet de déplacer les balles à chaque frame
-                for(var i = 0; i< bullets.length; i+= 1){
-                    if(bullets[i] === undefined) continue;
-                    if(bullets[i].alive == false){
-                        bullets.splice(i, 1)
-                        continue
-                    }
 
-                    // Déplace la balle
-                    bullets[i].position.add(bullets[i].velocity)
-                    // Positions de la balle
-                    let bulletPosX = bullets[i].position.x
-                    let bulletPosZ = bullets[i].position.z
-                    // Vérification de chaque axe, pour que les 2 soient validés
-                    let axeX = false
-                    let axeZ = false
-                    // On prend chaque cibles, et on voit ses coordonnées. Permet de faire un 'for'
-                    const keysTarget = Object.keys(targetItems);
-                    // Pour chaques items
-                    for (const element of keysTarget) {   
-                        const meshTarget = targetItems[element]
-                        // Caractéristiques du mesh
-                        let meshPosX = meshTarget.position.x
-                        let meshPosZ = meshTarget.position.z
-                        let scale = meshTarget.scale
-                        // Booleens des vérifs de chaques axes
-                        let verifAxeX = (meshPosX - scale) < bulletPosX && bulletPosX < (meshPosX + scale) && !axeX
-                        let verifAxeZ = (meshPosZ - scale) < bulletPosZ && bulletPosZ < (meshPosZ + scale) && !axeZ
-                        // Si les 2 sont vrais, cible !
-                        if(verifAxeX && verifAxeZ){
-                            // Incremente le score
-                            score = score + 1
-                            eventBus.emit("scoreChange", (score))
-                            // supprime le mesh, pour l'enlenver de la map
-                            let data = [meshTarget, score]
-                            eventBus.emit("moveThisMesh", (data))
-                        }
+            }
+
+
+            function createBall(){
+                
+                let pos = {x: 0, y: 10, z: 0};
+                let radius = 1.5;
+                let quat = {x: 0, y: 0, z: 0, w: 1};
+                let mass = 1;
+
+                //threeJS Section
+                ball = ballObject = new THREE.Mesh(new THREE.SphereBufferGeometry(radius), new THREE.MeshPhongMaterial({color: 0x800080}));
+
+                ball.position.set(pos.x, pos.y, pos.z);
+                
+                ball.castShadow = true;
+                ball.receiveShadow = true;
+                
+                ball.userData.tag = "ball";
+
+                scene.add(ball);
+
+
+                //Ammojs Section
+                let transform = new Ammo.btTransform();
+                transform.setIdentity();
+                transform.setOrigin( new Ammo.btVector3( pos.x, pos.y, pos.z ) );
+                transform.setRotation( new Ammo.btQuaternion( quat.x, quat.y, quat.z, quat.w ) );
+                let motionState = new Ammo.btDefaultMotionState( transform );
+
+                let colShape = new Ammo.btSphereShape( radius );
+                colShape.setMargin( 0.05 );
+
+                let localInertia = new Ammo.btVector3( 0, 0, 0 );
+                colShape.calculateLocalInertia( mass, localInertia );
+
+                let rbInfo = new Ammo.btRigidBodyConstructionInfo( mass, motionState, colShape, localInertia );
+                let body = new Ammo.btRigidBody( rbInfo );
+
+                body.setFriction(4);
+                body.setRollingFriction(10);
+
+                body.setActivationState( STATE.DISABLE_DEACTIVATION )
+
+
+                physicsWorld.addRigidBody( body );
+                rigidBodies.push(ball);
+                
+                ball.userData.physicsBody = body;
+                
+                body.threeObject = ball;
+                
+            }
+
+            function setupContactResultCallback(){
+
+                cbContactResult = new Ammo.ConcreteContactResultCallback();
+                
+                cbContactResult.addSingleResult = function(cp, colObj0Wrap, partId0, index0, colObj1Wrap, partId1, index1){
+                    
+                    let contactPoint = Ammo.wrapPointer( cp, Ammo.btManifoldPoint );
+
+                    const distance = contactPoint.getDistance();
+
+                    if( distance > 0 ) return;
+
+                    let colWrapper0 = Ammo.wrapPointer( colObj0Wrap, Ammo.btCollisionObjectWrapper );
+                    let rb0 = Ammo.castObject( colWrapper0.getCollisionObject(), Ammo.btRigidBody );
+                    
+                    let colWrapper1 = Ammo.wrapPointer( colObj1Wrap, Ammo.btCollisionObjectWrapper );
+                    let rb1 = Ammo.castObject( colWrapper1.getCollisionObject(), Ammo.btRigidBody );
+
+                    let threeObject0 = rb0.threeObject;
+                    let threeObject1 = rb1.threeObject;
+
+                    let tag, localPos, worldPos
+
+                    if( threeObject0.userData.tag != "ball" ){
+
+                        tag = threeObject0.userData.tag;
+                        localPos = contactPoint.get_m_localPointA();
+                        worldPos = contactPoint.get_m_positionWorldOnA();
+
                     }
+                    else{
+
+                        tag = threeObject1.userData.tag;
+                        localPos = contactPoint.get_m_localPointB();
+                        worldPos = contactPoint.get_m_positionWorldOnB();
+
+                    }
+                    
+                    let localPosDisplay = {x: localPos.x(), y: localPos.y(), z: localPos.z()};
+                    let worldPosDisplay = {x: worldPos.x(), y: worldPos.y(), z: worldPos.z()};
+
+                    console.log( { tag, localPosDisplay, worldPosDisplay } );
+                    
                 }
-            };
+
+            }
 
 
-            // AmmoJs
-            function updatePhysics(deltaTime){
+            function setupContactPairResultCallback(){
+
+                cbContactPairResult = new Ammo.ConcreteContactResultCallback();
+                
+                cbContactPairResult.hasContact = false;
+
+                cbContactPairResult.addSingleResult = function(cp, colObj0Wrap, partId0, index0, colObj1Wrap, partId1, index1){
+                    
+                    let contactPoint = Ammo.wrapPointer( cp, Ammo.btManifoldPoint );
+
+                    const distance = contactPoint.getDistance();
+
+                    if( distance > 0 ) return;
+
+                    this.hasContact = true;
+                    
+                }
+
+            }
+
+
+
+            function moveBall(){
+
+                let scalingFactor = 20;
+
+                let moveX =  moveDirection.right - moveDirection.left;
+                let moveZ =  moveDirection.back - moveDirection.forward;
+
+                if( moveX == 0 && moveZ == 0) return;
+
+                let resultantImpulse = new Ammo.btVector3( moveX, 0, moveZ )
+                resultantImpulse.op_mul(scalingFactor);
+
+                let physicsBody = ball.userData.physicsBody;
+                physicsBody.setLinearVelocity( resultantImpulse );
+
+            }
+
+
+            function checkContact(){
+
+                physicsWorld.contactTest( ball.userData.physicsBody , cbContactResult );
+
+            }
+
+
+            function jump(){
+
+                cbContactPairResult.hasContact = false;
+
+                physicsWorld.contactPairTest(ball.userData.physicsBody, redTile.userData.physicsBody, cbContactPairResult);
+
+                if( !cbContactPairResult.hasContact ) return;
+
+                let jumpImpulse = new Ammo.btVector3( 0, 15, 0 );
+
+                let physicsBody = ball.userData.physicsBody;
+                physicsBody.setLinearVelocity( jumpImpulse );
+
+            }
+
+
+            function updatePhysics( deltaTime ){
+
                 // Step world
                 physicsWorld.stepSimulation( deltaTime, 10 );
-                
+
                 // Update rigid bodies
                 for ( let i = 0; i < rigidBodies.length; i++ ) {
                     let objThree = rigidBodies[ i ];
@@ -690,10 +450,11 @@
                         let q = tmpTrans.getRotation();
                         objThree.position.set( p.x(), p.y(), p.z() );
                         objThree.quaternion.set( q.x(), q.y(), q.z(), q.w() );
+
                     }
                 }
-            };
-    
+
+            }
 
 
         </script>

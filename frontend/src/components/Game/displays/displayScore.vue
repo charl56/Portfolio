@@ -1,6 +1,6 @@
 <template>
-    <div v-if="!playerDeath" class="score d-flex align-center justify-center">
-        <p class="text-h6 p-score px-6 py-0">Score : {{ score }}</p>
+    <div v-if="!playerDeath" class="score d-flex justify-end pb-5 mb-15">
+        <p class="text-h6 p-score px-6 py-0 font-weight-bold">{{ score }}</p>
     </div>   
     <div v-else class="death-score mt-7 d-flex align-start justify-center">
         <p class="p-death-score px-6 py-0">Score : {{ score }}</p>
@@ -41,19 +41,17 @@ export default {
   <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .score{
-    top: 0;
+    bottom: 0;
     width: 100%;
 }.death-score{
-    left: 0;
-    top: 0;
+    right: 0;
+    bottom: 0;
     position: fixed;
     height: 50%;
     width: 100%;
 }
 .p-score{
-    background-color: rgb(169, 169, 169);
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
+    color: white;
 }.p-death-score{
     background-color: rgb(169, 169, 169);
     border-radius: 10px;

@@ -1124,27 +1124,6 @@
                             camera.rotation.z
                         )
                     }   
-
-                    // Snike
-                    // if (keyboard[20]) { 
-                    //     camera.position.y = 1;
-                    // } else if(player.canJump) {
-                    //     camera.position.y = player.height;
-                    // }
-                    // Space : jump !
-                    if (keyboard[32] && player.canJump) { 
-                        player.canJump = false
-                        velocity_y = 8;
-                    }
-                    camera.position.y+=velocity_y*deltaTime;
-                    if(!player.canJump){
-                        velocity_y-=9.8*2*deltaTime;
-                        if(camera.position.y<=1.8){
-                        player.canJump = true
-                        velocity_y=0;
-                        camera.position.y= 1.8;
-                        }
-                    }
                 };
             }
             // AmmoJs
@@ -1279,6 +1258,10 @@
                     this.theta_ = 0;
                     this.thetaSpeed_ = 5;
                     this.playerSpeed = 7
+                    this.velocity_y = 0
+                    this.playerCanJump = true
+                    this.clock = new THREE.Clock()
+                    this.deltaTime = null
                 }
 
                 update(timeElapsedS) {
@@ -1292,13 +1275,27 @@
                     this.camera_.quaternion.copy(this.rotation_);
                     this.camera_.position.copy(this.translation_);
 
-                    // Snike
+                    let deltaTime = 0.0165
+                    // Snike : accroupi
                     if(this.input_.key(20)){      
                         this.camera_.position.y = 1
-                    } else {
-                        this.camera_.position.y = 1.8
+                    } 
+                    // Space : jump !
+                    if (this.input_.key(32) && this.playerCanJump) { 
+                        this.playerCanJump = false
+                        this.velocity_y = 100;
+                        this.camera_.position.y+=(this.velocity_y/2)*deltaTime;
                     }
-
+                    this.camera_.position.y+=this.velocity_y*deltaTime;
+                    if(!this.playerCanJump){
+                        this.velocity_y-=9.8*30*deltaTime;
+                        console.log(this.velocity_y, "\n", deltaTime)
+                        if(this.camera_.position.y<=1.8){
+                            this.playerCanJump = true
+                            this.velocity_y=0;
+                            this.camera_.position.y= 1.8;
+                        }
+                    }
                     const forward = new THREE.Vector3(0, 0, -1);
                     forward.applyQuaternion(this.rotation_);
 
