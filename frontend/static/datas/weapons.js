@@ -16,7 +16,10 @@ let weapons = {
             loader: 15,                             // Balles par chargeur
             remainBullets: 15,                      // Balles restantes dans le chargeur
             remainLoaders: 5,                        // Chargeurs restants
-        }
+        },
+        soundSrc: './static/Sounds/Actions/Suuu.mp3',
+        price: 0,
+        ammoPrice: 300,
     },
     pistolSilencer: {
         obj: './static/Models/Weapon_Pack/pistolSilencer.obj',
@@ -37,6 +40,8 @@ let weapons = {
             remainLoaders: 5,
         },
         soundSrc: './static/Sounds/Actions/Suuu.mp3',
+        price: 0,
+        ammoPrice: 300,
     },
     shotgun: {
         obj: './static/Models/Weapon_Pack/shotgun.obj',
@@ -55,7 +60,10 @@ let weapons = {
             loader: 8,
             remainBullets: 8,
             remainLoaders: 5,
-        }
+        },
+        soundSrc: './static/Sounds/Actions/Suuu.mp3',
+        price: 600,
+        ammoPrice: 400,
     },
     uzi:{
         obj: './static/Models/Weapon_Pack/uzi.obj',
@@ -74,7 +82,10 @@ let weapons = {
             loader: 30,
             remainBullets: 30,
             remainLoaders: 4,
-        }
+        },
+        soundSrc: './static/Sounds/Actions/Suuu.mp3',
+        price: 600,
+        ammoPrice: 400,
     },
     uziLong:{
         obj: './static/Models/Weapon_Pack/uziLong.obj',
@@ -93,7 +104,10 @@ let weapons = {
             loader: 30,
             remainBullets: 30,
             remainLoaders: 4,
-        }
+        },
+        soundSrc: './static/Sounds/Actions/Suuu.mp3',
+        price: 500,
+        ammoPrice: 400,
     },
     uziLongSilencer: {
         obj: './static/Models/Weapon_Pack/uziLongSilencer.obj',
@@ -112,7 +126,10 @@ let weapons = {
             loader: 30,
             remainBullets: 30,
             remainLoaders: 4,
-        }
+        },
+        soundSrc: './static/Sounds/Actions/Suuu.mp3',
+        price: 600,
+        ammoPrice: 400,
     },
     machinegun: {
         obj: './static/Models/Weapon_Pack/machinegun.obj',
@@ -131,7 +148,10 @@ let weapons = {
             loader: 30,
             remainBullets: 30,
             remainLoaders: 4,
-        }
+        },
+        soundSrc: './static/Sounds/Actions/Suuu.mp3',
+        price: 1000,
+        ammoPrice: 500,
     },
     sniper: {
         obj: './static/Models/Weapon_Pack/sniper.obj',
@@ -150,7 +170,10 @@ let weapons = {
             loader: 5,
             remainBullets: 5,
             remainLoaders: 5,
-        }
+        },
+        soundSrc: './static/Sounds/Actions/Suuu.mp3',
+        price: 2000,
+        ammoPrice: 500,
     },
     sniperCamo: {
         obj: './static/Models/Weapon_Pack/sniperCamo.obj',
@@ -169,7 +192,10 @@ let weapons = {
             loader: 5,
             remainBullets: 5,
             remainLoaders: 5,
-        }
+        },
+        soundSrc: './static/Sounds/Actions/Suuu.mp3',
+        price: 2000,
+        ammoPrice: 500,
     },
     rocketlauncher: {
         obj: './static/Models/Weapon_Pack/rocketlauncher.obj',
@@ -188,7 +214,10 @@ let weapons = {
             loader: 2,
             remainBullets: 2,
             remainLoaders: 5,
-        }
+        },
+        soundSrc: './static/Sounds/Actions/Suuu.mp3',
+        price: 4000,
+        ammoPrice: 600,
     },
     rocketlauncherModern: {
         obj: './static/Models/Weapon_Pack/rocketlauncherModern.obj',
@@ -207,7 +236,10 @@ let weapons = {
             loader: 2,
             remainBullets: 2,
             remainLoaders: 5,
-        }
+        },
+        soundSrc: './static/Sounds/Actions/Suuu.mp3',
+        price: 4000,
+        ammoPrice: 600,
     },
     flamethrower: {
         obj: './static/Models/Weapon_Pack/flamethrower.obj',
@@ -226,7 +258,10 @@ let weapons = {
             loader: 10,
             remainBullets: 10,
             remainLoaders: 5,
-        }
+        },
+        soundSrc: './static/Sounds/Actions/Suuu.mp3',
+        price: 4000,
+        ammoPrice: 600,
     },
     knife: {
         obj: './static/Models/Weapon_Pack/knifeRound_smooth.obj',
@@ -237,10 +272,13 @@ let weapons = {
             positionNotAim: 0,
             shootTimer: 170,
             loadTimer: 2000,
-            loader: 1000,
-            remainBullets: 1000,
-            remainLoaders: 500,
-        }
+            loader: 1,
+            remainBullets: '∞',
+            remainLoaders: '∞',
+        },
+        soundSrc: './static/Sounds/Actions/Suuu.mp3',
+        price: 0,
+        ammoPrice: 0,
     },
 }
 

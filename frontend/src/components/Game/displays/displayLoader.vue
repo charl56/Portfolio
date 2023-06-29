@@ -1,7 +1,7 @@
 <template>
     <div class="loader mx-2 my-2 px-3 py-2 d-flex align-center">
         <v-progress-circular class="mr-2" color="white" :model-value="loaderValue"></v-progress-circular>
-        <p class="text-h5 font-weight-bold">{{ remainBullets }} </p>
+        <p class="text-h5 font-weight-bold" id="remain-bullet">{{ remainBullets }} </p>
         <p class="text-h6 font-weight-bold">/ {{ loader * remainLoaders }}</p>
     </div>   
 </template>
@@ -30,6 +30,7 @@ export default {
         remainBullets: function(val){
             // Si plus de balles, affiche chargement
             if(val == 0){
+                document.getElementById("remain-bullet").style.color = "red"
                 this.loaderValue = 0                    // Valeur chargement à 0
                 let wait = this.loadTimer / 10         // Divise le temps de chargement par 100, pour le loader (valeur de 0-100 )
                 let loadInterval = setInterval(() => {                     // Incrément de 1 tous les loadTimer/100
@@ -38,7 +39,8 @@ export default {
                         clearInterval(loadInterval);        // On arrête la boucle 
                     }
                 }, wait)      
-
+            } else {
+                document.getElementById("remain-bullet").style.color = "white"
             }
         }
     },
