@@ -19,18 +19,16 @@
 <script>
     // ThreeJs
     import * as THREE from 'three';
-    import { MTLLoader } from 'three/addons/loaders/MTLLoader.js';
-    import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';
-    import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
-    // POV
-    import { FirstPersonControls } from '../../plugins/FirstPersonControls';
+    import { MTLLoader } from 'three/addons/loaders/MTLLoader.js';      // Pour les objets
+    import { OBJLoader } from 'three/addons/loaders/OBJLoader.js';      // //
+    import { RGBELoader } from 'three/addons/loaders/RGBELoader.js'
+    import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'; // Pour les animation
     // Plugins
     import { eventBus } from '../../plugins/eventBus'
     import '../../plugins/ammo'
     // Import datas
     import weapons from '../../../static/datas/weapons'
-    import {sceneItems} from '../../../static/datas/Maps/Map_Zombie_Ville'
-    import {spawnsCoord} from '../../../static/datas/Maps/Map_Zombie_Ville'
+    import {sceneItems, spawnsCoord, weaponsCoord} from '../../../static/datas/Maps/Map_Zombie_Ville'
     import targetItems from '../../../static/datas/targetItems'
     import sounds from '../../../static/datas/sounds'
     // Components
@@ -90,12 +88,14 @@
             // Game
             let fpsControls
             let player = this.player
+            let inventory = ['knife']
+            let indexWeapon = 1
             let zoomView = 'not-aim'
             let bullets = []                    // Listes des balles en jeu
             let zoom = false                    // Permet de savoir si on vise, ou non
             let keyboard = {}                   // Liste des touches actives, ou non
-            let lastWeaponList = ['pistolSilencer']  // Liste des armes, la dernière est l'actuel. Liste pour fonction animate
-            let previousWeapon = []         
+            let lastWeaponList = 'pistolSilencer'  // Liste des armes, la dernière est l'actuel. Liste pour fonction animate
+            let previousWeapon = 'pistolSilencer'         
             let score = 0
             let round = 0
             let remainZombie = 0                    // Zombie restants    
@@ -106,11 +106,6 @@
             let backgroundSound                     // Son de fond
             let backgroundSoundActive = false
             let isSound = this.isSound              // Parametre active son
-            // POV
-            let currentMouseX, currentMouseXDelta, currentMouseY, currentMouseYDelta, previousMouseX, previousMouseY    // Pos souris
-            let phi, theta
-            let rotation = new THREE.Quaternion()
-            let translation = new THREE.Vector3()
             // Mise en place du viseur 
             this.viseur = new URL('../../assets/Icons/viseur_white.png', import.meta.url).href
             this.remainBullets = weapons[player.weapon].parameters.remainBullets        // Met a 
@@ -141,6 +136,8 @@
                 await setTarget()
                 // Chargement des armes
                 await setWeapons()
+                // Affiche les armes sur les murs, pour achat
+                await setWallWeapons()
                 // Setup des event clavier/souris
                 setupEventHandlers()
                 // Mise en place des fonction de contact
@@ -252,10 +249,10 @@
 
 
                 // Ambient ligth
-                let ambientLight = new THREE.AmbientLight(0xFFE9DE, 0.2)
+                let ambientLight = new THREE.AmbientLight(0xFFD8C4, 0.2)
                 scene.add(ambientLight)
                 // Light 
-                let light = new THREE.PointLight(0xFCB490, 0.8, 18)
+                let light = new THREE.PointLight(0xFCB490, 0.8, 10)
                 light.position.set(2, 2, 2)
                 light.castShadow = true
                 light.shadow.camera.near = 0.1
@@ -309,7 +306,7 @@
                 physicsWorld.addRigidBody( body );
                 body.threeObject = floor;
 
-                // Ajout des items du fichier sceneItems.js
+                // Ajout des items pour faire la map, du fichier sceneItems.js
                 const keys = Object.keys(sceneItems);
                 // Pour chaques items
                 for (const element of keys) {   
@@ -324,6 +321,7 @@
                         const materielMesh = await loadOBJ(sceneItem.obj, materialItem);
                         // Ombre de l'objet
                         materielMesh.receiveShadow = true
+                        materielMesh.castShadow = true
                         // Position
                         materielMesh.position.set(
                             sceneItem.position.x,
@@ -390,7 +388,8 @@
                     } catch (error) {
                         console.error("Erreur lors du chargement de la physique d'un élement", error);
                     }
-                }
+                }             
+                
                 // // Image en 360 : stade
                 // const hdrTexture = new URL('../../assets/FondHdr/stadium.hdr', import.meta.url);
                 // const loader = new RGBELoader()
@@ -536,7 +535,6 @@
                 for (const element of keys) {   
                     const key = element;
                     const weapon = weapons[key];
-
                     try {
                         // ------ THREEJS SECTION           
                         // Load weapons
@@ -555,26 +553,114 @@
                         weapon.mesh = weaponMesh;
 
                         if(playerWeapon == key){
-                            player.weapon = key
-                            player.weaponMesh = weaponMesh
-                            await scene.add(weaponMesh);
+                            // Lors de l'init des armes, on ajoute le nom du pistolet en premiere place 
+                            inventory.push(key)
+                            // On set la nouvel arme du joueur avant d'appeler la fonction
+                            await setWeapon(1)
                         }
                         /////
-                        //----- Ammo bullet for weapon
-                        const ammoMaterials = await loadMTL(weapon.ammo.mtl);
-
-                        await materials.preload();
-
-                        const ammoMesh = await loadOBJ(weapon.ammo.obj, ammoMaterials);
-                        ammoMesh.receiveShadow = true
-                        ammoMesh.scale.set(15,15,15)
-                        // Ajout tag
-                        ammoMesh.userData.tag = "ammo_" + key
-
-                        weapon.ammo.mesh = ammoMesh;
-
+                        //----- Ammo bullet for weapon, couteau n'as pas de munition
+                        if(key != "knife"){
+                            const ammoMaterials = await loadMTL(weapon.ammo.mtl);
+    
+                            await materials.preload();
+    
+                            const ammoMesh = await loadOBJ(weapon.ammo.obj, ammoMaterials);
+                            ammoMesh.receiveShadow = true
+                            ammoMesh.scale.set(15,15,15)
+                            // Ajout tag
+                            ammoMesh.userData.tag = "ammo_" + key
+    
+                            weapon.ammo.mesh = ammoMesh;
+                        }
                         /////////////
                         // Pas besoin de physic pour le skin des armes
+                    } catch (error) {
+                        console.error("Erreur lors du chargement de la physique d'un élement", error);
+                    }
+                }
+            }
+            async function setWeapon(index){           
+                    // On récupère a l'arme actuel, celle dans la position 0 de l'inventaire       
+                    let objectToRemove = null                   // Var qui va recevoir l'objet de l'ancienne arme, à enlever
+                    let nextWeapon = inventory[index]         // Récupère arme actuel, dans les données user
+                    // On 'traverse' la liste des objets sur la scene, pour trouver les meshs
+                    scene.traverse( function( object ) {
+                        if(object.isObject3D && object.name == previousWeapon){  // 3DObject peut être enlevé de la scène
+                            objectToRemove = object
+                        }
+                    });
+                    // On change la var dernière arme, avec celle que l'on va ajouter
+                    previousWeapon = nextWeapon
+                    // Supprime de la scene 
+                    scene.remove(objectToRemove)
+                    // Créer un nouveau mesh pour poser l'arme 
+                    let newMeshWeapon = weapons[nextWeapon].mesh.clone()
+                    // Vision gun : Position
+                    let time = Date.now() * 0.0005
+                    newMeshWeapon.position.set(
+                        camera.position.x - Math.sin(camera.rotation.y - Math.PI/6) * 0.6,
+                        camera.position.y - 0.2 + Math.sin(time*4 + camera.rotation.x + camera.rotation.z)*0.01,
+                        camera.position.z - Math.cos(camera.rotation.y - Math.PI/6) * 0.6
+                    )
+                    // Rotation
+                    newMeshWeapon.rotation.set(
+                        camera.rotation.x,
+                        camera.rotation.y + Math.PI,
+                        camera.rotation.z
+                    )
+                    scene.add(newMeshWeapon)
+            }
+            ////
+            // Place les armes sur les murs
+            ////
+            async function setWallWeapons(){
+                // Ajout des armes sur le mur
+                const weaponsCoordkeys = Object.keys(weaponsCoord);
+                // Pour chaques items
+                for (const element of weaponsCoordkeys) {   
+                    const weaponData = weaponsCoord[element];
+                    try {
+                        // ------ THREEJS SECTION
+                        // On récupère le mesh
+                        const materielMesh = weapons[element].mesh.clone()
+                        // Ombre de l'objet
+                        materielMesh.receiveShadow = true
+                        materielMesh.castShadow = true
+                        // Position
+                        materielMesh.position.set(
+                            weaponData.position.x,
+                            weaponData.position.y,
+                            weaponData.position.z,
+                        );
+                        // Rotation
+                        materielMesh.rotation.set(
+                            weaponData.rotation.x,
+                            weaponData.rotation.y,
+                            weaponData.rotation.z,
+                        )
+                        // Echelle
+                        materielMesh.scale.set(
+                            weaponData.scale, 
+                            weaponData.scale, 
+                            weaponData.scale
+                        );
+                        // Ajout d'un tag pour différencier
+                        materielMesh.userData.tag = "weaponWall"
+                        materielMesh.userData.name = element
+                        // Ajout à la scene
+                        scene.add(materielMesh)
+                        // ------ LIGHT SECTION
+                        // Ajout d'une lumière derrière l'arme
+                        let light = new THREE.PointLight(0x3b83f7, 0.8, 5)
+                        light.position.set(
+                            weaponData.light.x,
+                            weaponData.light.y,
+                            weaponData.light.z,
+                        )
+                        light.castShadow = true
+                        scene.add(light) 
+                    
                     } catch (error) {
                         console.error("Erreur lors du chargement de la physique d'un élement", error);
                     }
@@ -593,172 +679,186 @@
 
             // Roulette inventaire
             function wheel(e){
-                console.log(e.deltaY)
+                // Taille de l'inventaire, pour pas aller sur un index qui n'existe pas. Savoir la taille, pour le max : 1 ou 2 sur [0:X]
+                let max = inventory.length - 1
+                if(e.deltaY > 0){
+                    indexWeapon == max ? indexWeapon = 0 : indexWeapon ++
+                } else {
+                    indexWeapon == 0 ? indexWeapon = max : indexWeapon --
+                }
+                // On change l'arme, avec le nouvel index
+                setWeapon(indexWeapon)
             }
 
             // Tire au click
             function onClick(e){
+                // Si jeu en pause, joueur mort, ou attente de pouvoir tirer, on fait rien
                 if(gameStop || !player.alive || !player.canShoot){
                 } else {
-                    // Permet de limiter le nombre de tire par secondes, en fonction des armes
-                    player.canShoot = false
-                    // Parametres de l'arme du jour. Mise dans variable pour simplifier les appels ensuite
-                    let playerWeaponParameters = weapons[player.weapon].parameters
-                    // Si il reste des balles dans le chargeur, -1, et tirer normalement
-                    if(playerWeaponParameters.remainBullets > 0){
-                        playerWeaponParameters.remainBullets = playerWeaponParameters.remainBullets - 1
-                        // Timer de cadence de tire
-                        setTimeout(function(){
-                            player.canShoot = true
-                        }, playerWeaponParameters.shootTimer)
+                    // Si couteau, pas de tire de balle
+                    if(inventory[indexWeapon] == "knife"){
 
-                        // ------ THREEJS SECTION
-                        // Balle, en fonction de l'arme
-                        let bullet = weapons[player.weapon].ammo.mesh.clone()   
-
-                        let bulletPos
-
-                        // Position de départ de la balle, en fonction de la vue (visé ou non)
-                        if(zoomView == 'not-aim'){
-                            bulletPos = new THREE.Vector3(
-                                camera.position.x - Math.sin(camera.rotation.y - Math.PI/6) * 0.6,
-                                camera.position.y - 0.13,
-                                camera.position.z - Math.cos(camera.rotation.y - Math.PI/6) * 0.6
-                            )
-                        } else {
-                            bulletPos = new THREE.Vector3(
-                                camera.position.x - Math.sin(camera.rotation.y) * 0.6,
-                                camera.position.y - playerWeaponParameters.positionAimY,    // Position en fonction de l'arme
-                                camera.position.z - Math.cos(camera.rotation.y) * 0.6
-                            )
-                        }
-                        // Position de la balle, en fonction de la vue (visé ou non)
-                        bullet.position.set(
-                            bulletPos.x,
-                            bulletPos.y,
-                            bulletPos.z
-                        )
-                        // Coord 2 vector
-                        let middleScreen =  new THREE.Vector2(0, 0)
-                        raycaster.setFromCamera(middleScreen, camera)        
-                        raycaster.ray.origin = bulletPos
-                        // Set ray vector
-                        tmpPos.copy(raycaster.ray.direction)
-                        tmpPos.add(raycaster.ray.origin)
-                        // Ombre
-                        bullet.receiveShadow = true
-                        // Aligne la balle par rapport à l'arme
-                        bullet.rotation.set(
-                            camera.rotation.x,
-                            camera.rotation.y + Math.PI/2,
-                            camera.rotation.z - Math.PI/2
-                        )
-                        // Timer 'durée de vie' de la balle
-                        setTimeout(function(){
-                            try {
-                                bullet.alive = false
-                                // On enleve le graphic
-                                scene.remove(bullet)
-                                // On cherche l'index de la bullet
-                                const physicBullet = rigidBodies.findIndex((obj) => obj.uuid === bullet.uuid);
-                                // Si index > -1, c'est que l'objet est dans la liste, donc sur la scene
-                                if (physicBullet > -1) {
-                                    // On enleve la partie physique de la liste
-                                    rigidBodies.splice(physicBullet, 1);
-                                    // On enleve du monde physic
-                                    physicsWorld.removeRigidBody(bullet.userData.physicsBody)
-                            }   
-                            } catch (error) {
-                                console.log("timoutBulletError : ",error)
-                            }
-                        }, 3000)
-                        // affiche bullet
-                        bullet.alive = true;
-                        bullets.push(bullet)                        
-                        // Ajout la bullet à la scene
-                        scene.add(bullet)
-                        //// -------------------
-                        // ------ AMMOJS SECTION
-                        let mass = 1    // Mass=0 : objet immobile
-                        let transform = new Ammo.btTransform()  
-                        transform.setIdentity()
-                        // Position de départ de la balle, en fonction de la vue (visé ou non)
-                        transform.setOrigin( new Ammo.btVector3( 
-                            bulletPos.x,
-                            bulletPos.y,
-                            bulletPos.z
-                        ));
-                        // Rotation
-                        transform.setRotation( new Ammo.btQuaternion(
-                            camera.rotation.x,
-                            camera.rotation.y + Math.PI/2,
-                            camera.rotation.z,
-                            1
-                        ));
-                        let motionState = new Ammo.btDefaultMotionState( transform );
-                        // Object autour, qui va avoir la colision
-                        let colShape = new Ammo.btBoxShape( new Ammo.btVector3( 0.1, 0.1, 0.1));
-                        colShape.setMargin( 0.05 );
-                        // Inertie
-                        let localInertia = new Ammo.btVector3( 0, 0, 0 );
-                        colShape.calculateLocalInertia( mass, localInertia );
-                        // Création de l'element physique, avec ses attributs
-                        let rbInfo = new Ammo.btRigidBodyConstructionInfo( mass, motionState, colShape, localInertia );
-                        let body = new Ammo.btRigidBody( rbInfo );                        
-                        // Ajout du body au monde physique, avec contraintes de colisions
-                        physicsWorld.addRigidBody( body );
-                        // Place balle et donne la velocite
-                        tmpPos.copy(raycaster.ray.direction)
-                        tmpPos.multiplyScalar(60)
-                        body.setLinearVelocity(new Ammo.btVector3(
-                            tmpPos.x,
-                            tmpPos.y,
-                            tmpPos.z
-                        ))
-                        bullet.userData.physicsBody = body
-                        rigidBodies.push(bullet)
-                        body.threeObject = bullet
-                        ////
-                        // Recule au tir
-                        ////
-                        // updateRecoil()
-
-                        ////
-                        // Son au tire
-                        ////
-                        if((isSound[isSound.length - 1])){
-
-                            const listener = new THREE.AudioListener()
-                            camera.add(listener)
-                            
-                            const audioLoader = new THREE.AudioLoader()
-                            let shootSound = new THREE.Audio(listener)
-                            audioLoader.load(weapons[player.weapon].soundSrc, function( buffer ){
-                                shootSound.setBuffer(buffer)
-                                shootSound.setLoop(false)
-                                shootSound.setVolume(0.3)
-                                shootSound.play()
-                            })                              
-                        }
-
-                        // Si plus de balles dans chargeur, recharge
-                        if(playerWeaponParameters.remainBullets == 0){
-                            // On enlève un chargeur
-                            playerWeaponParameters.remainLoaders = playerWeaponParameters.remainLoaders - 1
-                            // Le joueur peut pas tirer pendant le chargement
-                            player.canShoot = false    
-                            // Timer chargement arme
+                    } else {
+                        // Permet de limiter le nombre de tire par secondes, en fonction des armes
+                        player.canShoot = false
+                        // Parametres de l'arme du jour. Mise dans variable pour simplifier les appels ensuite
+                        let playerWeaponParameters = weapons[inventory[indexWeapon]].parameters
+                        // Si il reste des balles dans le chargeur, -1, et tirer normalement
+                        if(playerWeaponParameters.remainBullets > 0){
+                            playerWeaponParameters.remainBullets = playerWeaponParameters.remainBullets - 1
+                            // Timer de cadence de tire
                             setTimeout(function(){
-                                // Remises des balles dans le chargeur
-                                playerWeaponParameters.remainBullets = playerWeaponParameters.loader
-                                // Peut tirer
                                 player.canShoot = true
-                                // MAJ Nombre de balle restantes
-                                eventBus.emit("remainBullets", (playerWeaponParameters.remainBullets))
-                            }, playerWeaponParameters.loadTimer)
+                            }, playerWeaponParameters.shootTimer)
+                            
+                            // ------ THREEJS SECTION
+                            // Balle, en fonction de l'arme
+                            let bullet = weapons[inventory[indexWeapon]].ammo.mesh.clone()   
+
+                            let bulletPos
+
+                            // Position de départ de la balle, en fonction de la vue (visé ou non)
+                            if(zoomView == 'not-aim'){
+                                bulletPos = new THREE.Vector3(
+                                    camera.position.x - Math.sin(camera.rotation.y - Math.PI/6) * 0.6,
+                                    camera.position.y - 0.13,
+                                    camera.position.z - Math.cos(camera.rotation.y - Math.PI/6) * 0.6
+                                )
+                            } else {
+                                bulletPos = new THREE.Vector3(
+                                    camera.position.x - Math.sin(camera.rotation.y) * 0.6,
+                                    camera.position.y - playerWeaponParameters.positionAimY,    // Position en fonction de l'arme
+                                    camera.position.z - Math.cos(camera.rotation.y) * 0.6
+                                )
+                            }
+                            // Position de la balle, en fonction de la vue (visé ou non)
+                            bullet.position.set(
+                                bulletPos.x,
+                                bulletPos.y,
+                                bulletPos.z
+                            )
+                            // Coord 2 vector
+                            let middleScreen =  new THREE.Vector2(0, 0)
+                            raycaster.setFromCamera(middleScreen, camera)        
+                            raycaster.ray.origin = bulletPos
+                            // Set ray vector
+                            tmpPos.copy(raycaster.ray.direction)
+                            tmpPos.add(raycaster.ray.origin)
+                            // Ombre
+                            bullet.receiveShadow = true
+                            // Aligne la balle par rapport à l'arme
+                            bullet.rotation.set(
+                                camera.rotation.x,
+                                camera.rotation.y + Math.PI/2,
+                                camera.rotation.z - Math.PI/2
+                            )
+                            // Timer 'durée de vie' de la balle
+                            setTimeout(function(){
+                                try {
+                                    bullet.alive = false
+                                    // On enleve le graphic
+                                    scene.remove(bullet)
+                                    // On cherche l'index de la bullet
+                                    const physicBullet = rigidBodies.findIndex((obj) => obj.uuid === bullet.uuid);
+                                    // Si index > -1, c'est que l'objet est dans la liste, donc sur la scene
+                                    if (physicBullet > -1) {
+                                        // On enleve la partie physique de la liste
+                                        rigidBodies.splice(physicBullet, 1);
+                                        // On enleve du monde physic
+                                        physicsWorld.removeRigidBody(bullet.userData.physicsBody)
+                                }   
+                                } catch (error) {
+                                    console.log("timoutBulletError : ",error)
+                                }
+                            }, 3000)
+                            // affiche bullet
+                            bullet.alive = true;
+                            bullets.push(bullet)                        
+                            // Ajout la bullet à la scene
+                            scene.add(bullet)
+                            //// -------------------
+                            // ------ AMMOJS SECTION
+                            let mass = 1    // Mass=0 : objet immobile
+                            let transform = new Ammo.btTransform()  
+                            transform.setIdentity()
+                            // Position de départ de la balle, en fonction de la vue (visé ou non)
+                            transform.setOrigin( new Ammo.btVector3( 
+                                bulletPos.x,
+                                bulletPos.y,
+                                bulletPos.z
+                            ));
+                            // Rotation
+                            transform.setRotation( new Ammo.btQuaternion(
+                                camera.rotation.x,
+                                camera.rotation.y + Math.PI/2,
+                                camera.rotation.z,
+                                1
+                            ));
+                            let motionState = new Ammo.btDefaultMotionState( transform );
+                            // Object autour, qui va avoir la colision
+                            let colShape = new Ammo.btBoxShape( new Ammo.btVector3( 0.1, 0.1, 0.1));
+                            colShape.setMargin( 0.05 );
+                            // Inertie
+                            let localInertia = new Ammo.btVector3( 0, 0, 0 );
+                            colShape.calculateLocalInertia( mass, localInertia );
+                            // Création de l'element physique, avec ses attributs
+                            let rbInfo = new Ammo.btRigidBodyConstructionInfo( mass, motionState, colShape, localInertia );
+                            let body = new Ammo.btRigidBody( rbInfo );                        
+                            // Ajout du body au monde physique, avec contraintes de colisions
+                            physicsWorld.addRigidBody( body );
+                            // Place balle et donne la velocite
+                            tmpPos.copy(raycaster.ray.direction)
+                            tmpPos.multiplyScalar(60)
+                            body.setLinearVelocity(new Ammo.btVector3(
+                                tmpPos.x,
+                                tmpPos.y,
+                                tmpPos.z
+                            ))
+                            bullet.userData.physicsBody = body
+                            rigidBodies.push(bullet)
+                            body.threeObject = bullet
+                            ////
+                            // Recule au tir
+                            ////
+                            // updateRecoil()
+
+                            ////
+                            // Son au tire
+                            ////
+                            if((isSound[isSound.length - 1])){
+
+                                const listener = new THREE.AudioListener()
+                                camera.add(listener)
+                                
+                                const audioLoader = new THREE.AudioLoader()
+                                let shootSound = new THREE.Audio(listener)
+                                audioLoader.load(weapons[inventory[indexWeapon]].soundSrc, function( buffer ){
+                                    shootSound.setBuffer(buffer)
+                                    shootSound.setLoop(false)
+                                    shootSound.setVolume(0.3)
+                                    shootSound.play()
+                                })                              
+                            }
+
+                            // On vérifie s'il reste des balles dans le chargeur actuel, et les autres
+                            if(playerWeaponParameters.remainBullets == 0 && playerWeaponParameters.remainLoaders != 0){
+                                // On enlève un chargeur
+                                playerWeaponParameters.remainLoaders = playerWeaponParameters.remainLoaders - 1
+                                // Le joueur peut pas tirer pendant le chargement
+                                player.canShoot = false    
+                                // Timer chargement arme
+                                setTimeout(function(){
+                                    // Remises des balles dans le chargeur
+                                    playerWeaponParameters.remainBullets = playerWeaponParameters.loader
+                                    // Peut tirer
+                                    player.canShoot = true
+                                    // MAJ Nombre de balle restantes
+                                    eventBus.emit("remainBullets", (playerWeaponParameters.remainBullets))
+                                }, playerWeaponParameters.loadTimer)
+                            }
                         }
+                        eventBus.emit("remainBullets", (playerWeaponParameters.remainBullets))
                     }
-                    eventBus.emit("remainBullets", (playerWeaponParameters.remainBullets))
                 }
             }
             // Recul au tir
@@ -848,11 +948,11 @@
             function changeWeapon(){ // Fonction qui permet de changer d'arme
                 let change = false
                 // On commence par choisir l'arme en fonction du score, on active change, et set l'arme précédente
-                if(score == 2){
+                if(score == 200){
                     previousWeapon.push('pistolSilencer')
                     player.weapon = 'shotgun'
                     change = true
-                } else if(score == 4){
+                } else if(score == 400){
                     previousWeapon.push('shotgun')
                     player.weapon = 'uzi'
                     change = true
@@ -880,11 +980,11 @@
                 if(change){ // Si besoin de changer d'arme
                     let objectToRemove = null                   // Var qui va recevoir l'objet de l'ancienne arme, à enlever
                     let nextWeapon = player.weapon         // Récupère arme actuel, dans les données user
-                    lastWeaponList.push(nextWeapon)        // On ajout à la liste des armes, pour la boucle animate 
-                    let previousWeapon = previousWeapon[previousWeapon.length - 1]        // Arme précédente, pour trouver quel objet supprimer
+                    lastWeaponList = nextWeapon        // On ajout à la liste des armes, pour la boucle animate 
+                    let previousWeaponLast = previousWeapon[previousWeapon.length - 1]        // Arme précédente, pour trouver quel objet supprimer
                     // On 'traverse' la liste des objets sur la scene, pour trouver les meshs
                     scene.traverse( function( object ) {
-                        if(object.isObject3D && object.name == previousWeapon){  // 3DObject peut être enlevé de la scène
+                        if(object.isObject3D && object.name == previousWeaponLast){  // 3DObject peut être enlevé de la scène
                             objectToRemove = object
                         }
                     });
@@ -909,7 +1009,7 @@
                 }
             } 
             ////
-            // Contact entre 2 mesh
+            // Contact entre 2 physicBody
             ////
             function setupContactResultCallback(){
                 cbContactResult = new Ammo.ConcreteContactResultCallback();
@@ -931,7 +1031,7 @@
                     // console.log(threeObject0.userData.tag, threeObject1.userData.tag)
                     
                     // Si la balle (dans threeObject0) touche un zombie (cible dans threeObject1)
-                    if(threeObject0.userData.tag == "ammo_"+player.weapon && threeObject1.userData.tag == "targetItem_zombie"){
+                    if(threeObject0.userData.tag == "ammo_"+inventory[indexWeapon] && threeObject1.userData.tag == "targetItem_zombie"){
                         // Si la vie est > 0, on décremente, sinon on tue
                         if(threeObject1.userData.remainLife > 0){
                             threeObject1.userData.remainLife -= 1
@@ -982,6 +1082,7 @@
                                                 // A la mort : 100 points
                                                 score += 100
                                                 eventBus.emit("scoreChange", score)
+
                                                 // On decremente le nombre de zombie restant
                                                 remainZombie = remainZombie - 1
                                                 clearInterval(killInterval);
@@ -992,7 +1093,7 @@
                             }) 
                         }
                     // Si scene, on enlève la balle (a la base, mais pour les tests on l'enlève pas)
-                    } else if (threeObject0.userData.tag == "ammo_"+player.weapon && threeObject1.userData.tag == "sceneItem"){ 
+                    } else if (threeObject0.userData.tag == "ammo_"+inventory[indexWeapon] && threeObject1.userData.tag == "sceneItem"){ 
                         // scene.remove(threeObject0)           
                     // Si contact entre zombie et joueur : mort
                     } else if((threeObject0.userData.tag == "player_hitbox" ) || (threeObject1.userData.tag == "player_hitbox" )){
@@ -1056,6 +1157,7 @@
                     renderer.render(deathScreen.scene, deathScreen.camera)
                     // return
                 } else {
+                    console.log(parseInt(camera.position.x), parseInt(camera.position.z))
                     // Check nombre de zombie restant dans la manche
                     checkZombieRemain()
                     // AmmoJs update physics : create clock for timing
@@ -1089,7 +1191,7 @@
                     ////
                     // Affichage de l'arme, en fonction de la visée 
                     ////
-                    let actualWeaponAnimate = lastWeaponList[lastWeaponList.length - 1] // Dernier élément de la liste
+                    let actualWeaponAnimate = inventory[indexWeapon] // Dernier élément de la liste
                     // On récupère l'objet mesh de l'arme, pour pouvoir modifier sa position, rotation...
                     scene.traverse( function( object ) {
                         if(object.isObject3D && object.name == actualWeaponAnimate){  

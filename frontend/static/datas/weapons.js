@@ -32,8 +32,8 @@ let weapons = {
             positionNotAim: 0,
             shootTimer: 100,
             loadTimer: 2000,
-            loader: 150,
-            remainBullets: 150,
+            loader: 15,
+            remainBullets: 15,
             remainLoaders: 5,
         },
         soundSrc: './static/Sounds/Actions/Suuu.mp3',
@@ -226,6 +226,20 @@ let weapons = {
             loader: 10,
             remainBullets: 10,
             remainLoaders: 5,
+        }
+    },
+    knife: {
+        obj: './static/Models/Weapon_Pack/knifeRound_smooth.obj',
+        mtl: './static/Models/Weapon_Pack/knifeRound_smooth.mtl',
+        mesh: null,
+        parameters: {
+            positionAimY: 0.17,
+            positionNotAim: 0,
+            shootTimer: 170,
+            loadTimer: 2000,
+            loader: 1000,
+            remainBullets: 1000,
+            remainLoaders: 500,
         }
     },
 }

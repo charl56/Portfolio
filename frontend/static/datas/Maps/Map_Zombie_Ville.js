@@ -2456,7 +2456,63 @@ let spawnsCoord = {
     },
 }
 
+let weaponsCoord = {
+    shotgun: {
+        position: {
+            x: 23,
+            y: 1.7,
+            z: 9,
+        },
+        rotation: {
+            x: 0,
+            y: Math.PI/2,
+            z: 0,
+        },
+        scale: 15,
+        light: {
+            x: 23,
+            y: 1.7,
+            z: 9,
+        }
+    },
+    uzi: {
+        position: {
+            x: 10,
+            y: 1.7,
+            z: 23
+        },rotation: {
+            x: 0,
+            y: Math.PI/2,
+            z: 0,
+        },
+        scale: 15,
+        light: {
+            x: 10,
+            y: 1.7,
+            z: 23,
+        }
+    },
+    machinegun: {
+        position: {
+            x: -21,
+            y: 1.7,
+            z: 9,
+        },rotation: {
+            x: 0,
+            y: Math.PI/2,
+            z: 0,
+        },
+        scale: 15,
+        light: {
+            x: -21,
+            y: 1.7,
+            z: 9,
+        }
+    },
+}
 
 
-export {sceneItems}           // Elements du décors, avec leur position
-export {spawnsCoord}          // Coordoonées des spawns de la map
+
+export {sceneItems}             // Elements du décors, avec leur position
+export {spawnsCoord}            // Coordoonées des spawns de la map
+export {weaponsCoord}           // Coordonées des empalcements des armes sur les murs
