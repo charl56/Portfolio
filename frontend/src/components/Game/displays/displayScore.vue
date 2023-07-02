@@ -3,6 +3,7 @@
         <p class="text-h6 p-score px-6 py-0 font-weight-bold">{{ score }}</p>
     </div>   
     <div v-else class="death-score mt-7 d-flex align-start justify-center">
+        <p class="p-death-score px-6 py-0">Vous êtes mort</p>
         <p class="p-death-score px-6 py-0">Score : {{ score }}</p>
     </div>  
 </template>
@@ -47,7 +48,7 @@ export default {
     right: 0;
     bottom: 0;
     position: fixed;
-    height: 50%;
+    height: 90%;
     width: 100%;
 }
 .p-score{

@@ -2374,7 +2374,7 @@ let sceneItems = {
         mtl: './static/Models/Pol/Relec.mtl',      // Item
         mesh: null,                                         // Données de l'affichage de l'item
         position: {                 // Position de l'item
-            x: 5,
+            x: 0,
             y: 0,
             z: 0,
         },
@@ -2385,7 +2385,7 @@ let sceneItems = {
         },
         scale: 0.025,                    // Echelle de l'item 
         hitBoxPosition: {
-            x: 5,
+            x: 0,
             y: 0,
             z: 0,
         },

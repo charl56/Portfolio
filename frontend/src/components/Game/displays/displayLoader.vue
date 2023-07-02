@@ -2,7 +2,7 @@
     <div class="loader mx-2 my-2 px-3 py-2 d-flex align-center">
         <v-progress-circular class="mr-2" color="white" :model-value="loaderValue"></v-progress-circular>
         <p class="text-h5 font-weight-bold" id="remain-bullet">{{ remainBullets }} </p>
-        <p class="text-h6 font-weight-bold">/ {{ loader * remainLoaders }}</p>
+        <p class="text-h6 font-weight-bold" id="remain-loaders">/ {{ loader * remainLoaders }}</p>
     </div>   
 </template>
 
@@ -41,6 +41,13 @@ export default {
                 }, wait)      
             } else {
                 document.getElementById("remain-bullet").style.color = "white"
+            }
+        },
+        remainLoaders: function(val){
+            if(val == 0){
+                document.getElementById("remain-loaders").style.color = "red"
+            } else {
+                document.getElementById("remain-loaders").style.color = "white"
             }
         }
     },

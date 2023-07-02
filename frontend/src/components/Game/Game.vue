@@ -1,21 +1,21 @@
 <template>
-    <div class="scene" ref="scene" onselectstart="return false" onmousedown="return false">
-        <div class="viseur d-flex align-center justify-center">
-            <div>
-                <v-img class="icon-viseur" :src="viseur"></v-img>
+        <div class="scene" ref="scene" onselectstart="return false" onmousedown="return false">
+            <div class="viseur d-flex align-center justify-center">
+                <div>
+                    <v-img class="icon-viseur" :src="viseur"></v-img>
+                </div>
             </div>
+            <!-- Affiche le score -->
+            <displayScore class="display-component" :score="score" />
+            <!-- Affiche les balles restantes -->
+            <displayLoader class="display-component" :remainBullets="remainBullets" :loader="loader" :remainLoaders="remainLoaders" :loadTimer="weapons[this.player.weapon].parameters.loadTimer" />
+            <!-- Affiche le nombre de round -->
+            <displayRound />
+            <!-- Affiche le menu de pause -->
+            <displayMenu />
+            <!-- Affiche phrase quand on passe prêt d'une arme à acheter -->
+            <displayWeaponBuy />
         </div>
-        <!-- Affiche le score -->
-        <displayScore class="display-component" :score="score" />
-        <!-- Affiche les balles restantes -->
-        <displayLoader class="display-component" :remainBullets="remainBullets" :loader="loader" :remainLoaders="remainLoaders" :loadTimer="weapons[this.player.weapon].parameters.loadTimer" />
-        <!-- Affiche le nombre de round -->
-        <displayRound />
-        <!-- Affiche le menu de pause -->
-        <displayMenu />
-        <!-- Affiche phrase quand on passe prêt d'une arme à acheter -->
-        <displayWeaponBuy />
-    </div>
 </template>
 
 <script>
@@ -97,6 +97,9 @@
             let actualWeaponWall                // Arme achetable actuelle
             let hitboxPlayer
             let zombieKillArea = []             // Liste des position des zombies, avec mort si contact
+            let lavaArea                        // Zone de lave = degs
+            let inLavaTimer = 0                 // Timer durée joueur dans la lave
+            let playerInLavaInterval            // Timer dans la lave, pour pouvoir le lancer et le stoper
             let zoomView = 'not-aim'
             let bullets = []                    // Listes des balles en jeu
             let zoom = false                    // Permet de savoir si on vise, ou non
@@ -153,6 +156,8 @@
                 setupContactPairResultCallback();
                 // Enlève l'ecran de chargement
                 ressourcesLoad = true
+                // Check si joueur dans la lave
+                checkPlayerInLava()
             }
             ////
             // Loading screen
@@ -214,6 +219,8 @@
                 renderer.shadowMap.type = THREE.BasicShadowMap  // Type d'ombres
                 // Créer le canvas
                 canvas.appendChild(renderer.domElement);
+                // Ajout d'un id au canvas
+                document.querySelector("canvas").setAttribute("id", "inLavaId" )
                 // Création scene
                 scene = new THREE.Scene()
                 scene.background = new THREE.Color( 0x000000 );
@@ -257,8 +264,8 @@
                 // Hitbox pour les zones d'armes
                 hitboxPlayer = new THREE.Box3(new THREE.Vector3(), new THREE.Vector3())
                 // hitboxPlayer.setFromCenterAndSize(camera.position, new THREE.Vector3(0.8, 2, 0.8))
-                // Ambient ligth
-                let ambientLight = new THREE.AmbientLight(0xFFD8C4, 0.2)
+                // Ambient light
+                let ambientLight = new THREE.AmbientLight(0xFFD8C4, 0.5)
                 scene.add(ambientLight)
                 // Light
                 let light = new THREE.PointLight(0xFCB490, 0.8, 10)
@@ -292,6 +299,22 @@
                 floor.rotation.x -= Math.PI / 2;
                 floor.userData.tag = "floor"
                 scene.add(floor)
+
+                // Texture lava
+                const lavaTexture = new THREE.TextureLoader().load("./static/Texture/Lava.png")
+                // Lava : THREEHS
+                const lava = new THREE.Mesh(
+                    new THREE.BoxGeometry(6, 0.3, 6),
+                    new THREE.MeshBasicMaterial({map: lavaTexture})
+                )
+                lava.position.set(6, 0, 1)
+                lava.userData.tag = "lava"
+                scene.add(lava)
+                // ------ ZONE DE LAVE
+                lavaArea = new THREE.Box3(new THREE.Vector3(), new THREE.Vector3());
+                // On crée la zone par rapport à la position de la lave, et une zone de 6, 4, 6 de coté
+                lavaArea.setFromCenterAndSize(lava.position, new THREE.Vector3(6, 4, 6))
+
 
                 // Ammojs Section
                 let transform = new Ammo.btTransform();
@@ -437,7 +460,7 @@
                 let zombieNumber = (round * 1.41) + 2.6
                 remainZombie = parseInt(zombieNumber)
                 // Vie par zombie = nombre de balles
-                let zombieLife = 2
+                let zombieLife = 3
                 // Ajout des items du fichier tagetItems.js
                 // Chaque zombie a : une partie graphic, une partie physique, une partie animation
                 const gltfLoader = new GLTFLoader();
@@ -921,7 +944,6 @@
                 zoom = !zoom
             }
             function keyDown(e){
-                // console.log(e.keyCode)
                 keyboard[e.keyCode] = true
                 keyUse()
             }
@@ -971,16 +993,8 @@
                     // On met à jour l'affichage des balles
                     eventBus.emit("remainBullets", ([weapons[inventory[indexWeapon]].parameters.remainBullets, weapons[inventory[indexWeapon]].parameters.remainLoaders, weapons[inventory[indexWeapon]].parameters.loader]))
                 }
-
-                if(keyboard[76]){
-                    testDeath()
-                }
-
             }
-            function testDeath(){
-                player.alive = false
-                eventBus.emit("playerDeath")
-            }
+
 
             function backgroundSoundPlay(){
                 if((isSound[isSound.length - 1])){
@@ -1038,7 +1052,6 @@
                     scene.traverse( function( object ) {
                         if(object.isObject3D && object.name == previousWeaponLast){  // 3DObject peut être enlevé de la scène
                             objectToRemove = object
-                            console.log(object)
                         }
                     });
                     // Supprime de la scene
@@ -1080,16 +1093,15 @@
 
                     let threeObject0 = rb0.threeObject;
                     let threeObject1 = rb1.threeObject;
-
-                    // console.log(threeObject0.userData.tag, threeObject1.userData.tag)
+                    
+                    console.log(threeObject0.userData.tag, threeObject1.userData.tag)
 
                     // Si la balle (dans threeObject0) touche un zombie (cible dans threeObject1)
                     if(threeObject0.userData.tag == "ammo_"+inventory[indexWeapon] && threeObject1.userData.tag == "targetItem_zombie"){
                         // Si la vie est > 0, on décremente, sinon on tue
                         if(threeObject1.userData.remainLife > 0){
                             threeObject1.userData.remainLife -= 1
-                            // console.log("moins de vie")
-                        } else { // Zombie mort
+                        } else if (threeObject1.userData.points) { // Zombie mort
                             // Permet de changer l'animation du zombie, et de ne pas comptabiliser plusieurs fois un zombie
                             mixers.forEach((mixer, index) => {
                                 // Celui qui correspond à l'uuid du zomb touché
@@ -1130,13 +1142,10 @@
                                             // Si index > -1, c'est que les objets sont dans la liste, donc sur la scene
                                             if (physicTarget > -1) {
                                                 // On enleve la partie physic de la liste
-                                                // rigidBodies.splice(physicAmmo, 1);
                                                 rigidBodies.splice(physicTarget, 1);
                                                 // On enleve du monde physic
-                                                // physicsWorld.removeRigidBody(threeObject0.userData.physicsBody)
                                                 physicsWorld.removeRigidBody(threeObject1.userData.physicsBody)
                                                 // On enleve la partie graphic
-                                                // scene.remove(threeObject0)
                                                 scene.remove(threeObject1)
                                                 // A la mort : 100 points
                                                 score += 100
@@ -1217,6 +1226,14 @@
                 } else {
                     // console.log(parseInt(camera.position.x), parseInt(camera.position.z))
 
+                    // Marche ralentie par la lave, sprint ou marche normal
+                    if(player.speed == 4){
+                        fpsControls.playerSpeed = 4
+                    } else if(keyboard[16]){
+                        fpsControls.playerSpeed = 11
+                    } else {
+                        fpsControls.playerSpeed = 7
+                    }
                     // AmmoJs update physics : create clock for timing
                     deltaTime = clock.getDelta();
                     updatePhysics( deltaTime );
@@ -1265,14 +1282,14 @@
                         // Vision gun : Position
                         weaponActuel.position.set(
                             camera.position.x - Math.sin(camera.rotation.y - Math.PI/6) * 0.6,
-                            camera.position.y - 0.2 + Math.sin(time*4 + camera.rotation.x + camera.rotation.z)*0.01,
+                            camera.position.y - 0.2 + Math.sin(time*4)*0.01,
                             camera.position.z - Math.cos(camera.rotation.y - Math.PI/6) * 0.6
                         )
                         // Rotation
                         weaponActuel.rotation.set(
                             camera.rotation.x,
                             camera.rotation.y + Math.PI,
-                            camera.rotation.z
+                            camera.rotation.z,
                         )
                     } else {                        // Vue visé
                         // Vision gun : Position
@@ -1382,10 +1399,45 @@
             function checkZombieKillPlayer(){
                 zombieKillArea.forEach((data) => {
                     if(data[0].intersectsBox(hitboxPlayer)){
-                        player.alive = false
-                        eventBus.emit("playerDeath")
+                        death()
                     }
                 })
+            }
+            // Si le joueur est dans la lave
+            function checkPlayerInLava(){
+                let startTime = Date.now(); 
+                // Toutes les 100ms, on check si le joueur est dans la lave, si oui on incrementre le chrono, sinon chrono = 0
+                playerInLavaInterval = setInterval(function() {
+                    console.log(inLavaTimer)
+                    if(gameStop || !player.alive ){
+                        document.getElementById("inLavaId").classList.remove("in-lava-animation")
+                        startTime = Date.now();
+                    } else {
+                        if(lavaArea.intersectsBox(hitboxPlayer)){
+                            inLavaTimer = Date.now() - startTime;
+                        } else {
+                            startTime = Date.now();
+                            inLavaTimer = 0
+                        }
+                        // Animation quand sur la lave : css (flou et rouge ?) et playerSpeed --
+                        if(inLavaTimer > 0){
+                            document.getElementById("inLavaId").classList.add("in-lava-animation")
+                            player.speed = 4
+                        } else {
+                            document.getElementById("inLavaId").classList.remove("in-lava-animation")
+                            player.speed = 7
+                        }
+                        // Si dans la lave plus de 3.3 secondes : mort
+                        if(inLavaTimer > 3300){
+                            death()
+                        }
+                    }
+                }, 100);
+            }
+            // Mort du joueur
+            function death(){
+                player.alive = false
+                eventBus.emit("playerDeath")
             }
 
             ///////////////////////////////////////////////////////////
@@ -1526,13 +1578,6 @@
                     const qx = new THREE.Quaternion();
                     qx.setFromAxisAngle(new THREE.Vector3(0, 1, 0), this.phi_);
 
-                    // Sprint ou marche normal
-                    if(this.input_.key(16)){
-                        this.playerSpeed = 11
-                    } else {
-                        this.playerSpeed = 7
-                    }
-
                     const forward = new THREE.Vector3(0, 0, -1);
                     forward.applyQuaternion(qx);
                     forward.multiplyScalar(forwardVelocity * timeElapsedS * this.playerSpeed);
@@ -1648,4 +1693,34 @@
 .display-component{
     position:absolute;
 }
+/* Animation dans la lave */
+.in-lava-animation{    
+    animation-name: lavaEffect;
+    animation-iteration-count: infinite;
+    transition: none;
+    animation-duration: 3.3s;
+}@keyframes lavaEffect {
+  0% {
+    filter: blur(0px); 
+  }
+  19% {
+    filter: blur(5px); 
+    }
+  38% {
+    filter: blur(1px); 
+    }
+  57% {
+    filter: blur(7.5px); 
+    }
+  76% {
+    filter: blur(3px); 
+    }
+  90% {
+    filter: blur(5px);
+  }
+  100% { 
+    filter: blur(10px);
+    }
+}
+
 </style>
