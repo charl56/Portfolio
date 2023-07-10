@@ -29,7 +29,7 @@ export default {
   },
   data(){
     return {
-      game: true,
+      game: false,
     }
   },
   created(){

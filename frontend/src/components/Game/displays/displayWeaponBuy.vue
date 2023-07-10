@@ -1,7 +1,7 @@
 <template>
     <!-- Affichage au centre, en dessous du milieu -->
     <div v-if="intersect" class="weapon-buy d-flex justify-center align-center mt-10 pt-10">
-        <p class="text-subtitle-1 weapon-buy-p">Appuyer sur F pour acheter {{ weaponOnWall }} : {{ price }} points</p>
+        <p class="text-subtitle-1 weapon-buy-p">Appuyer sur F pour acheter {{ type }} {{ weaponOnWall }} : {{ price }} points</p>
     </div>
 </template>
 
@@ -17,6 +17,7 @@ export default {
             this.intersect = true
             this.weaponOnWall = data.weapon
             this.price = data.price
+            this.type = data.type
             setTimeout(() => {
                 this.intersect = false
             }, 250);

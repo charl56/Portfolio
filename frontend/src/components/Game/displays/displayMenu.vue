@@ -1,11 +1,12 @@
 <template>  
     <v-dialog v-model="gameStop" v-if="gameStop" persistent class="menu d-flex" style="opacity: 1">
-        <v-row class="d-flex align-start justify-center mt-3">
+        <v-row class="d-flex align-start justify-center">
             <p class="text-h5">Jeu en pause</p>
         </v-row>
         <v-row class="justify-center">
-            <p class="text-h5"></p>
-            <v-switch v-model="sound" :value="sound" label="Sond du jeu" color="success" @change="changeValue()" :true-value="true" :false-value="false" inset hide-details></v-switch>
+            <div>
+                <v-switch v-model="sound" :value="sound" label="Sond du jeu" color="success" @change="changeValue()" :true-value="true" :false-value="false" inset hide-details></v-switch>
+            </div>
         </v-row>
         <v-row class="justify-center mt-10">
             <p class="txt-h6">Appuiez de nouveau sur 'Echap' pour revenir en jeu</p>

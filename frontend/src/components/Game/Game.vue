@@ -106,7 +106,7 @@
             let keyboard = {}                   // Liste des touches actives, ou non
             let lastWeaponList = 'pistolSilencer'  // Liste des armes, la dernière est l'actuel. Liste pour fonction animate
             let previousWeapon = 'pistolSilencer'
-            let score = 0
+            let score = this.score
             let round = 0
             let remainZombie = 0                    // Zombie restants
             let velocity_y = 0                      // Hauteur du saut
@@ -976,16 +976,38 @@
                         inventory.push(actualWeaponWall)
                         indexWeapon = 2
                         setWeapon(2)
-                    } else {    // Sinon on remplace l'arme actuel avec celle sur le mur
-                        // On commence par supprimer l'arme actuel de la scene
-                        scene.traverse( function( object ) {
-                            if(object.isObject3D && object.name == inventory[indexWeapon]){  // 3DObject peut être enlevé de la scène
-                                scene.remove(object)
+                    } else {    // On check si on remplace l'arme actuel, ou si on ajoute munitions
+                        let weaponInInvetory = false 
+                        let ammoWeaponIndex
+                        // On check si déjà dans inventaire
+                        inventory.forEach((item, index) => {
+                            if(item == actualWeaponWall){
+                                weaponInInvetory = true
+                                ammoWeaponIndex = index
                             }
-                        });
-                        // Puis on ajoute la nouvelle
-                        inventory[indexWeapon] = actualWeaponWall
-                        setWeapon(indexWeapon)
+                        })
+                        // Ajout de munition
+                        if(weaponInInvetory){
+                            // On récupère les parametres de l'arme actuel
+                            let reloadBullets = weapons[inventory[ammoWeaponIndex]].parameters
+                            // Remises des balles dans le chargeur
+                            reloadBullets.remainBullets = reloadBullets.loader
+                            // Remise de 4 chargeurs
+                            reloadBullets.remainLoaders = 4
+                            // MAJ affichage
+                            eventBus.emit("remainBullets", ([reloadBullets.remainBullets, reloadBullets.remainLoaders, reloadBullets.loader]))
+
+                        } else {
+                            // On supprime l'arme actuel de la scene
+                            scene.traverse( function( object ) {
+                                if(object.isObject3D && object.name == inventory[indexWeapon]){  // 3DObject peut être enlevé de la scène
+                                    scene.remove(object)
+                                }
+                            });
+                            // Puis on ajoute la nouvelle
+                            inventory[indexWeapon] = actualWeaponWall
+                            setWeapon(indexWeapon)
+                        }
                     }
                     // On met à jour le score
                     score -= weapons[actualWeaponWall].price
@@ -993,6 +1015,8 @@
                     // On met à jour l'affichage des balles
                     eventBus.emit("remainBullets", ([weapons[inventory[indexWeapon]].parameters.remainBullets, weapons[inventory[indexWeapon]].parameters.remainLoaders, weapons[inventory[indexWeapon]].parameters.loader]))
                 }
+            
+            
             }
 
 
@@ -1008,72 +1032,6 @@
             }
 
 
-            ////
-            // Permet de changer d'arme en fonction du score
-            ////
-            function changeWeapon(){ // Fonction qui permet de changer d'arme
-                let change = false
-                // On commence par choisir l'arme en fonction du score, on active change, et set l'arme précédente
-                if(score == 200){
-                    previousWeapon.push('pistolSilencer')
-                    player.weapon = 'shotgun'
-                    change = true
-                } else if(score == 400){
-                    previousWeapon.push('shotgun')
-                    player.weapon = 'uzi'
-                    change = true
-                } else if(score == 6){
-                    previousWeapon.push('uzi')
-                    player.weapon = 'uziLongSilencer'
-                    change = true
-                } else if(score == 8){
-                    previousWeapon.push('uziLongSilencer')
-                    player.weapon = 'machinegun'
-                    change = true
-                } else if(score == 10){
-                    previousWeapon.push('machinegun')
-                    player.weapon = 'sniperCamo'
-                    change = true
-                } else if(score == 12){
-                    previousWeapon.push('sniperCamo')
-                    player.weapon = 'rocketlauncher'
-                    change = true
-                } else if(score == 14){
-                    previousWeapon.push('rocketlauncher')
-                    player.weapon = 'flamethrower'
-                    change = true
-                }
-                if(change){ // Si besoin de changer d'arme
-                    let objectToRemove = null                   // Var qui va recevoir l'objet de l'ancienne arme, à enlever
-                    let nextWeapon = player.weapon         // Récupère arme actuel, dans les données user
-                    lastWeaponList = nextWeapon        // On ajout à la liste des armes, pour la boucle animate
-                    let previousWeaponLast = previousWeapon[previousWeapon.length - 1]        // Arme précédente, pour trouver quel objet supprimer
-                    // On 'traverse' la liste des objets sur la scene, pour trouver les meshs
-                    scene.traverse( function( object ) {
-                        if(object.isObject3D && object.name == previousWeaponLast){  // 3DObject peut être enlevé de la scène
-                            objectToRemove = object
-                        }
-                    });
-                    // Supprime de la scene
-                    scene.remove(objectToRemove)
-                    // Créer un nouveau mesh pour poser l'arme
-                    let newMeshWeapon = weapons[nextWeapon].mesh.clone()
-                    // Vision gun : Position
-                    let time = Date.now() * 0.0005
-                    newMeshWeapon.position.set(
-                        camera.position.x - Math.sin(camera.rotation.y - Math.PI/6) * 0.6,
-                        camera.position.y - 0.2 + Math.sin(time*4 + camera.rotation.x + camera.rotation.z)*0.01,
-                        camera.position.z - Math.cos(camera.rotation.y - Math.PI/6) * 0.6
-                    )
-                    // Rotation
-                    newMeshWeapon.rotation.set(
-                        camera.rotation.x,
-                        camera.rotation.y + Math.PI,
-                        camera.rotation.z
-                    )
-                    scene.add(newMeshWeapon)
-                }
-            }
             ////
             // Contact entre 2 physicBody
             ////
@@ -1094,7 +1052,7 @@
                     let threeObject0 = rb0.threeObject;
                     let threeObject1 = rb1.threeObject;
                     
-                    console.log(threeObject0.userData.tag, threeObject1.userData.tag)
+                    // console.log(threeObject0.userData.tag, threeObject1.userData.tag)
 
                     // Si la balle (dans threeObject0) touche un zombie (cible dans threeObject1)
                     if(threeObject0.userData.tag == "ammo_"+inventory[indexWeapon] && threeObject1.userData.tag == "targetItem_zombie"){
@@ -1390,7 +1348,10 @@
                     // Si le joueur est dans une zone, on eventBus pour afficher message achat
                     if(data[0].intersectsBox(hitboxPlayer)){
                         actualWeaponWall = data[1]
-                        let dataSend = {"weapon": data[1], "price": weapons[data[1]].price}
+                        const weapon = inventory.find((weapon) => weapon == actualWeaponWall);
+                        let type = (weapon === undefined ? "l'arme" : "des munitions")
+                        // JSON envoyé à l'affichage
+                        let dataSend = {"weapon": data[1], "price": weapons[data[1]].price, "type": type}
                         eventBus.emit("inAreaWeaponWall", dataSend)
                     }
                 })
@@ -1408,7 +1369,6 @@
                 let startTime = Date.now(); 
                 // Toutes les 100ms, on check si le joueur est dans la lave, si oui on incrementre le chrono, sinon chrono = 0
                 playerInLavaInterval = setInterval(function() {
-                    console.log(inLavaTimer)
                     if(gameStop || !player.alive ){
                         document.getElementById("inLavaId").classList.remove("in-lava-animation")
                         startTime = Date.now();
