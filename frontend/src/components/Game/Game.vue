@@ -227,40 +227,6 @@
                 // POV, class js
                 fpsControls = new FirstPersonCamera(camera);
 
-
-                // // Création du mesh de la hitbox du joueur
-                // let pos = {x: 0, y: 0.01, z: 0};
-                // let scale = {x: 0.8, y: 2, z: 0.8};
-                // let quat = {x: 0, y: 0, z: 0, w: 1};
-                // let mass = 20;
-                // //////// ThreeJS Section
-                // let blockPlane = new THREE.Mesh(
-                //     new THREE.BoxGeometry(scale.x, scale.y, scale.z),
-                //     new THREE.MeshPhongMaterial({color: 0xa0afa4})
-                // );
-                // blockPlane.position.set(pos.x, pos.y, pos.z);
-                // blockPlane.castShadow = true;
-                // blockPlane.receiveShadow = true;
-                // blockPlane.userData.tag = "player_hitbox"
-                // scene.add(blockPlane);
-                // //////// Ammojs Section
-                // let transform = new Ammo.btTransform();
-                // transform.setIdentity();
-                // transform.setOrigin( new Ammo.btVector3( pos.x, pos.y, pos.z ) );
-                // transform.setRotation( new Ammo.btQuaternion( quat.x, quat.y, quat.z, quat.w ) );
-                // let motionState = new Ammo.btDefaultMotionState( transform );
-                // let colShape = new Ammo.btBoxShape( new Ammo.btVector3( scale.x * 0.8, scale.y * 1.3, scale.z * 0.8) );
-                // colShape.setMargin( 0.05 );
-                // let localInertia = new Ammo.btVector3( 0, 0, 0 );
-                // colShape.calculateLocalInertia( mass, localInertia );
-                // let rbInfo = new Ammo.btRigidBodyConstructionInfo( mass, motionState, colShape, localInertia );
-                // let body = new Ammo.btRigidBody( rbInfo );
-                // // Add
-                // physicsWorld.addRigidBody( body );
-                // rigidBodies.push(blockPlane)
-                // blockPlane.userData.physicsBody = body
-                // body.threeObject = blockPlane
-
                 // Hitbox pour les zones d'armes
                 hitboxPlayer = new THREE.Box3(new THREE.Vector3(), new THREE.Vector3())
                 // hitboxPlayer.setFromCenterAndSize(camera.position, new THREE.Vector3(0.8, 2, 0.8))
@@ -953,7 +919,7 @@
             }
 
             function keyUse(){
-                if(keyboard[27]){       // Menu pause
+                if(keyboard[27]){       // Esc, menu pause
                     if(!gameStop){
                         gameStop = true
                     } else {
@@ -966,10 +932,10 @@
                     eventBus.emit("gameStop", gameStop)
                 }
                 // Active le son de fond
-                if(keyboard[80]){
+                if(keyboard[80]){   // P
                     backgroundSoundPlay()
                 }
-                // Permet d'achter une arme sur un mur
+                // Permet d'achter une arme sur un mur : F
                 if(keyboard[70] && actualWeaponWall != null && weapons[actualWeaponWall].price <= score){
                     // Si on a 1 couteau et 1 arme dans inventaire, on ajout directement
                     if(inventory.length < 3){
@@ -1014,6 +980,32 @@
                     eventBus.emit("scoreChange", score)
                     // On met à jour l'affichage des balles
                     eventBus.emit("remainBullets", ([weapons[inventory[indexWeapon]].parameters.remainBullets, weapons[inventory[indexWeapon]].parameters.remainLoaders, weapons[inventory[indexWeapon]].parameters.loader]))
+                }
+                if(keyboard[79]){   // O : Permet de tuez un zombie immortel
+                    if(remainZombie > 0){
+                        // On recupere l'index du zombie limbo
+                        const physicIndex = rigidBodies.findIndex((obj) => obj.userData.tag === "targetItem_zombie");
+                        let sceneObject
+                        scene.traverse( function( object ) {
+                            if(object.isObject3D && object.userData.tag == "targetItem_zombie"){
+                                sceneObject = object
+                            }
+                        });
+                        // Si index > -1, c'est que les objets sont dans la liste, donc sur la scene
+                        if (physicIndex > -1) {
+                            // On enleve la partie physic de la liste
+                            rigidBodies.splice(physicIndex, 1);
+                            // On enleve du monde physic
+                            physicsWorld.removeRigidBody(sceneObject.userData.physicsBody)
+                            // On enleve la partie graphic
+                            scene.remove(sceneObject)
+                            // A la mort : 100 points
+                            score += 100
+                            eventBus.emit("scoreChange", score)
+                            // On decremente le nombre de zombie restant
+                            remainZombie = remainZombie - 1
+                        }
+                    }
                 }
             
             
@@ -1555,7 +1547,7 @@
                     const yh = this.input_.current_.mouseYDelta / window.innerHeight;
 
                     this.phi_ += -xh * this.phiSpeed_;
-                    this.theta_ = clamp(this.theta_ + -yh * this.thetaSpeed_, -Math.PI / 3, Math.PI / 3);
+                    this.theta_ = clamp(this.theta_ + -yh * this.thetaSpeed_, -Math.PI / 2, Math.PI / 2);
 
                     const qx = new THREE.Quaternion();
                     qx.setFromAxisAngle(new THREE.Vector3(0, 1, 0), this.phi_);

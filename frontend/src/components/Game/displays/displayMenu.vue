@@ -1,7 +1,7 @@
 <template>  
     <v-dialog v-model="gameStop" v-if="gameStop" persistent class="menu d-flex" style="opacity: 1">
         <v-row class="d-flex align-start justify-center">
-            <p class="text-h5">Jeu en pause</p>
+            <p class="text-h5 mb-1">Jeu en pause</p>
         </v-row>
         <v-row class="justify-center">
             <div>
@@ -9,7 +9,8 @@
             </div>
         </v-row>
         <v-row class="justify-center mt-10">
-            <p class="txt-h6">Appuiez de nouveau sur 'Echap' pour revenir en jeu</p>
+            <p class="txt-h6 my-1 text-center">Appuyez de nouveau sur 'Echap' pour revenir en jeu</p>
+            <p class="txt-h6 mx-1 text-center">Si lors d'une partie un ou plusieurs zombie(s) est/sont immortel(s), tuez les autres appuyez sur la touche O pour l'éliminer</p>
         </v-row>
         <v-row class="justify-center mt-10">
             <v-btn class="btn-restart" variant="outlined" @click="restart()">Recommencer</v-btn>

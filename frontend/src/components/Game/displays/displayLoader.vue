@@ -14,7 +14,6 @@ export default {
     }
     ,
     props: {
-        remainBullets: Number,
         loader: Number,
         remainLoaders: Number,
         loadTimer: Number,
