@@ -165,8 +165,10 @@ export default {
     onDuckClick(){
       this.duck ++
       if(this.duck == 5){
-        eventBus.emit("gameOn");
-        clearInterval(this.duckInterval)
+        if(confirm("Passez en mode plein écran, puis appuyer sur 'ok'")){
+          eventBus.emit("gameOn");
+          clearInterval(this.duckInterval)
+        }
       }
     }
   },

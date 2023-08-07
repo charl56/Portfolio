@@ -104,7 +104,7 @@
             ]
         },
         {
-            "name": "Stage en Irelande : Mocap Horse ",
+            "name": "Stage en Irelande : Horse mocap ",
             "date": "Juillet 2023 - Novembre 2023",
             "intro": "Le but de ce stage est de récupérer les mouvements d'un cheval pour les afficher en 3D",
             "description": "Pour ce projet, nous étions 2 à travailler sur le projet. Nous avons utilisé des ESP32 et des capteurs faisant accéléromètre et gyroscope pour récupérer les movments. Plusieurs ESP sont placés sur les articulations du cheval pour récupérer un maximum de mouvements. Ils sont tous connecté en Wifi à un autre ESP32 ayant un rôle de base. La base envoie toutes les données au fur et à meusure qu'elles arrivent sur un Broker MQTT, pour pouvoir ensuite les récupérer. ",

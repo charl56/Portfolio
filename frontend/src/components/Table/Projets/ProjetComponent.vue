@@ -2,8 +2,8 @@
     <div class="projet px-0 mx-0 my-0 justify-space-between">
         <v-col class="px-0 mx-0">
             <div id="resizable" class="part left mr-2" data-aos="fade-up-right" data-aos-delay="200" data-aos-anchor-placement="top-center">
-                <v-carousel v-if="projet.hasOwnProperty('photos1')" cycle class="rounded d-flex justify-center" :show-arrows="setShowArrows(projet.photos1)" hide-delimiters >
-                    <v-carousel-item id="image-projet" v-for="(photo,index) in projet.photos1" :src="returnSrcImage(photo.src)" :key="index" :width="setWidth()" cover>         <!--  ???-->
+                <v-carousel v-if="projet.hasOwnProperty('photos1')" cycle class="d-flex justify-center" :show-arrows="setShowArrows(projet.photos1)" hide-delimiters >
+                    <v-carousel-item id="image-projet" v-for="(photo,index) in projet.photos1" class="rounded" :src="returnSrcImage(photo.src)" :key="index" :width="setWidth()" cover>         <!--  ???-->
                     </v-carousel-item>
                 </v-carousel>
             </div>
@@ -26,8 +26,8 @@
         </v-col>
         <v-col class="px-0 mx-0">
             <div class="part right ml-2" data-aos="fade-up-left" data-aos-delay="800" data-aos-anchor-placement="top-center">
-                <v-carousel v-if="projet.hasOwnProperty('photos2')" cycle class="rounded d-flex justify-center" :show-arrows="setShowArrows(projet.photos2)" hide-delimiters >
-                    <v-carousel-item id="image-projet" v-for="(photo,index) in projet.photos2" :src="returnSrcImage(photo.src)"  :key="index" :width="setWidth()" cover>       <!-- cover ???-->
+                <v-carousel v-if="projet.hasOwnProperty('photos2')" cycle class="d-flex justify-center" :show-arrows="setShowArrows(projet.photos2)" hide-delimiters >
+                    <v-carousel-item id="image-projet" v-for="(photo,index) in projet.photos2" class="rounded" :src="returnSrcImage(photo.src)"  :key="index" :width="setWidth()" cover>       <!-- cover ???-->
                     </v-carousel-item>
                 </v-carousel> 
                 <div v-else-if="projet.hasOwnProperty('video')">

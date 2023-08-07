@@ -1,13 +1,10 @@
-Bug zombie meurt pas : limbo
-Relancer le jeu sans relancer la page
+Important : 
+    Relancer le jeu sans relancer la page
 
-portfolio : coin des photos arrondi
+Apres : 
 
+    Au clique sur une image, l'afficher en grand/Afficher le carroussel en grand pour pouvoir changer de photo
 
-
-
-
-
-
-
-Afficher gun au bon endroit, quand on tourne
+    pour docker : images dans dossier static ?
+        
+    Afficher gun au bon endroit, quand on tourne

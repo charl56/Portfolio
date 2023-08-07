@@ -125,7 +125,6 @@
 
             // AmmoJs : création physiques
             Ammo().then(
-                // AmmoJs = await new Ammo(),
                 start
             )
             async function start(){

@@ -6,8 +6,10 @@
                   <p class="text-h3 font-weight-bold">Portfolio</p>
                   <p class="text-h3 font-weight-bold">Portfolio</p>
                   <p class="text-h3 font-weight-bold">Portfolio</p>
+                  <p class="text-h3 font-weight-bold">Portfolio</p>
                 </span>
                 <span class="d-flex justify-space-around">
+                  <p class="text-h3 font-weight-bold">Portfolio</p>
                   <p class="text-h3 font-weight-bold">Portfolio</p>
                   <p class="text-h3 font-weight-bold">Portfolio</p>
                   <p class="text-h3 font-weight-bold">Portfolio</p>
