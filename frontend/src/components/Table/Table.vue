@@ -117,7 +117,7 @@ export default {
             if(import.meta.env.DEV){
               img.src = new URL('../../../images/' + image.src, import.meta.url).href
             } else {
-              img.src = '../images/' + image.src
+              img.src = 'images/' + image.src
             }            // Ajout des photos
             promises.push(new Promise((resolve, reject) => {
               img.onload = resolve
@@ -133,7 +133,7 @@ export default {
               if(import.meta.env.DEV){
                 img.src = new URL('../../../images/' + image.src, import.meta.url).href
               } else {
-                img.src = '../images/' + image.src
+                img.src = 'images/' + image.src
               }
               // Ajout des photos
               promises.push(new Promise((resolve, reject) => {

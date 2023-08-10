@@ -32,4 +32,13 @@ npm run build
 
 # Deployement
 
+
 * Actvate proxy http : a2enmod proxy proxy_http
+
+# Update
+
+* add zip folder
+* unzip 'folder_name'
+* cd /folder_name/frontend
+* docker compose build
+* docker compose up -d

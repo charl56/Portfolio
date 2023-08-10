@@ -71,7 +71,7 @@ export default {
             if(import.meta.env.DEV){
                 return new URL('../../../../images/' + src, import.meta.url).href   
             } else {
-                return '../images/' + src   
+                return 'images/' + src   
             }
         },
         setWidth(){

@@ -1,5 +1,4 @@
-Important : 
-    Relancer le jeu sans relancer la page
+AJouter le chemin /charles  pour truover le js et css apres le build
 
 Apres : 
 
@@ -7,4 +6,3 @@ Apres :
 
     pour docker : images dans dossier static ?
         
-    Afficher gun au bon endroit, quand on tourne

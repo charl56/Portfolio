@@ -19,6 +19,9 @@ COPY vite.config.js ./
 COPY index.html ./
 COPY base.css ./
 
+# Args
+ARG VITE_FRONT_URI=$VITE_FRONT_URI 
+
 # build app for production with minification
 RUN npm run build
 
