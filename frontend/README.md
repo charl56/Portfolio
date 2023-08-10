@@ -37,8 +37,8 @@ npm run build
 
 # Update
 
-* add zip folder
-* unzip 'folder_name'
+* add zip/rar folder
+* unzip 'folder_name' / unrar x folder.rar
 * cd /folder_name/frontend
 * docker compose build
 * docker compose up -d
