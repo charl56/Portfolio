@@ -173,9 +173,9 @@ export default {
     onDuckClick(){
       this.duck ++
       if(this.duck == 5 || this.duck == 10){
-        if(confirm("Passez en mode plein écran, puis appuyer sur 'ok'")){
+        if(confirm("Passez en mode plein écran (F11), puis appuyer sur 'ok'")){
           this.duck = 0
-          eventBus.emit("gameOn", true);
+          location.href = process.env.VITE_FRONT_URL + "zombie/"
           clearInterval(this.duckInterval)
         }
       }

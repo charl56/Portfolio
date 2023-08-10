@@ -67,7 +67,6 @@ export default {
     },
     methods:{
         returnSrcImage(src){
-            console.log(import.meta.env, import.meta.url)
             if(import.meta.env.DEV){
                 return new URL('../../../../images/' + src, import.meta.url).href   
             } else {
