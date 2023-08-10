@@ -65,7 +65,7 @@
             "name": "Stage chez Angers Loire Campus ",
             "date": "06 mars 2023 - 30 juin 2023",
             "intro": "Conception d'une web app de cartographie des acteurs de l'innovation sur Angers Loire Métropole",
-            "description": "L'application regoupe des infos sur le domaine de l'innovation, et sont affichées en catégories, sous catégories et fiches. Il y a une partie gestion de l'app coté admin (données et utilisateurs). Sécurité avec des comptes de différents rôle. Mise en ligne de l'app sur un serveur avec Docker. Voici la web app : <a href='https://innov-alc.angersloirecampus.fr/' target='_blank'>Voici la web app</a>",
+            "description": "L'application regoupe des infos sur le domaine de l'innovation, et sont affichées en catégories, sous catégories et fiches. Il y a une partie gestion de l'app coté admin (données et utilisateurs). Sécurité avec des comptes de différents rôle. Mise en ligne de l'app sur un serveur avec Docker. Lien de la <a href='https://innov-alc.angersloirecampus.fr/' target='_blank'>web app</a>",
             "outils": [
                 {"name": "NodeJs"},
                 {"name": "VueJs"},

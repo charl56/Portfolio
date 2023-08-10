@@ -4,8 +4,8 @@
     <button ref="duck" class="duck mx-0 px-0" :width="60" :height="60">
       <v-img :src="getDuckImg()" width="60" height="60" @click="onDuckClick()" class=" px-2 py-2"></v-img>
     </button>
-    <!-- Drapeau chagement langue -->
     <v-row class="row-icon-language mt-2 px-8 justify-space-between">
+      <!-- Download CV -->
       <div class="mx-6 px-2 py-1 d-flex align-center row-cv">
         <v-img class="icon-language" :src="iconDl" width="30" height="30"></v-img>
         <p class="text-h6" @click="downloadCV()">CV</p>
@@ -13,6 +13,7 @@
       <div v-if="duck != 0" class="mx-6 px-2 py-1 d-flex align-center row-cv">
         <p class="text-h6">Score : {{  duck }}</p>
       </div>
+      <!-- Drapeau chagement langue -->
       <div class="div-icon-language mx-6 d-flex align-center">
         <v-img class="icon-language" :src="iconFlag" width="30" height="30" @click="toggleLanguage()"></v-img>
       </div>
@@ -136,6 +137,7 @@ export default {
           }
         }
       }
+      console.log(promises)
       this.appData = data
       // Attente de la fin du chargement de toutes les images
       Promise.all(promises).then(() => {
@@ -164,9 +166,10 @@ export default {
     },
     onDuckClick(){
       this.duck ++
-      if(this.duck == 5){
+      if(this.duck == 5 || this.duck == 10){
         if(confirm("Passez en mode plein écran, puis appuyer sur 'ok'")){
-          eventBus.emit("gameOn");
+          this.duck = 0
+          eventBus.emit("gameOn", true);
           clearInterval(this.duckInterval)
         }
       }
@@ -197,6 +200,7 @@ export default {
   border-radius: 5px;
 }.row-cv:hover{
   cursor: pointer;
+  transform: scale(1.1);
 }
 .table{
   flex-direction: column;

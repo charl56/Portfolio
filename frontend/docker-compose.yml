@@ -5,7 +5,7 @@ services:
     build:
       # context: ../frontend      # Lieu du dossier 'frontend' dans le projet
       dockerfile: ./Dockerfile  # Lieu du dockerfile, par rapport au context
-    image: portfolio:frontend
+    image: portfolio/charles:frontend
     restart: always
     ports:
       - "8081:80"

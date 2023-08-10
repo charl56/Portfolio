@@ -49,8 +49,7 @@
 export default {
     name: 'AppProjetComponent',
     created(){
-    }
-    ,
+    },
     props: {
         projet: {
             name: String,
@@ -64,7 +63,6 @@ export default {
     },
     data () {
         return {
-            right: true
         }
     },
     methods:{

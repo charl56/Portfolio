@@ -1,13 +1,11 @@
 <template>
   <v-app id="app">
       <!-- Portfolio -->
-      <div v-if="!game">
+      <div>
         <Header />
         <Table />
         <Footer />
       </div>
-      <!-- Jeu -->
-      <Game v-else />
   </v-app>
 </template>
 
@@ -15,9 +13,6 @@
 import Header from './components/Header/Header.vue'
 import Table from './components/Table/Table.vue'
 import Footer from './components/Footer/Footer.vue'
-import Game from './components/Game/Game.vue'
-
-import { eventBus } from './plugins/eventBus'
 
 export default {
   name: 'App',
@@ -25,27 +20,7 @@ export default {
     Header,
     Table,
     Footer,
-    Game
   },
-  data(){
-    return {
-      game: false,
-    }
-  },
-  created(){  
-    eventBus.on('gameOn', () => {
-      this.game = true
-    });
-    eventBus.on("restartGame", () => {    // Recharge la page pour relancer le jeu
-      // this.game = false
-      this.gameKey ++
-      // setTimeout(() => {
-      //   this.game = true
-      // }, "200");
-    })
-  },
-  mounted(){
-  }
 }
 </script>
 
