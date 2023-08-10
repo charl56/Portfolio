@@ -114,8 +114,11 @@ export default {
         if(projet.photos1 != undefined){
           for(const image of projet.photos1){
             let img = new Image()
-            img.src = new URL('../../assets/Images/' + image.src, import.meta.url).href
-            // Ajout des photos
+            if(import.meta.env.DEV){
+              img.src = new URL('../../../images/' + image.src, import.meta.url).href
+            } else {
+              img.src = '../images/' + image.src
+            }            // Ajout des photos
             promises.push(new Promise((resolve, reject) => {
               img.onload = resolve
               img.onerror = reject
@@ -127,17 +130,20 @@ export default {
             // Seulement pour les images
             if(image.type == 'img'){
               let img = new Image()
-                img.src = new URL('../../assets/Images/' + image.src, import.meta.url).href
-                // Ajout des photos
-                promises.push(new Promise((resolve, reject) => {
-                  img.onload = resolve
-                  img.onerror = reject
-                }))
+              if(import.meta.env.DEV){
+                img.src = new URL('../../../images/' + image.src, import.meta.url).href
+              } else {
+                img.src = '../images/' + image.src
+              }
+              // Ajout des photos
+              promises.push(new Promise((resolve, reject) => {
+                img.onload = resolve
+                img.onerror = reject
+              }))
             }
           }
         }
       }
-      console.log(promises)
       this.appData = data
       // Attente de la fin du chargement de toutes les images
       Promise.all(promises).then(() => {
