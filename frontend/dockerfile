@@ -22,7 +22,7 @@ COPY base.css ./
 # build app for production with minification
 RUN npm run build
 
-COPY images/ /app/dist
+COPY images/ /app/dist/images
 
 # production stage
 FROM nginx:stable-alpine as production-stage
