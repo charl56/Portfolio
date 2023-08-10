@@ -27,3 +27,9 @@ npm run dev
 ```sh
 npm run build
 ```
+
+
+
+# Deployement
+
+* Actvate proxy http : a2enmod proxy proxy_http
