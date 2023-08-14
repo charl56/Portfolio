@@ -2,6 +2,7 @@
   <v-app id="app">
       <!-- Portfolio -->
       <div>
+        <Loader/>
         <Header />
         <Table />
         <Footer />
@@ -10,6 +11,7 @@
 </template>
 
 <script>
+import Loader from './components/Loader/Loader.vue'
 import Header from './components/Header/Header.vue'
 import Table from './components/Table/Table.vue'
 import Footer from './components/Footer/Footer.vue'
@@ -17,6 +19,7 @@ import Footer from './components/Footer/Footer.vue'
 export default {
   name: 'App',
   components: {
+    Loader,
     Header,
     Table,
     Footer,

@@ -16,7 +16,8 @@
         <v-row class="my-0 d-flex align-start justify-center">
             <p v-if="loaded" @click="open = !open" class="text-h5 px-3 py-1 btn-open loaded">{{ loaderData['loading2'] }}</p>
             <div v-else class="d-flex flex-column align-center">
-                <p class="text-h5 px-3 py-1 btn-open no-loaded" >{{ loaderData['loading1'] }}</p>
+                <!-- <p class="text-h5 px-3 py-1 btn-open no-loaded" >{{ loaderData['loading1'] }}</p> -->
+                <p class="text-h5 px-3 py-1 btn-open no-loaded" >{{ percentage }}%</p>
             </div>
         </v-row>      
     </v-dialog>
@@ -50,10 +51,9 @@ export default {
                 this.loaderData = this.dataFr
             }
         });
-        // eventBus.on('progressValue', (data) => {
-        //     this.percentage = data
-        //     console.log(this.percentage)
-        // });
+        eventBus.on('progressValue', (data) => {
+            this.percentage = parseInt(data)
+        });
     },
     mounted(){ // Lance la fonction au chargement de la page
 

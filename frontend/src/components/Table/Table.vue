@@ -32,13 +32,15 @@
         </v-row>
       </v-col>
     </v-row>
-    <Loader />
+    <!-- <Loader /> -->
+    <PopupImage />
   </div>
 </template>
 
 <script>
 import ProjetComponent from './Projets/ProjetComponent.vue'
-import Loader from '../Loader/Loader.vue'
+import PopupImage from './Projets/PopupImage/PopupImage.vue'
+// import Loader from '../Loader/Loader.vue'
 import dataFR from '../../data/appData/dataFR.json'
 import dataENG from '../../data/appData/dataENG.json'
 
@@ -49,7 +51,8 @@ export default {
   name: 'AppTable',
   components: {
     ProjetComponent,
-    Loader
+    // Loader,
+    PopupImage,
   }
   ,
   created(){
@@ -76,6 +79,7 @@ export default {
       this.$refs.duck.style.left = newLeft + "px";
       this.$refs.duck.style.top = newTop + "px";
     }, 2000);
+
   },
   data () {
     return {
@@ -105,10 +109,24 @@ export default {
         this.iconFlag = this.iconFR
       }
     },
+    calculateTotalImages(data) {
+      let totalImages = 0;
+      for (const projet of data) {
+        if (projet.photos1 != undefined) {
+          totalImages += projet.photos1.length;
+        }
+        if (projet.photos2 != undefined) {
+          totalImages += projet.photos2.filter(image => image.type === 'img').length;
+        }
+      }
+      return totalImages;
+    },
     loadImages(data) {
       // Récupération des projets depuis le fichier JSON
-      let progress = 0  // progression du chargement des images
-      this.percentage = 0
+      let progress = 0; // progression du chargement des images
+      this.percentage = 0;
+      const totalImages = this.calculateTotalImages(data); // Définissez cette fonction pour calculer le nombre total d'images
+
       let promises = []
       for(const projet of data){
         if(projet.photos1 != undefined){
@@ -118,11 +136,19 @@ export default {
               img.src = new URL('../../../images/' + image.src, import.meta.url).href
             } else {
               img.src = 'images/' + image.src
-            }            // Ajout des photos
-            promises.push(new Promise((resolve, reject) => {
-              img.onload = resolve
-              img.onerror = reject
-            }))
+            }            
+            // Chargement des photos, pourcentage
+            promises.push(
+              new Promise((resolve, reject) => {
+                img.onload = () => {
+                  progress++;
+                  this.percentage = (progress / totalImages) * 100;
+                  eventBus.emit('progressValue', this.percentage)
+                  resolve();
+                };
+                img.onerror = reject;
+              })
+            );
           }
         }
         if(projet.photos2 != undefined){
@@ -135,11 +161,18 @@ export default {
               } else {
                 img.src = 'images/' + image.src
               }
-              // Ajout des photos
-              promises.push(new Promise((resolve, reject) => {
-                img.onload = resolve
-                img.onerror = reject
-              }))
+              // Chargement des photos, pourcentage
+              promises.push(
+                new Promise((resolve, reject) => {
+                  img.onload = () => {
+                    progress++;
+                    this.percentage = (progress / totalImages) * 100;
+                    eventBus.emit('progressValue', this.percentage)
+                    resolve();
+                  };
+                  img.onerror = reject;
+                })
+              );
             }
           }
         }
@@ -173,10 +206,14 @@ export default {
     onDuckClick(){
       this.duck ++
       if(this.duck == 5 || this.duck == 10){
-        if(confirm("Passez en mode plein écran (F11), puis appuyer sur 'ok'")){
-          this.duck = 0
-          location.href = process.env.VITE_FRONT_URL + "zombie/"
-          clearInterval(this.duckInterval)
+        if(window.outerWidth < 700){
+          alert("Vous devez être sur un ordinateur pour continuer")
+        } else {
+          if(confirm("Passez en mode plein écran (F11), puis appuyer sur 'ok'")){
+            this.duck = 0
+            location.href = process.env.VITE_FRONT_URL + "zombie/"
+            clearInterval(this.duckInterval)
+          }
         }
       }
     }
