@@ -2,22 +2,22 @@
     [
         {
             "welcome": "Welcome",
-            "presentation1": "I'm Charles, student in computer sciences",
-            "presentation2": "On my portfolio, you will see some projets",
-            "loading1": "Pictures loading",
-            "loading2": "Let's in"
+            "presentation1": "I'm Charles, a student in computer science",
+            "presentation2": "On my portfolio, you'll find some projects",
+            "loading1": "Loading photos",
+            "loading2": "Enter"
         }
     ],[
         {
             "name": "4L Trophy",
-            "date": "05 - 15 May of 2022",
-            "intro": "Humanitarian raid on board a Renault 4L",
-            "description": "Raid aboard a 4L to bring school and sports supplies to children in the desert. 900 crews of 2, at the start. 6000km covered between France, Spain and Morocco. Adventure, mechanics, discovery !",
+            "date": "May 05 - 15, 2022",
+            "intro": "Humanitarian rally aboard a Renault 4L",
+            "description": "Rally using a 4L to deliver school and sports supplies to children in the desert. 900 teams of 2 at the start. 6000 km traveled between France, Spain, and Morocco. Adventure, mechanics, discovery!",
             "photos1": [
                 {"type": "img","src": "Trophy/voiture-debut.png"},
                 {"type": "img","src": "Trophy/voiture-moteur.png"},
                 {"type": "img","src": "Trophy/village-depart.png"},
-                {"type": "img","src": "Trophy/circuit.png"}
+                {"type": "img","src": "Trophy/circuit.jpg"}
             ],
             "photos2": [
                 {"type": "img","src": "Trophy/voiture-desert.png"},
@@ -28,9 +28,9 @@
         },
         {
             "name": "Internship at Citegestion (EDF)",
-            "date": "23 May - 12 August of 2022",
+            "date": "May 23 - August 12, 2022",
             "intro": "Development of a web application for data visualization",
-            "description": "The application allows to display data in 2 different ways: the trend of a data, or the correlation between 2 data. The user drags the data into the boxes to launch an analysis. He can also choose the sampling frequency and the date range. Possibility of simple trend, or multi-trend, on the chosen period.",
+            "description": "The backend of the application retrieves data from the database on the number of interventions per equipment. The frontend displays the data in two different ways: the trend of a data or the correlation between two data sets. Users drag the data into boxes to initiate analysis. They can also choose the sampling frequency and date range. Options for single or multi-trend analysis over the chosen period.",
             "outils": [
                 {"name": "Flask (Python)"},
                 {"name": "VueJs"},
@@ -38,7 +38,7 @@
                 {"name": "Docker"},
                 {"name": "GIT"}
             ],
-            "outil": "List of tools used : ",
+            "outil": "List of tools used: ",
             "photos1": [
                 {"type": "img","src": "StageCitegestion/correlation-light-maquette.png"}
             ],
@@ -50,11 +50,13 @@
         {
             "name": "Jukebox",
             "date": "September 2022 - May 2023",
-            "intro": "Creation of a jukebox in 2 parts : a web application part to see the available CDs, and choose one. A second part \"machine\" (see model on the right), with a system of motors and a suction cup, which catches the chosen CD to put it in a player.",
-            "description": "Project gathering several domains: web development, electronics, mechanics, modeling, project management. The web app is ready, a good part of the component management code is validated. It remains to print the 3D parts and to start the tests on the machine. <br />Project in pause, because internship abroad does not allow to bring the material on site. Project to be resumed in November 2023.",
+            "intro": "Creation of a jukebox, divided into two parts: a web application to view available CDs and choose one, and a 'machine' part (see model on the right), with a motor system and an electromagnet that positions the selected CD on the player.",
+            "description": "A project that encompasses various domains: web development, electronics, mechanics, modeling, and project management. The web application is ready, and a significant portion of the component management code has been validated. I still need to build the object to begin testing movement. Also, I need to validate the 'grabbing' of the CD, placement on the wall, and player. <br />Project on hold due to an overseas internship that doesn't allow bringing the equipment. Resuming in November 2023.",
             "photos1": [
                 {"type": "img","src": "Jukebox/application-frontend.png"},
-                {"type": "img","src": "Jukebox/application-frontend-play.png"}
+                {"type": "img","src": "Jukebox/application-frontend-play.png"},
+                {"type": "img","src": "Jukebox/edit-cd.png"},
+                {"type": "img","src": "Jukebox/lecteur.png"}
             ],
             "photos2": [
                 {"type": "img","src": "Jukebox/modelisation-cote.png"},
@@ -62,10 +64,10 @@
             ]    
         },
         {
-            "name": "Internship at Angers Loire Campus ",
-            "date": "06 March - 30 June 2023",
-            "intro": "Design of a web app for mapping innovation actors in Angers Loire Metropole",
-            "description": "The application contains information about the innovation field, and is displayed in categories, sub-categories and cards. There is a management part of the app on the admin side (data and users). Security with different 'role' accounts",
+            "name": "Internship at Angers Loire Campus",
+            "date": "March 06 - June 30, 2023",
+            "intro": "Design of a web app for mapping innovation actors in Angers Loire Métropole",
+            "description": "The application gathers information about the innovation field and displays it in categories containing sub-categories, which in turn contain individual profiles. There is an admin section for functional administrators (data and users). Security features include different role-based accounts. The app is deployed on a server using Docker. Link to the <a href='https://innov-alc.angersloirecampus.fr/' target='_blank'>web app</a>",
             "outils": [
                 {"name": "NodeJs"},
                 {"name": "VueJs"},
@@ -73,26 +75,26 @@
                 {"name": "Docker"},
                 {"name": "GIT"}
             ],
-            "outil": "List of tools used : "
+            "outil": "List of tools used: "
         },
         {
-            "name": "Radio Controlled Aircraft",
+            "name": "Radio-Controlled Plane",
             "date": "March - April 2023",
-            "intro": "For this project, I started by buying an EPP glider, and I equipped it with a motor, 2 servo-motors, 1 receiver and a battery to control it.",
-            "description": "First test: 3 flights made of 1 to 2 seconds duration. The plane was not balanced enough to be stable, and too heavy, but I realized it later. <br />2nd try : 3 flights. Great balance but the weight of the plane was still too heavy. So I decided to add a second wing on top. <br />3rd try, the plane 'flies', or rather planes. The second wing made the plane less stable, and the control is quite complicated, but it stays longer in the air. After some involuntary tricks, the plane crashed and one wing broke... So I decided to switch to a more serious model.",
+            "intro": "For this project, I started by buying an EPP glider and equipped it with a motor, 2 servo motors, 1 receiver, and a battery for control.",
+            "description": "First attempt: 3 flights lasting 1 to 2 seconds. The plane wasn't balanced enough to be stable and was too heavy, which I realized later. <br />Second attempt: 3 flights. Great balance but the plane still too heavy. So, I decided to add a second wing on top. <br />Third attempt, the plane 'flies' for a few seconds. The second wing made the plane less stable, and control was quite tricky, but it stayed in the air longer. After a major crash, one wing broke... So, I decided to move on to a more serious model.",
             "photos1": [
-                {"type": "img","src": "AvionRC1/avion-capot-ouvert.png"},
-                {"type": "img","src": "AvionRC1/avion-monoplan.png"}
+                {"src": "AvionRC1/avion-capot-ouvert.png"},
+                {"src": "AvionRC1/avion-monoplan.png"}
             ],
             "photos2": [
                 {"type": "img","src": "AvionRC1/avion-biplan.png"}
             ]   
         },
         {
-            "name": "Radio Controlled Aircraft V2",
-            "date": "April 2023 - Today",
-            "intro": "New version of radio-controlled plane, bigger and made of cardboard.",
-            "description": "For this model, I found the plans of a radio-controlled plane on the internet. I started by gluing the plans on cardboard, to cut out each part. Once the parts were cut, I followed the assembly to glue the parts, and reused some components from the first plane. <br />Then, it's time to balance the plane, and to set up the components. Then it is time to test it in flight! <br />Conclusion after the first flights: the engine is not powerful enough for the size of the plane, and the balancing can be improved. But the plane is more robust, and more steerable than the first, it is encouraging! Waiting for a more powerful engine.",
+            "name": "Radio-Controlled Plane V2",
+            "date": "April 2023 - June 2023",
+            "intro": "New version of a radio-controlled plane, larger and made of cardboard.",
+            "description": "For this project, I obtained plans for a radio-controlled plane from the internet. I began by gluing the plans onto cardboard to cut out each piece. After cutting the pieces, I followed the assembly steps to glue them together and also reused some components from my previous plane. <br />Before flying it, I balanced the plane and configured its components. <br />Initial flights: the engine wasn't powerful enough for the plane's size, and the balance could be improved. However, the plane was more robust and easier to control than the first model. <br />For the next steps, I installed a more powerful engine, but it didn't significantly improve flight performance. It eventually broke due to multiple crashes. <br />For the next model, I'm planning to build a glider to focus on construction and flying without the motor constraint.",
             "photos1": [
                 {"type": "img", "src": "AvionRC2/plan.png"},
                 {"type": "img", "src": "AvionRC2/plan-carton.jpg"},
@@ -101,6 +103,42 @@
             "video": [
                 {"type": "video","src": "AvionRC2/vol-1.mp4"},
                 {"type": "video","src": "AvionRC2/vol-2.mp4"}                
+            ]
+        },
+        {
+            "name": "3D Web Game",
+            "date": "June 2023 - July 2023",
+            "intro": "3D web zombie game",
+            "description": "I attempted to recreate the zombie mode from BO2 (Call of Duty) in a browser. I used VueJs to create a web app and discovered and used the ThreeJs and AmmoJs frameworks for 3D and adding physics to the 3D environment. <a href='/zombie/'>Here's the app</a>. The game is still in development, so there are many things to adjust.",
+            "photos1": [
+                {"type": "img","src": "Zombie3D/gameplay-1.png"},
+                {"type": "img","src": "Zombie3D/buy-weapon.png"}
+            ],  
+            "photos2": [
+                {"type": "img","src": "Zombie3D/death-screen.png"}
+            ],
+            "outil": "List of tools used: ",
+            "outils": [
+                {"name": "VueJs"},
+                {"name": "ThreeJs"},
+                {"name": "AmmoJs"}
+            ]
+        },
+        {
+            "name": "Internship in Ireland: Horse Motion Capture",
+            "date": "July 2023 - November 2023",
+            "intro": "The goal of this internship is to capture horse movements for 3D display",
+            "description": "For this project, there were two of us working together. We used ESP32s and accelerometer and gyroscope sensors to capture movements. Multiple ESPs were placed on the horse's joints to capture a wide range of movements. They were all connected via WiFi to another ESP32 serving as a base. The base sent all data as it arrived to an application for visualization and data storage.",
+            "photos1": [
+                {"type": "img","src": "MocapHorse/bat-horse.jpg"}
+            ],  
+            "photos2": [
+                {"type": "img","src": "MocapHorse/esp32-seeed.jpg"}
+            ],    
+            "outil": "List of tools used: ",
+            "outils": [
+                {"name": "C++"},
+                {"name": "ESP32"}
             ]
         }
     ]

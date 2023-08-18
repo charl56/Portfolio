@@ -1,7 +1,7 @@
 <template>
     <div class="projet px-0 mx-0 my-0 justify-space-between">
         <div id="resizable" class="part left mr-2 pr-2" data-aos="fade-up-right" data-aos-delay="200" data-aos-anchor-placement="top-center">
-            <v-carousel v-if="projet.hasOwnProperty('photos1')" cycle class="d-flex justify-center" :show-arrows="setShowArrows(projet.photos1)" hide-delimiters >
+            <v-carousel v-if="projet.hasOwnProperty('photos1')" cycle class="carousel-part d-flex justify-center" :show-arrows="setShowArrows(projet.photos1)" hide-delimiters >
                 <v-carousel-item id="image-projet" v-for="(photo,index) in projet.photos1" class="rounded-e" :src="returnSrcImage(photo.src)" :key="index" :width="setWidth()" cover @click="openImages(projet)">         <!--  ???-->
                 </v-carousel-item>
             </v-carousel>
@@ -89,13 +89,10 @@ export default {
             let listAllMedia = []   // Liste avec toutes les photos/videos pour le popup
             if(projet.hasOwnProperty('photos1')){
                 listAllMedia = listAllMedia.concat(projet.photos1)
-                console.log(listAllMedia)
             } if(projet.hasOwnProperty('photos2')){
                 listAllMedia = listAllMedia.concat(projet.photos2)
-                console.log(listAllMedia)
             } if(projet.hasOwnProperty('video')){
                 listAllMedia = listAllMedia.concat(projet.video)
-                console.log(listAllMedia)
             }
             eventBus.emit("openPopupImage", listAllMedia)
         }
@@ -132,8 +129,10 @@ export default {
   }
 }
 
-
-
+v-carousel-item:hover{
+    cursor: pointer!important;
+}
+/* Display */
 #image-projet{
     width: 100%;
     height: auto;

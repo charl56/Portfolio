@@ -32,7 +32,6 @@
         </v-row>
       </v-col>
     </v-row>
-    <!-- <Loader /> -->
     <PopupImage />
   </div>
 </template>
@@ -40,7 +39,6 @@
 <script>
 import ProjetComponent from './Projets/ProjetComponent.vue'
 import PopupImage from './Projets/PopupImage/PopupImage.vue'
-// import Loader from '../Loader/Loader.vue'
 import dataFR from '../../data/appData/dataFR.json'
 import dataENG from '../../data/appData/dataENG.json'
 
@@ -51,7 +49,6 @@ export default {
   name: 'AppTable',
   components: {
     ProjetComponent,
-    // Loader,
     PopupImage,
   }
   ,
