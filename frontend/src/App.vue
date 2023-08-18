@@ -28,6 +28,9 @@ export default {
 </script>
 
 <style>
+:root {
+   --background-color-1: #f5f9ff;
+}
 /* Hide scrollbar for Chrome, Safari and Opera */
 html::-webkit-scrollbar {
   display: none;
@@ -36,10 +39,15 @@ html::-webkit-scrollbar {
 html {
   margin: 0;
   height: 100%;
-  background-color: #FFF2DC;
+  /* background-color: var(--background-color-1); */
   /* Hide scrollbar for IE, Edge and Firefox */
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
+}
+@media only screen and (max-width: 600px) {
+  html {
+    width: 130% !important;
+  }
 }
 #app {
   font-family: Helvetica, Arial, sans-serif;
@@ -47,7 +55,7 @@ html {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  background-color: #FFF2DC !important;
+  background-color: var(--background-color-1) !important;
   top: 0;
   right: 0;
   bottom: 0;
@@ -55,11 +63,11 @@ html {
 }
 /* Surlignage du texte */
 ::selection{
-  background-color: #ebe5dc;
+  background-color: var(--background-color-1);
   color: #7eb3e8;
 }
 ::-moz-selection{
-  background-color: #ebe5dc;
+  background-color: var(--background-color-1);
   color: #2c3e50;
 }
 </style>

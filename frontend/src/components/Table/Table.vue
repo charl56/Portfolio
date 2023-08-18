@@ -6,16 +6,16 @@
     </button>
     <v-row class="row-icon-language mt-2 px-8 justify-space-between">
       <!-- Download CV -->
-      <div class="mx-6 px-2 py-1 d-flex align-center row-cv">
-        <v-img class="icon-language" :src="iconDl" width="30" height="30"></v-img>
-        <p class="text-h6" @click="downloadCV()">CV</p>
+      <div class="mx-6 px-2 pb-1 mt-2 d-flex align-center row-cv">
+        <v-img class="icon-language" :src="iconDl" :width="imageSize()" :height="imageSize()"></v-img>
+        <p :class="cvSize()" @click="downloadCV()">CV</p>
       </div>
       <div v-if="duck != 0" class="mx-6 px-2 py-1 d-flex align-center row-cv">
-        <p class="text-h6">Score : {{  duck }}</p>
+        <p class="text-h4">Score : {{  duck }}</p>
       </div>
       <!-- Drapeau chagement langue -->
-      <div class="div-icon-language mx-6 d-flex align-center">
-        <v-img class="icon-language" :src="iconFlag" width="30" height="30" @click="toggleLanguage()"></v-img>
+      <div class="div-icon-language mx-6 mb-1 mt-2 d-flex align-center">
+        <v-img class="icon-language" :src="iconFlag" :width="imageSize()" :height="imageSize()" @click="toggleLanguage()"></v-img>
       </div>
     </v-row>
     
@@ -25,7 +25,7 @@
         <!-- Affichage des projets -->
         <v-row class="row-projets d-flex justify-center mb-15" v-for="projet, index in appData" :key="index">
             <!-- Nom du projet -->
-            <p class="text-center font-weight-bold text-decoration-underline text-h5 mt-10 mb-4 table-projet-name" data-aos="fade-up" data-aos-delay="100" data-aos-anchor-placement="center-bottom">{{ projet.name }}</p>
+            <p class="text-center font-weight-medium text-decoration-underline mt-10 mb-4 table-projet-name" :class="titleProjectSize()" data-aos="fade-up" data-aos-delay="100" data-aos-anchor-placement="center-bottom">{{ projet.name }}</p>
             <!-- Projet -->
             <ProjetComponent :projet="projet" :id="index"/>
           <!-- RESPONSIVE, POUR TELEPHONE APR EX... -->
@@ -213,6 +213,35 @@ export default {
           }
         }
       }
+    },
+    imageSize(){
+      if(window.outerWidth < 400){
+          return '90'
+      } else if(window.outerWidth < 600){
+          return '75'
+      } else {   
+          return '30' 
+      }
+    },
+    titleProjectSize(){
+      if(window.outerWidth < 400){
+          return 'text-h2'
+      } else if(window.outerWidth < 600){
+          return 'text-h3'
+      } else {   
+          return 'text-h5' 
+      }
+    },
+    cvSize(){
+      // window.outerWidth < 400 ? return 'text-h4' : window.outerWidth < 600 ? return 'text-h4' : return 'text-h5'
+
+      if(window.outerWidth < 400){
+          return 'text-h4'
+      } else if(window.outerWidth < 600){
+          return 'text-h4'
+      } else {   
+          return 'text-h5' 
+      }
     }
   },
 }
@@ -258,10 +287,21 @@ export default {
   width: 100%;
 }.div-icon-language{
   z-index: 999;
-  width: 30px;
+  width: auto;
 }.icon-language{
-  width: 30px;
-}.icon-language:hover{
+  width: auto;
+  height: auto;
+}
+/* @media (max-width: 650px) {
+  .div-icon-language{
+    width: 60px !important;
+  }.icon-language{
+  width: 60px;
+  height: 60px;
+  }
+} */
+
+.icon-language:hover{
   cursor: pointer;
 }
 

@@ -51,7 +51,7 @@
             "name": "Jukebox",
             "date": "September 2022 - May 2023",
             "intro": "Creation of a jukebox, divided into two parts: a web application to view available CDs and choose one, and a 'machine' part (see model on the right), with a motor system and an electromagnet that positions the selected CD on the player.",
-            "description": "A project that encompasses various domains: web development, electronics, mechanics, modeling, and project management. The web application is ready, and a significant portion of the component management code has been validated. I still need to build the object to begin testing movement. Also, I need to validate the 'grabbing' of the CD, placement on the wall, and player. <br />Project on hold due to an overseas internship that doesn't allow bringing the equipment. Resuming in November 2023.",
+            "description": "A project that encompasses various domains: web development, electronics, mechanics, modeling, and project management. The web application is ready, and a significant portion of the component management code has been validated. I still need to build the object to begin testing movement. Also, I need to validate the 'grabbing' of the CD, placement on the wall, and player. <br />Project on hold due to an overseas internship that doesn't allow bringing the equipment. Resuming in November 2023.  <br /><a href='/jukebox/' target='_blank'>Demo</a> of the application is available, but not optimized for smartphones as the application will be displayed on a larger screen.",
             "photos1": [
                 {"type": "img","src": "Jukebox/application-frontend.png"},
                 {"type": "img","src": "Jukebox/application-frontend-play.png"},

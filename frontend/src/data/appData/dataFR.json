@@ -51,7 +51,7 @@
             "name": "Jukebox",
             "date": "septembre 2022 - mai 2023",
             "intro": "Création d'une jukebox, en 2 parties : une partie application web pour voir les CD disponibles, et en choisir un. Une deuxième partie \"machine\" (voir modé sur la droite), avec un système de moteurs et un électroaimant, qui permet de placer le cd voulu sur le lecteur.",
-            "description": "Projet regroupant plusieurs domaines : développement web, électronique, mécanique, modélisation, gestion de projet.  L'application web est prête, une bonne partie du code de gestion des composants est validé. Il me reste a construire l'objet pour commencer à tester le déplacement; Egalement à valider la partie 'prise' du cd, placement sur le mur et lecteur . <br />Projet en pause, car stage à l'étranger ne permettant pas d'amener le matériel sur place. Reprise en novembre 2023.",
+            "description": "Projet regroupant plusieurs domaines : développement web, électronique, mécanique, modélisation, gestion de projet.  L'application web est prête, une bonne partie du code de gestion des composants est validé. Il me reste a construire l'objet pour commencer à tester le déplacement; Egalement à valider la partie 'prise' du cd, placement sur le mur et lecteur . <br />Projet en pause, car stage à l'étranger ne permettant pas d'amener le matériel sur place. Reprise en novembre 2023. <br /><a href='/jukebox/' target='_blank'>Demo</a> de l'application disponible, mais pas adapté pour smartphone car l'application sera sur un écran écran",
             "photos1": [
                 {"type": "img","src": "Jukebox/application-frontend.png"},
                 {"type": "img","src": "Jukebox/application-frontend-play.png"},
