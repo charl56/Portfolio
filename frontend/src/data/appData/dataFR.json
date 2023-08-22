@@ -109,7 +109,7 @@
             "name": "Jeu web 3D",
             "date": "Juin 2023 - Juillet 2023",
             "intro": "Jeu zombie en web 3d",
-            "description": "J'ai tenté de reproduire le mode zombie de BO2 (Call of duty) sur navigateur. Pour cela j'ai utilisé VueJs, ce qui me permet de faire une web app. J'ai ensuite découvert et utilisé les frameworks ThreeJs pour la 3D, et AmmoJs pour ajouter une partie physique à l'environnement 3D. <a href='/zombie/'>Voici l'app</a>. Jeu encore en développement, donc il y a pas mal de choses à régler.",
+            "description": "J'ai tenté de reproduire le mode zombie de BO2 (Call of duty) sur navigateur. Pour cela j'ai utilisé VueJs, ce qui me permet de faire une web app. J'ai ensuite découvert et utilisé les frameworks ThreeJs pour la 3D, et AmmoJs pour ajouter une partie physique à l'environnement 3D. <a href='/zombie/' target='_blank'>Voici l'app</a>. Jeu encore en développement, donc il y a pas mal de choses à régler.",
             "photos1": [
                 {"type": "img","src": "Zombie3D/gameplay-1.png"},
                 {"type": "img","src": "Zombie3D/buy-weapon.png"}

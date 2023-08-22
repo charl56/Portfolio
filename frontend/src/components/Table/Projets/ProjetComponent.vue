@@ -1,6 +1,6 @@
 <template>
     <div class="projet px-0 mx-0 my-0 justify-space-between">
-        <div id="resizable" class="part left mr-2 pr-2" data-aos="fade-up-right" data-aos-delay="200" data-aos-anchor-placement="top-center">
+        <div id="resizable" class="part mr-2 pr-2" data-aos="fade-up-right" data-aos-delay="200" data-aos-anchor-placement="top-center">
             <v-carousel v-if="projet.hasOwnProperty('photos1')" cycle class="carousel-part d-flex justify-center" :show-arrows="setShowArrows(projet.photos1)" hide-delimiters >
                 <v-carousel-item id="image-projet" v-for="(photo,index) in projet.photos1" class="rounded-e" :src="returnSrcImage(photo.src)" :key="index" :width="setWidth()" cover @click="openImages(projet)"> 
                 </v-carousel-item>
@@ -20,7 +20,7 @@
             <p v-if="projet.hasOwnProperty('date')" :class="dateSize()" class="mt-10 mb-0 text-center font-italic align-self-end">{{projet.date}}</p>
             
         </div>
-        <div class="part right ml-2 pl-2" data-aos="fade-up-left" data-aos-delay="800" data-aos-anchor-placement="top-center">
+        <div class="part ml-2 pl-2" data-aos="fade-up-left" data-aos-delay="800" data-aos-anchor-placement="top-center">
             <v-carousel v-if="projet.hasOwnProperty('photos2')" cycle class="d-flex justify-center" :show-arrows="setShowArrows(projet.photos2)" hide-delimiters >
                 <v-carousel-item id="image-projet" v-for="(photo,index) in projet.photos2" class="rounded-s" :src="returnSrcImage(photo.src)"  :key="index" :width="setWidth()" cover @click="openImages(projet)">
                 </v-carousel-item>
@@ -142,7 +142,7 @@ export default {
 .part{
     width: 33vw;
 }.part:hover{
-    cursor: pointer !important;
+    transform: scale(1.04) !important;    
 }.center{
     width: 34vw;
     height: 100%;
@@ -157,9 +157,7 @@ export default {
   }
 }
 
-v-carousel-item:hover{
-    cursor: pointer!important;
-}
+
 /* Display */
 #image-projet{
     width: 100%;

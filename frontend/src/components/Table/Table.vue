@@ -1,17 +1,10 @@
 <template>
   <div class="d-flex table pt-1 mb-4" ref="table">
-    <!-- Canard -->
-    <button ref="duck" class="duck mx-0 px-0" :width="60" :height="60">
-      <v-img :src="getDuckImg()" width="60" height="60" @click="onDuckClick()" class=" px-2 py-2"></v-img>
-    </button>
     <v-row class="row-icon-language mt-2 px-8 justify-space-between">
       <!-- Download CV -->
       <div class="mx-6 px-2 pb-1 mt-2 d-flex align-center row-cv">
         <v-img class="icon-language" :src="iconDl" :width="imageSize()" :height="imageSize()"></v-img>
         <p :class="cvSize()" @click="downloadCV()">CV</p>
-      </div>
-      <div v-if="duck != 0" class="mx-6 px-2 py-1 d-flex align-center row-cv">
-        <p class="text-h4">Score : {{  duck }}</p>
       </div>
       <!-- Drapeau chagement langue -->
       <div class="div-icon-language mx-6 mb-1 mt-2 d-flex align-center">
@@ -63,19 +56,7 @@ export default {
     eventBus.emit("languageLoad", data);
     this.loadImages(dataFR[1])                  // Fonction qui charge les images
 
-    this.duckInterval = setInterval(() => {                         // Affiche le canard
-      const containerRect = this.$refs.table.getBoundingClientRect();
-      const btnRect = this.$refs.duck.getBoundingClientRect();
-
-      const containerWidth = containerRect.width - btnRect.width;
-      const containerHeight = containerRect.height - btnRect.height;
-
-      const newLeft = Math.floor(Math.random() * containerWidth);
-      const newTop = Math.floor(Math.random() * containerHeight);
-
-      this.$refs.duck.style.left = newLeft + "px";
-      this.$refs.duck.style.top = newTop + "px";
-    }, 2000);
+    
 
   },
   data () {
@@ -89,8 +70,8 @@ export default {
       iconDl: '',
       loading: true,      // Chargement
       percentage: 0,    
-      duck: 0,            // Points au tire
-      duckInterval: ''    // SetInterval and stop
+      // duck: 0,            // Points au tire
+      // duckInterval: ''    // SetInterval and stop
     }
   },
   methods:{
@@ -197,23 +178,6 @@ export default {
         console.error(erreur)
       }
     },
-    getDuckImg(){
-      return new URL('../../assets/Icons/duck.png', import.meta.url).href
-    },
-    onDuckClick(){
-      this.duck ++
-      if(this.duck == 5 || this.duck == 10){
-        if(window.outerWidth < 700){
-          alert("Vous devez être sur un ordinateur pour continuer")
-        } else {
-          if(confirm("Passez en mode plein écran (F11), puis appuyer sur 'ok'")){
-            this.duck = 0
-            location.href = process.env.VITE_FRONT_URL + "zombie/"
-            clearInterval(this.duckInterval)
-          }
-        }
-      }
-    },
     imageSize(){
       if(window.outerWidth < 400){
           return '90'
@@ -274,13 +238,6 @@ export default {
 .table{
   flex-direction: column;
 
-}.duck {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 998;
-}.duck:hover{
-  cursor: url(../../assets/Icons/viseur_black.png) 15 15, auto;
 }
 
 .row-icon-language{
@@ -292,15 +249,6 @@ export default {
   width: auto;
   height: auto;
 }
-/* @media (max-width: 650px) {
-  .div-icon-language{
-    width: 60px !important;
-  }.icon-language{
-  width: 60px;
-  height: 60px;
-  }
-} */
-
 .icon-language:hover{
   cursor: pointer;
 }
@@ -310,28 +258,51 @@ span{
 }
 </style>
 
+<!-- HTML -->
+<!-- <button ref="duck" class="duck mx-0 px-0" :width="60" :height="60">
+  <v-img :src="getDuckImg()" width="60" height="60" @click="onDuckClick()" class=" px-2 py-2"></v-img>
+</button> -->
+<!-- <div v-if="duck != 0" class="mx-6 px-2 py-1 d-flex align-center row-cv">
+  <p class="text-h4">Score : {{  duck }}</p>
+</div> -->
+<!-- Mounted -->
+<!-- this.duckInterval = setInterval(() => {                         // Affiche le canard
+      const containerRect = this.$refs.table.getBoundingClientRect();
+      const btnRect = this.$refs.duck.getBoundingClientRect();
 
-<!-- .map((image) => {       // On 'ouvre' la fonction preomise.all(), pour connaitre l'avancement et faire avancer la progression
-        return new Promise((resolve, reject) => {
-          const xhr = new XMLHttpRequest();
-          console.log("image : ",image, image.src)
-          xhr.open('GET', image.url);
-          xhr.responseType = 'blob';
-          xhr.onload = () => {
-            console.log("xhr : ",xhr)
-            if (xhr.status === 200) {       // Cette partie sert a envoyé le pourcentag d'avancement au 'loader'
-              progress += 1;
-              this.percentage = Math.floor((progress / total) * 100);
-              // console.log(this.percentage)
-              eventBus.emit('progressValue', this.percentage)
-              resolve(xhr.response);
-            } else {
-              reject(xhr.statusText);
-            }
-          };
-          xhr.onerror = () => {
-            reject('Network error');
-          };
-          xhr.send();
-        });
-      }) -->
+      const containerWidth = containerRect.width - btnRect.width;
+      const containerHeight = containerRect.height - btnRect.height;
+
+      const newLeft = Math.floor(Math.random() * containerWidth);
+      const newTop = Math.floor(Math.random() * containerHeight);
+
+      this.$refs.duck.style.left = newLeft + "px";
+      this.$refs.duck.style.top = newTop + "px";
+    }, 2000); -->
+<!-- Methods -->
+ <!-- getDuckImg(){
+      return new URL('../../assets/Icons/duck.png', import.meta.url).href
+    },
+    onDuckClick(){
+      this.duck ++
+      if(this.duck == 5 || this.duck == 10){
+        if(window.outerWidth < 700){
+          alert("Vous devez être sur un ordinateur pour continuer")
+        } else {
+          if(confirm("Passez en mode plein écran (F11), puis appuyer sur 'ok'")){
+            this.duck = 0
+            location.href = process.env.VITE_FRONT_URL + "zombie/"
+            clearInterval(this.duckInterval)
+          }
+        }
+      }
+    }, -->
+<!-- CSS -->
+<!-- .duck {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 998;
+}.duck:hover{
+  cursor: url(../../assets/Icons/viseur_black.png) 15 15, auto;
+} -->
