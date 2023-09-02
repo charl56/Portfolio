@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex table pt-1 mb-4" ref="table">
+  <div class="d-flex div-table pt-1 mb-4">
     <v-row class="row-icon-language mt-2 px-8 justify-space-between">
       <!-- Download CV -->
       <div class="mx-6 px-2 pb-1 mt-2 d-flex align-center row-cv">
@@ -197,11 +197,7 @@ export default {
       }
     },
     cvSize(){
-      // window.outerWidth < 400 ? return 'text-h4' : window.outerWidth < 600 ? return 'text-h4' : return 'text-h5'
-
-      if(window.outerWidth < 400){
-          return 'text-h4'
-      } else if(window.outerWidth < 600){
+      if(window.outerWidth < 600){
           return 'text-h4'
       } else {   
           return 'text-h5' 
@@ -213,21 +209,18 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
-.col-projets{
-  margin-right: auto;
-  margin-left: auto;
+/* Div total */
+.div-table{
+  flex-direction: column;
+  width: 100%;
+  overflow-x: hidden;
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}.div-table::-webkit-scrollbar {
+  display: none;
 }
-.row-projets{
-  margin-right: auto;
-  margin-left: auto;
-  width: 100vw;
-}
-
-.table-projet-name:hover{
-  font-size: 2em !important;
-  cursor: none;
-}
-
+/* CV */
 .row-cv{
   border: 1px solid black;
   border-radius: 5px;
@@ -235,11 +228,7 @@ export default {
   cursor: pointer;
   transform: scale(1.1);
 }
-.table{
-  flex-direction: column;
-
-}
-
+/* Icon language */
 .row-icon-language{
   width: 100%;
 }.div-icon-language{
@@ -252,10 +241,23 @@ export default {
 .icon-language:hover{
   cursor: pointer;
 }
-
-span{
-  width: 100% !important;
+/* Affichage des projets */
+.col-projets{
+  margin-right: auto;
+  margin-left: auto;
 }
+.row-projets{
+  margin-right: auto;
+  margin-left: auto;
+  width: 100vw;
+}
+/* Nom des projets */
+.table-projet-name:hover{
+  font-size: 2em !important;
+  cursor: none;
+}
+
+
 </style>
 
 <!-- HTML -->

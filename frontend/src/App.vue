@@ -44,11 +44,11 @@ html {
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
-@media only screen and (max-width: 600px) {
+/* @media only screen and (max-width: 600px) {
   html {
     width: 130% !important;
   }
-}
+} */
 #app {
   font-family: Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

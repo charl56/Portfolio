@@ -1,12 +1,12 @@
 <template>
     <div class="projet px-0 mx-0 my-0 justify-space-between">
-        <div id="resizable" class="part mr-2 pr-2" data-aos="fade-up-right" data-aos-delay="200" data-aos-anchor-placement="top-center">
+        <div id="resizable" class="part" data-aos="fade-up-right" :data-aos-delay="setDataAosDelay('left')" data-aos-anchor-placement="top-center">
             <v-carousel v-if="projet.hasOwnProperty('photos1')" cycle class="carousel-part d-flex justify-center" :show-arrows="setShowArrows(projet.photos1)" hide-delimiters >
                 <v-carousel-item id="image-projet" v-for="(photo,index) in projet.photos1" class="rounded-e" :src="returnSrcImage(photo.src)" :key="index" :width="setWidth()" cover @click="openImages(projet)"> 
                 </v-carousel-item>
             </v-carousel>
         </div>
-        <div class="center px-2 d-flex flex-column" data-aos="fade-up" data-aos-delay="500" data-aos-anchor-placement="top-center">
+        <div class="center px-2 d-flex flex-column" data-aos="fade-up" :data-aos-delay="setDataAosDelay('center')" data-aos-anchor-placement="top-center">
             <!-- Intro -->
             <p v-if="projet.hasOwnProperty('intro')" :class="textSize()" class="mb-3 mt-0 text-justify align-self-center">{{ projet.intro }}</p>
             <!-- Description -->
@@ -20,7 +20,7 @@
             <p v-if="projet.hasOwnProperty('date')" :class="dateSize()" class="mt-10 mb-0 text-center font-italic align-self-end">{{projet.date}}</p>
             
         </div>
-        <div class="part ml-2 pl-2" data-aos="fade-up-left" data-aos-delay="800" data-aos-anchor-placement="top-center">
+        <div class="part" data-aos="fade-up-left" :data-aos-delay="setDataAosDelay('right')" data-aos-anchor-placement="top-center">
             <v-carousel v-if="projet.hasOwnProperty('photos2')" cycle class="d-flex justify-center" :show-arrows="setShowArrows(projet.photos2)" hide-delimiters >
                 <v-carousel-item id="image-projet" v-for="(photo,index) in projet.photos2" class="rounded-s" :src="returnSrcImage(photo.src)"  :key="index" :width="setWidth()" cover @click="openImages(projet)">
                 </v-carousel-item>
@@ -122,6 +122,20 @@ export default {
                 return 'text-subtitle-1'
             } else {   
                 return 'text-subtitle-2' 
+            }
+        },
+        // Function pour regler les parametres d'affichages des parties
+        setDataAosDelay(part){
+            if(window.outerWidth < 600){
+                return 100
+            } else {
+                if(part == 'left'){
+                    return 200
+                } else if(part == 'center'){
+                    return 500
+                } else if(part == 'right'){
+                    return 800
+                }
             }
         }
     },
