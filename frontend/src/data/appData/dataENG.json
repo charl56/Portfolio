@@ -14,16 +14,16 @@
             "intro": "Humanitarian rally aboard a Renault 4L",
             "description": "Rally using a 4L to deliver school and sports supplies to children in the desert. 900 teams of 2 at the start. 6000 km traveled between France, Spain, and Morocco. Adventure, mechanics, discovery!",
             "photos1": [
-                {"type": "img","src": "Trophy/voiture-debut.png"},
-                {"type": "img","src": "Trophy/voiture-moteur.png"},
-                {"type": "img","src": "Trophy/village-depart.png"},
+                {"type": "img","src": "Trophy/voiture-debut.jpg"},
+                {"type": "img","src": "Trophy/voiture-moteur.jpg"},
+                {"type": "img","src": "Trophy/village-depart.jpg"},
                 {"type": "img","src": "Trophy/circuit.jpg"}
             ],
             "photos2": [
-                {"type": "img","src": "Trophy/voiture-desert.png"},
-                {"type": "img","src": "Trophy/voiture-palmier.png"},
-                {"type": "img","src": "Trophy/voiture-sable.png"},
-                {"type": "img","src": "Trophy/voiture-drapeau.png"}
+                {"type": "img","src": "Trophy/voiture-desert.jpg"},
+                {"type": "img","src": "Trophy/voiture-palmier.jpg"},
+                {"type": "img","src": "Trophy/voiture-sable.jpg"},
+                {"type": "img","src": "Trophy/voiture-drapeau.jpg"}
             ]
         },
         {
@@ -40,11 +40,11 @@
             ],
             "outil": "List of tools used: ",
             "photos1": [
-                {"type": "img","src": "StageCitegestion/correlation-light-maquette.png"}
+                {"type": "img","src": "StageCitegestion/correlation-light-maquette.jpg"}
             ],
             "photos2": [
-                {"type": "img","src": "StageCitegestion/correlation-dark.png"},
-                {"type": "img","src": "StageCitegestion/tendance-light.png"}
+                {"type": "img","src": "StageCitegestion/correlation-dark.jpg"},
+                {"type": "img","src": "StageCitegestion/tendance-light.jpg"}
             ]
         },
         {
@@ -53,14 +53,14 @@
             "intro": "Creation of a jukebox, divided into two parts: a web application to view available CDs and choose one, and a 'machine' part (see model on the right), with a motor system and an electromagnet that positions the selected CD on the player.",
             "description": "A project that encompasses various domains: web development, electronics, mechanics, modeling, and project management. The web application is ready, and a significant portion of the component management code has been validated. I still need to build the object to begin testing movement. Also, I need to validate the 'grabbing' of the CD, placement on the wall, and player. <br />Project on hold due to an overseas internship that doesn't allow bringing the equipment. Resuming in November 2023.  <br /><a href='/jukebox/' target='_blank'>Demo</a> of the application is available, but not optimized for smartphones as the application will be displayed on a larger screen.",
             "photos1": [
-                {"type": "img","src": "Jukebox/application-frontend.png"},
-                {"type": "img","src": "Jukebox/application-frontend-play.png"},
-                {"type": "img","src": "Jukebox/edit-cd.png"},
-                {"type": "img","src": "Jukebox/lecteur.png"}
+                {"type": "img","src": "Jukebox/application-frontend.jpg"},
+                {"type": "img","src": "Jukebox/application-frontend-play.jpg"},
+                {"type": "img","src": "Jukebox/edit-cd.jpg"},
+                {"type": "img","src": "Jukebox/lecteur.jpg"}
             ],
             "photos2": [
-                {"type": "img","src": "Jukebox/modelisation-cote.png"},
-                {"type": "img","src": "Jukebox/modelisation-face.png"}
+                {"type": "img","src": "Jukebox/modelisation-cote.jpg"},
+                {"type": "img","src": "Jukebox/modelisation-face.jpg"}
             ]    
         },
         {
@@ -83,11 +83,11 @@
             "intro": "For this project, I started by buying an EPP glider and equipped it with a motor, 2 servo motors, 1 receiver, and a battery for control.",
             "description": "First attempt: 3 flights lasting 1 to 2 seconds. The plane wasn't balanced enough to be stable and was too heavy, which I realized later. <br />Second attempt: 3 flights. Great balance but the plane still too heavy. So, I decided to add a second wing on top. <br />Third attempt, the plane 'flies' for a few seconds. The second wing made the plane less stable, and control was quite tricky, but it stayed in the air longer. After a major crash, one wing broke... So, I decided to move on to a more serious model.",
             "photos1": [
-                {"src": "AvionRC1/avion-capot-ouvert.png"},
-                {"src": "AvionRC1/avion-monoplan.png"}
+                {"src": "AvionRC1/avion-capot-ouvert.jpg"},
+                {"src": "AvionRC1/avion-monoplan.jpg"}
             ],
             "photos2": [
-                {"type": "img","src": "AvionRC1/avion-biplan.png"}
+                {"type": "img","src": "AvionRC1/avion-biplan.jpg"}
             ]   
         },
         {
@@ -96,7 +96,7 @@
             "intro": "New version of a radio-controlled plane, larger and made of cardboard.",
             "description": "For this project, I obtained plans for a radio-controlled plane from the internet. I began by gluing the plans onto cardboard to cut out each piece. After cutting the pieces, I followed the assembly steps to glue them together and also reused some components from my previous plane. <br />Before flying it, I balanced the plane and configured its components. <br />Initial flights: the engine wasn't powerful enough for the plane's size, and the balance could be improved. However, the plane was more robust and easier to control than the first model. <br />For the next steps, I installed a more powerful engine, but it didn't significantly improve flight performance. It eventually broke due to multiple crashes. <br />For the next model, I'm planning to build a glider to focus on construction and flying without the motor constraint.",
             "photos1": [
-                {"type": "img", "src": "AvionRC2/plan.png"},
+                {"type": "img", "src": "AvionRC2/plan.jpg"},
                 {"type": "img", "src": "AvionRC2/plan-carton.jpg"},
                 {"type": "img", "src": "AvionRC2/avion-carton.jpg"}
             ],
@@ -111,11 +111,11 @@
             "intro": "3D web zombie game",
             "description": "I attempted to recreate the zombie mode from BO2 (Call of Duty) in a browser. I used VueJs to create a web app and discovered and used the ThreeJs and AmmoJs frameworks for 3D and adding physics to the 3D environment. <a href='/zombie/'>Here's the app</a>. The game is still in development, so there are many things to adjust.",
             "photos1": [
-                {"type": "img","src": "Zombie3D/gameplay-1.png"},
-                {"type": "img","src": "Zombie3D/buy-weapon.png"}
+                {"type": "img","src": "Zombie3D/gameplay-1.jpg"},
+                {"type": "img","src": "Zombie3D/buy-weapon.jpg"}
             ],  
             "photos2": [
-                {"type": "img","src": "Zombie3D/death-screen.png"}
+                {"type": "img","src": "Zombie3D/death-screen.jpg"}
             ],
             "outil": "List of tools used: ",
             "outils": [

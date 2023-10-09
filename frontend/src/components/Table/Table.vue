@@ -55,9 +55,6 @@ export default {
     const data = [dataFR[0], dataENG[0]]        // Variable qui est envoyé au composant 'loader', en Fr et Eng
     eventBus.emit("languageLoad", data);
     this.loadImages(dataFR[1])                  // Fonction qui charge les images
-
-    
-
   },
   data () {
     return {

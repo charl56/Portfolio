@@ -14,16 +14,16 @@
             "intro": "Raid humanitaire à bord d'une Renault 4L",
             "description": "Raid à bord d'une 4L pour amener des fournitures scolaires et sportives aux enfants du desert. 900 équipages de 2, au départ. 6000km parcourus entre la France, l'Espagne et le Maroc. Aventure, mécanique, découverte !",
             "photos1": [
-                {"type": "img","src": "Trophy/voiture-debut.png"},
-                {"type": "img","src": "Trophy/voiture-moteur.png"},
-                {"type": "img","src": "Trophy/village-depart.png"},
+                {"type": "img","src": "Trophy/voiture-debut.jpg"},
+                {"type": "img","src": "Trophy/voiture-moteur.jpg"},
+                {"type": "img","src": "Trophy/village-depart.jpg"},
                 {"type": "img","src": "Trophy/circuit.jpg"}
             ],
             "photos2": [
-                {"type": "img","src": "Trophy/voiture-desert.png"},
-                {"type": "img","src": "Trophy/voiture-palmier.png"},
-                {"type": "img","src": "Trophy/voiture-sable.png"},
-                {"type": "img","src": "Trophy/voiture-drapeau.png"}
+                {"type": "img","src": "Trophy/voiture-desert.jpg"},
+                {"type": "img","src": "Trophy/voiture-palmier.jpg"},
+                {"type": "img","src": "Trophy/voiture-sable.jpg"},
+                {"type": "img","src": "Trophy/voiture-drapeau.jpg"}
             ]
         },
         {
@@ -40,11 +40,11 @@
             ],
             "outil": "Liste des outils utilisés : ",
             "photos1": [
-                {"type": "img","src": "StageCitegestion/correlation-light-maquette.png"}
+                {"type": "img","src": "StageCitegestion/correlation-light-maquette.jpg"}
             ],
             "photos2": [
-                {"type": "img","src": "StageCitegestion/correlation-dark.png"},
-                {"type": "img","src": "StageCitegestion/tendance-light.png"}
+                {"type": "img","src": "StageCitegestion/correlation-dark.jpg"},
+                {"type": "img","src": "StageCitegestion/tendance-light.jpg"}
             ]
         },
         {
@@ -53,14 +53,14 @@
             "intro": "Création d'une jukebox, en 2 parties : une partie application web pour voir les CD disponibles, et en choisir un. Une deuxième partie \"machine\" (voir modé sur la droite), avec un système de moteurs et un électroaimant, qui permet de placer le cd voulu sur le lecteur.",
             "description": "Projet regroupant plusieurs domaines : développement web, électronique, mécanique, modélisation, gestion de projet.  L'application web est prête, une bonne partie du code de gestion des composants est validé. Il me reste a construire l'objet pour commencer à tester le déplacement; Egalement à valider la partie 'prise' du cd, placement sur le mur et lecteur . <br />Projet en pause, car stage à l'étranger ne permettant pas d'amener le matériel sur place. Reprise en novembre 2023. <br /><a href='/jukebox/' target='_blank'>Demo</a> de l'application disponible, mais pas adapté pour smartphone car l'application sera sur un écran écran",
             "photos1": [
-                {"type": "img","src": "Jukebox/application-frontend.png"},
-                {"type": "img","src": "Jukebox/application-frontend-play.png"},
-                {"type": "img","src": "Jukebox/edit-cd.png"},
-                {"type": "img","src": "Jukebox/lecteur.png"}
+                {"type": "img","src": "Jukebox/application-frontend.jpg"},
+                {"type": "img","src": "Jukebox/application-frontend-play.jpg"},
+                {"type": "img","src": "Jukebox/edit-cd.jpg"},
+                {"type": "img","src": "Jukebox/lecteur.jpg"}
             ],
             "photos2": [
-                {"type": "img","src": "Jukebox/modelisation-cote.png"},
-                {"type": "img","src": "Jukebox/modelisation-face.png"}
+                {"type": "img","src": "Jukebox/modelisation-cote.jpg"},
+                {"type": "img","src": "Jukebox/modelisation-face.jpg"}
             ]    
         },
         {
@@ -83,11 +83,11 @@
             "intro": "Pour ce projet, j'ai commencé par acheter un planeur en EPP, et je l'ai équipé d'un moteur, 2 servo-moteurs, 1 récepteur et une batterie pour le piloter.",
             "description": "Premier essai : 3 vols effectués d'une durée de 1 à 2 secondes. L'avion n'était pas assez équilibré pour être stable, et trop lourd, mais je m'en suis rendu compte plus tard.<br />2ème essai : 3 vols. Super équilibre mais poid de l'avion toujours trop lourd. J'ai donc décidé d'ajouter une deuxième aile sur le dessus. <br />3ème essaie, l'avion 'vol' quelques secondes. La 2ème aile à rendu l'avion moins stable, et le contôle est assez compliqué, mais il reste plus longtemps dans les airs. Après un gros crash une aile s'est cassée... J'ai donc décidé de passer sur un modèle plus sérieux.",
             "photos1": [
-                {"src": "AvionRC1/avion-capot-ouvert.png"},
-                {"src": "AvionRC1/avion-monoplan.png"}
+                {"src": "AvionRC1/avion-capot-ouvert.jpg"},
+                {"src": "AvionRC1/avion-monoplan.jpg"}
             ],
             "photos2": [
-                {"type": "img","src": "AvionRC1/avion-biplan.png"}
+                {"type": "img","src": "AvionRC1/avion-biplan.jpg"}
             ]    
         },
         {
@@ -96,7 +96,7 @@
             "intro": "Nouvelle version d'avion radio-commandé, plus grand et en carton.",
             "description": "Pour ce projet, j'ai récupéré les plans d'un avion radiocommandé sur internet. J'ai commencé par coller les plans sur du carton afin de découper chaque pièce. Une fois les pièces découpées, j'ai suivi les &tapes d'assemblage pour coller ces pièces et j'ai également réutilisé certains composants de mon premier avion. <br />Avant de le faire voler, j'ai équilibré l'avion et paramétré les composants. <br />Premiers vols : le moteur n'est pas assez puissant pour le gabarit de l'avion, et l'équilibrage peut être amélioré. Mais l'avion est plus robuste, et est plus facile à contrôler que le premier. <br />Pour la suite, j'ai donc mis un moteur plus puissant, mais l'avion ne volait pas vraiment mieux. Il a finit par se cassé à force de se crasher. <br />Pour le prochain modèle je vais faire un planeur afin de me concentrer sur la fabrication et le pilotage, mais sans contrainte de moteur.",
             "photos1": [
-                {"type": "img", "src": "AvionRC2/plan.png"},
+                {"type": "img", "src": "AvionRC2/plan.jpg"},
                 {"type": "img", "src": "AvionRC2/plan-carton.jpg"},
                 {"type": "img", "src": "AvionRC2/avion-carton.jpg"}
             ],
@@ -111,11 +111,11 @@
             "intro": "Jeu zombie en web 3d",
             "description": "J'ai tenté de reproduire le mode zombie de BO2 (Call of duty) sur navigateur. Pour cela j'ai utilisé VueJs, ce qui me permet de faire une web app. J'ai ensuite découvert et utilisé les frameworks ThreeJs pour la 3D, et AmmoJs pour ajouter une partie physique à l'environnement 3D. <a href='/zombie/' target='_blank'>Voici l'app</a>. Jeu encore en développement, donc il y a pas mal de choses à régler.",
             "photos1": [
-                {"type": "img","src": "Zombie3D/gameplay-1.png"},
-                {"type": "img","src": "Zombie3D/buy-weapon.png"}
+                {"type": "img","src": "Zombie3D/gameplay-1.jpg"},
+                {"type": "img","src": "Zombie3D/buy-weapon.jpg"}
             ],  
             "photos2": [
-                {"type": "img","src": "Zombie3D/death-screen.png"}
+                {"type": "img","src": "Zombie3D/death-screen.jpg"}
             ],
             "outil": "Liste des outils utilisés : ",
             "outils": [
