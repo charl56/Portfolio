@@ -29,7 +29,8 @@ export default {
 
 <style>
 :root {
-   --background-color-1: #f5f9ff;
+  --background-color-1: #f5f9ff;
+  --font-color: #2c3e50;
 }
 /* Hide scrollbar for Chrome, Safari and Opera */
 html::-webkit-scrollbar {
@@ -39,22 +40,18 @@ html::-webkit-scrollbar {
 html {
   margin: 0;
   height: 100%;
-  /* background-color: var(--background-color-1); */
+  background-color: var(--background-color-1);
   /* Hide scrollbar for IE, Edge and Firefox */
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }
-/* @media only screen and (max-width: 600px) {
-  html {
-    width: 130% !important;
-  }
-} */
+
 #app {
   font-family: Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: var(--font-color) !important;
   background-color: var(--background-color-1) !important;
   top: 0;
   right: 0;

@@ -1,6 +1,6 @@
 <template>
     <div id="header-div">
-        <div class="marquee">
+        <div class="marquee d-flex align-center">
             <div class="marquee--inner">
                 <span class="d-flex justify-space-around">
                   <p class="text-h3 font-weight-bold">Portfolio</p>
@@ -29,10 +29,13 @@
   <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style >
 #header-div{
-    border-bottom: 1px solid black;
+  position: fixed;
+  height: 9vh;  
+  width: 100%;
+  border-bottom: 1.5px solid black;
 }
 .marquee {
-  height: 3em;
+  height: 100%;
   width: 100%;
   overflow: hidden;
   box-sizing: border-box;
