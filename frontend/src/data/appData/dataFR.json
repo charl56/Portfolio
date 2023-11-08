@@ -68,8 +68,8 @@
             "intro": "Conception d'une web app de cartographie des acteurs de l'innovation sur Angers Loire Métropole, pour Angers Loire Campus",
             "description": "L'application regroupe des informations sur le domaine de l'innovation, organisées en catégories contenant des sous-catégories, elles-mêmes contenant des fiches détaillées. Elle intègre une fonctionnalité de gestion de l'application, accessible aux administrateurs (gestion des données et des utilisateurs). La sécurité est assurée grâce à des comptes administrateurs. L'application est déployée en ligne sur un serveur avec Docker. Vous pouvez accéder à la <a href='https://innov-alc.angersloirecampus.fr/' target='_blank'>web app ici</a>.",
             "outils": [
-                {"name": "NodeJs"},
                 {"name": "VueJs"},
+                {"name": "NodeJs"},
                 {"name": "MYSQL"},
                 {"name": "Docker"},
                 {"name": "GIT"}

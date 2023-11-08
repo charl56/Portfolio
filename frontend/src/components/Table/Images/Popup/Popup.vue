@@ -36,7 +36,7 @@
                         </v-carousel-item>
                     </v-carousel>
                     <div v-else-if="project.hasOwnProperty('video')" class="div-video">
-                        <v-carousel class="d-flex justify-center" show-arrows="hover" hide-delimiters width="auto" height="auto">
+                        <v-carousel class="d-flex justify-center" show-arrows="hover" hide-delimiters width="100%" height="400px">
                             <v-carousel-item v-for="(video, index) in project.video" :key="index">
                                 <video id="video-projet" controls>
                                     <source :src="returnSrcImage(video.src)">
@@ -195,7 +195,11 @@ export default {
 }
 
 .div-video{
-    height: 100px !important;
+    height: auto !important;
     width: 100% !important;
+}
+#video-projet{
+    width: auto;
+    height: 100%;
 }
 </style>

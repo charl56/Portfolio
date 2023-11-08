@@ -33,6 +33,8 @@
   height: 9vh;  
   width: 100%;
   border-bottom: 1.5px solid black;
+  background-color: var(--background-color-1);
+  z-index: 1006;
 }
 .marquee {
   height: 100%;

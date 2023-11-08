@@ -1,8 +1,5 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-// AOS
-import AOS from 'aos'
-import 'aos/dist/aos.css'
 // Vuetify
 import 'vuetify/styles'
 import { createVuetify } from 'vuetify'
@@ -17,5 +14,5 @@ const vuetify = createVuetify({
 
 const app = createApp(App)
 
-app.use(vuetify).use(AOS.init()).mount('#app')
+app.use(vuetify).mount('#app')
 // app.use(vuetify).mount('#app')
