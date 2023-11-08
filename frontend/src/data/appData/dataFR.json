@@ -15,14 +15,14 @@
             "description": "Raid à bord d'une 4L pour acheminer des fournitures scolaires et sportives aux enfants du désert. 900 équipages de 2 au départ. 6 000 km parcourus entre la France, l'Espagne et le Maroc. Aventure, mécanique, découverte !",
             "photos1": [
                 {"type": "img","src": "Trophy/voiture-drapeau.jpg"},
-                {"type": "img","src": "Trophy/voiture-moteur.jpg"},
-                {"type": "img","src": "Trophy/village-depart.jpg"}
+                {"type": "img","src": "Trophy/voiture-moteur.jpg", "desc": "Voiture avant préparation"},
+                {"type": "img","src": "Trophy/village-depart.jpg", "desc": "Toutes les voitures au village départ"}
             ],
             "photos2": [
                 {"type": "img","src": "Trophy/voiture-desert.jpg"},
                 {"type": "img","src": "Trophy/voiture-palmier.jpg"},
                 {"type": "img","src": "Trophy/voiture-sable.jpg"},
-                {"type": "img","src": "Trophy/circuit.jpg"}
+                {"type": "img","src": "Trophy/circuit.jpg", "desc": "Trajet réalisé, de Angers à Marrakech"}
             ]
         },
         {
@@ -39,11 +39,11 @@
             ],
             "outil": "Liste des outils utilisés : ",
             "photos1": [
-                {"type": "img","src": "StageCitegestion/correlation-light-maquette.jpg"}
+                {"type": "img","src": "StageCitegestion/correlation-light-maquette.jpg", "desc": "Maquette de l'application finale"}
             ],
             "photos2": [
-                {"type": "img","src": "StageCitegestion/correlation-dark.jpg"},
-                {"type": "img","src": "StageCitegestion/tendance-light.jpg"}
+                {"type": "img","src": "StageCitegestion/tendance-light.jpg", "desc": "Application en mode tendance"},
+                {"type": "img","src": "StageCitegestion/correlation-dark.jpg", "desc": "Application en mode corrélation"}
             ]
         },
         {
@@ -52,13 +52,13 @@
             "intro": "Création d'un jukebox en deux parties : une application web pour voir les CD disponibles et en choisir un. Une deuxième partie, une \"machine\" (voir modèle ci-dessous), équipée d'un système de moteurs et d'un électroaimant, qui prend le CD voulu et le place sur le lecteur.",
             "description": "Ce projet regroupe plusieurs domaines, dont le développement web, l'électronique, la mécanique, la modélisation et la gestion de projet. L'application web est prête, une bonne partie du code de gestion des composants est validée. Il me reste à construire l'objet pour commencer les tests de déplacement, ainsi qu'à valider la partie 'prise' du CD, le placement sur le mur et le lecteur. <br> Le projet est en pause car un stage à l'étranger ne permet pas d'amener le matériel sur place. Une <a href='/jukebox/' target='_blank'>démonstration</a> de l'application est disponible, mais elle n'est pas adaptée aux smartphones car l'application sera sur un écran dédié.",
             "photos1": [
-                {"type": "img","src": "Jukebox/application-frontend.jpg"},
-                {"type": "img","src": "Jukebox/application-frontend-play.jpg"},
-                {"type": "img","src": "Jukebox/edit-cd.jpg"},
-                {"type": "img","src": "Jukebox/lecteur.jpg"}
+                {"type": "img","src": "Jukebox/application-frontend.jpg", "desc": "Page principale"},
+                {"type": "img","src": "Jukebox/application-frontend-play.jpg", "desc": "Pour lancer un CD"},
+                {"type": "img","src": "Jukebox/edit-cd.jpg", "desc": "Editer un CD"},
+                {"type": "img","src": "Jukebox/lecteur.jpg", "desc": "Lorsqu'un CD est dans le lecteur"}
             ],
             "photos2": [
-                {"type": "img","src": "Jukebox/modelisation-cote.jpg"},
+                {"type": "img","src": "Jukebox/modelisation-cote.jpg", "desc": "Modelisation de la jukebox"},
                 {"type": "img","src": "Jukebox/modelisation-face.jpg"}
             ]    
         },
@@ -76,13 +76,13 @@
             ],
             "outil": "Liste des outils utilisés : ",
             "photos1": [
-                {"type": "img","src": "StageALC/accueil.jpg"},
-                {"type": "img","src": "StageALC/coworking.jpg"}
+                {"type": "img","src": "StageALC/accueil.jpg", "desc": "Page principale"},
+                {"type": "img","src": "StageALC/coworking.jpg", "desc": "Exemple de fiches disponibles"}
             ],  
             "photos2": [
-                {"type": "img","src": "StageALC/gestion-data.jpg"},
-                {"type": "img","src": "StageALC/gestion-outil-users.jpg"},
-                {"type": "img","src": "StageALC/gestion-outil-visits.jpg"}
+                {"type": "img","src": "StageALC/gestion-data.jpg", "desc": "Gestion des données (admin)"},
+                {"type": "img","src": "StageALC/gestion-outil-users.jpg", "desc": "Gestion des utilisateurs (admin)"},
+                {"type": "img","src": "StageALC/gestion-outil-visits.jpg", "desc": "Graphique du nombre de visiteur"}
             ]
         },
         {
@@ -104,7 +104,7 @@
             "description": "Pour ce projet, j'ai récupéré les plans d'un avion radiocommandé sur internet. J'ai commencé par coller les plans sur du carton afin de découper chaque pièce. Une fois les pièces découpées, j'ai suivi les étapes d'assemblage pour les coller et former l'avion. J'ai réutilisé certains composants de mon premier avion. <br />Avant de faire voler l'avion, j'ai effectué l'équilibrage et ai configuré ses composants. <br />Premiers vols : le moteur n'est pas assez puissant pour le gabarit de l'avion, et l'équilibrage peut être amélioré. Mais l'avion est plus robuste, et est plus facile à contrôler que le premier. <br />Pour la suite, j'ai donc mis un moteur plus puissant. L'avion ne volait pas vraiment mieux car les composants ne devait pas être adapté à son gabarit. Il a finit par se casser à force de chuter. <br />Pour le prochain modèle je vais faire un planeur afin de me concentrer sur la fabrication et le pilotage, sans contrainte de moteur.",
             "photos1": [
                 {"type": "img", "src": "AvionRC2/avion-carton.jpg"},
-                {"type": "img", "src": "AvionRC2/plan-carton.jpg"}
+                {"type": "img", "src": "AvionRC2/plan-carton.jpg", "desc": "Plans de l'avion"}
             ],
             "video": [
                 {"type": "video","src": "AvionRC2/vol-1.mp4"},
@@ -118,7 +118,7 @@
             "description": "J'ai tenté de reproduire le mode zombie de BO2 (Call of duty) sur navigateur. Pour cela j'ai utilisé VueJs, ce qui me permet de faire une web app. J'ai ensuite découvert et utilisé les frameworks ThreeJs pour la 3D, et AmmoJs pour ajouter une partie physique à l'environnement 3D. <a href='/zombie/' target='_blank'>Voici l'app</a>. Jeu encore en développement, donc il y a pas mal de choses à améliorer.",
             "photos1": [
                 {"type": "img","src": "Zombie3D/gameplay-1.jpg"},
-                {"type": "img","src": "Zombie3D/buy-weapon.jpg"}
+                {"type": "img","src": "Zombie3D/buy-weapon.jpg", "desc": "Possibilité d'acheter des armes en jeu"}
             ],  
             "photos2": [
                 {"type": "img","src": "Zombie3D/death-screen.jpg"}
@@ -136,12 +136,12 @@
             "intro": "Stage réalisé en Irelande. Le but de ce stage est de créer une combinaison de capture de mouvement, pour chevaux",
             "description": "Pour ce projet, nous étions une équipe de deux personnes. Nous avons utilisé des microcontrôleurs ESP32 en combinaison avec des capteurs d'accéléromètre et de gyroscope pour capturer les mouvements. Plusieurs ESP32 ont été positionnés sur les articulations du cheval afin de recueillir un large éventail de données de mouvement. Tous les microcontrôleurs étaient connectés en Wi-Fi à une unité centrale, un autre ESP32, qui jouait un rôle de base. Cette unité centrale a transmis en temps réel toutes les données collectées vers une application dédiée. Cette application permettait de visualiser les données en temps réel et de les sauvegarder pour une analyse ultérieure.",
             "photos1": [
-                {"type": "img","src": "StageNimbus/bat-horse.jpg"}
+                {"type": "img","src": "StageNimbus/bat-horse.jpg", "desc": "Cheval avec la combinaison, pour les capteurs"}
             ],  
             "photos2": [
-                {"type": "img","src": "StageNimbus/esp32-seeed.jpg"},
-                {"type": "img","src": "StageNimbus/assemblage.jpg"},
-                {"type": "img","src": "StageNimbus/esp32.jpg"}
+                {"type": "img","src": "StageNimbus/esp32-seeed.jpg", "desc": "ESP32 utilisé"},
+                {"type": "img","src": "StageNimbus/assemblage.jpg", "desc": "Boite 3D pour accueillir l'ESP, capteur et batterie"},
+                {"type": "img","src": "StageNimbus/esp32.jpg", "desc": "ESP soudé avec capteur et batterie"}
             ],    
             "outil": "Liste des outils utilisés : ",
             "outils": [

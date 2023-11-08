@@ -1,6 +1,6 @@
 <template>
   <div class="div-image" @click="openProject(projet)">
-    <v-img v-if="projet.hasOwnProperty('photos1')" :src="returnSrcImage(projet.photos1[0].src)" cover class="img-image"></v-img>
+    <v-img v-if="projet.hasOwnProperty('photos1')" :src="returnSrcImage(projet.photos1[0].src)" cover :class="setClassImage()"></v-img>
     <p v-if="projet.hasOwnProperty('name')" class="title-image ml-10">{{ projet.name }}</p>
   </div>
 </template>
@@ -41,8 +41,15 @@ export default {
       // Open poup
       openProject(projet){
         eventBus.emit('openThisProject', projet)
-      }
-    },
+      },
+      setClassImage(){           // 'date' part size
+        if(window.outerWidth < 500){
+            return 'img-image-90'
+        } else {   
+            return 'img-image-60' 
+        }
+      },
+    }
   }
 </script>
 
@@ -79,8 +86,11 @@ export default {
     
 }
 /* Image size */
-.img-image{
+.img-image-60{
   height: 100%;
   width: 60vw;
+}.img-image-90{
+  height: 100%;
+  width: 90vw;
 }
 </style>

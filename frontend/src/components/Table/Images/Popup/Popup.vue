@@ -10,6 +10,7 @@
                 <div id="resizable" class="part">
                     <v-carousel v-if="project.hasOwnProperty('photos1')" cycle class="d-flex justify-center" :show-arrows="setShowArrows(project.photos1)" hide-delimiters>
                         <v-carousel-item id="image-projet" v-for="(photo, index) in project.photos1" :src="returnSrcImage(photo.src)" :key="index" width="100vw" height="auto">
+                            <p v-if="photo.hasOwnProperty('desc')" class="p-desc-photo px-2">{{ photo.desc }}</p>
                         </v-carousel-item>
                     </v-carousel>
                 </div>
@@ -33,6 +34,7 @@
                 <div class="part">
                     <v-carousel v-if="project.hasOwnProperty('photos2')" cycle class="d-flex justify-center" :show-arrows="setShowArrows(project.photos2)" hide-delimiters>
                         <v-carousel-item id="image-projet" v-for="(photo, index) in project.photos2" :src="returnSrcImage(photo.src)" :key="index" width="100vw" height="auto">
+                            <p v-if="photo.hasOwnProperty('desc')" class="p-desc-photo px-2">{{ photo.desc }}</p>
                         </v-carousel-item>
                     </v-carousel>
                     <div v-else-if="project.hasOwnProperty('video')" class="div-video">
@@ -194,6 +196,21 @@ export default {
     width: 100%;
 }
 
+/* Desc photos */
+.p-desc-photo{
+    position: relative;
+    top: 90%;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 5px;
+    background-color: var(--background-color-1);
+    font-size: 2vw;
+    color: var(--font-color);
+}
+
+
+/* Videos */
 .div-video{
     height: auto !important;
     width: 100% !important;
