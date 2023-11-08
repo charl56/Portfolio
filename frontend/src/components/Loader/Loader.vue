@@ -33,7 +33,6 @@
 
 <script>
 import { eventBus } from "../../plugins/eventBus";
-import {Path, Point, SymbolDefinition, view} from 'paper'
 
 export default {
     name: 'AppLoader',
