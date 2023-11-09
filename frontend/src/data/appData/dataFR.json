@@ -50,7 +50,7 @@
             "name": "Jukebox",
             "date": "septembre 2022 - mai 2023",
             "intro": "Création d'un jukebox en deux parties : une application web pour voir les CD disponibles et en choisir un. Une deuxième partie, une \"machine\" (voir modèle ci-dessous), équipée d'un système de moteurs et d'un électroaimant, qui prend le CD voulu et le place sur le lecteur.",
-            "description": "Ce projet regroupe plusieurs domaines, dont le développement web, l'électronique, la mécanique, la modélisation et la gestion de projet. L'application web est prête, une bonne partie du code de gestion des composants est validée. Il me reste à construire l'objet pour commencer les tests de déplacement, ainsi qu'à valider la partie 'prise' du CD, le placement sur le mur et le lecteur. <br> Le projet est en pause car un stage à l'étranger ne permet pas d'amener le matériel sur place. Une <a href='/jukebox/' target='_blank'>démonstration</a> de l'application est disponible, mais elle n'est pas adaptée aux smartphones car l'application sera sur un écran dédié.",
+            "description": "Ce projet regroupe plusieurs domaines, dont le développement web, l'électronique, la mécanique, la modélisation et la gestion de projet. L'application web est prête, une bonne partie du code de gestion des composants est validée. Il me reste à construire la jukebox pour commencer les tests de déplacement, ainsi qu'à tester la partie 'prise' du CD, le placement sur le mur et le lecteur. <br> Le projet est en pause car un stage à l'étranger ne permet pas d'amener le matériel sur place. Une <a href='/jukebox/' target='_blank'>démonstration</a> de l'application est disponible, mais elle n'est pas adaptée aux smartphones car elle sera sur un écran dédié. Vous pouvez changer les CD disponibles en les déplaçant sur la liste à gauche, ou inversement.",
             "photos1": [
                 {"type": "img","src": "Jukebox/application-frontend.jpg", "desc": "Page principale"},
                 {"type": "img","src": "Jukebox/application-frontend-play.jpg", "desc": "Pour lancer un CD"},
@@ -66,7 +66,7 @@
             "name": "Stage ALC ",
             "date": "06 mars 2023 - 30 juin 2023",
             "intro": "Conception d'une web app de cartographie des acteurs de l'innovation sur Angers Loire Métropole, pour Angers Loire Campus",
-            "description": "L'application regroupe des informations sur le domaine de l'innovation, organisées en catégories contenant des sous-catégories, elles-mêmes contenant des fiches détaillées. Elle intègre une fonctionnalité de gestion de l'application, accessible aux administrateurs (gestion des données et des utilisateurs). La sécurité est assurée grâce à des comptes administrateurs. L'application est déployée en ligne sur un serveur avec Docker. Vous pouvez accéder à la <a href='https://innov-alc.angersloirecampus.fr/' target='_blank'>web app ici</a>.",
+            "description": "Durant ce stage, j'ai été le seul développeur, de la création à la mis en ligne de l'application. J'ai tout de même eu un accompagnement sur la partie technique et la partie fonctionnel. L'application regroupe des informations sur le domaine de l'innovation, organisées en catégories contenant des sous-catégories, elles-mêmes contenant des fiches détaillées. Elle intègre une fonctionnalité de gestion de l'application, accessible aux administrateurs (gestion des données et des utilisateurs). La sécurité est assurée grâce à des comptes administrateurs. L'application est déployée en ligne sur un serveur avec Docker. Vous pouvez accéder à la <a href='https://innov-alc.angersloirecampus.fr/' target='_blank'>web app ici</a>.",
             "outils": [
                 {"name": "VueJs"},
                 {"name": "NodeJs"},
@@ -88,7 +88,7 @@
         {
             "name": "Avion RC",
             "date": "Mars - Avril 2023",
-            "intro": "Pour ce projet, j'ai commencé par acheter un planeur en polystyrène. Je l'ai équipé d'un moteur, 2 servo-moteurs, 1 récepteur et une batterie pour le piloter.",
+            "intro": "Pour créer un avion radio-commandé, j'ai suivi un <a href='https://www.youtube.com/watch?v=cA379JRswz8' target='_blank'>projet</a> sur youtube. J'ai commencé par me munir un planeur en polystyrène. Je l'ai équipé d'un moteur, 2 servo-moteurs, 1 récepteur et une batterie pour le piloter.",
             "description": "Premier essai : 3 vols effectués d'une durée de 1 à 2 secondes. L'avion n'était pas assez équilibré pour être stable, et trop lourd, mais je m'en suis rendu compte plus tard.<br />2ème essai : 3 vols. Super équilibre mais poid de l'avion toujours trop lourd. J'ai donc décidé d'ajouter une deuxième aile sur le dessus. <br />3ème essaie, l'avion 'vol' quelques secondes. La 2ème aile à rendu l'avion moins stable, et le contôle est assez compliqué. Après un gros crash une aile s'est cassée... J'ai donc décidé de passer sur un modèle plus sérieux.",
             "photos1": [
                 {"src": "AvionRC1/avion-monoplan.jpg"}
@@ -115,7 +115,7 @@
             "name": "Jeu web 3D",
             "date": "Juin 2023 - Juillet 2023",
             "intro": "Jeu zombie en web 3d",
-            "description": "J'ai tenté de reproduire le mode zombie de BO2 (Call of duty) sur navigateur. Pour cela j'ai utilisé VueJs, ce qui me permet de faire une web app. J'ai ensuite découvert et utilisé les frameworks ThreeJs pour la 3D, et AmmoJs pour ajouter une partie physique à l'environnement 3D. <a href='/zombie/' target='_blank'>Voici l'app</a>. Jeu encore en développement, donc il y a pas mal de choses à améliorer.",
+            "description": "J'ai tenté de reproduire le mode zombie de BO2 (Call of duty) sur navigateur. Pour cela j'ai utilisé VueJs, ce qui me permet de faire une web app. J'ai ensuite découvert et utilisé les frameworks ThreeJs pour la 3D, et AmmoJs pour ajouter une partie physique à l'environnement 3D. <br />J'ai commencé par faire un jeu de tire. Puis j'ai eu l'idée de faire un jeu de zombie, avec un système de manche qui fais spawns plus de zombies à chaques changement de manche. J'ai ensuite ajouté un chargeur avec un nombre de balles limités, la possibilité d'acheter des armes et des munitions sur les murs.<br /><a href='/zombie/' target='_blank'>Voici le jeu</a>. Jeu encore en développement, donc il y a pas mal de choses à améliorer.",
             "photos1": [
                 {"type": "img","src": "Zombie3D/gameplay-1.jpg"},
                 {"type": "img","src": "Zombie3D/buy-weapon.jpg", "desc": "Possibilité d'acheter des armes en jeu"}
@@ -134,14 +134,14 @@
             "name": "Stage Nimbus Center",
             "date": "Juillet 2023 - Novembre 2023",
             "intro": "Stage réalisé en Irelande. Le but de ce stage est de créer une combinaison de capture de mouvement, pour chevaux",
-            "description": "Pour ce projet, nous étions une équipe de deux personnes. Nous avons utilisé des microcontrôleurs ESP32 en combinaison avec des capteurs d'accéléromètre et de gyroscope pour capturer les mouvements. Plusieurs ESP32 ont été positionnés sur les articulations du cheval afin de recueillir un large éventail de données de mouvement. Tous les microcontrôleurs étaient connectés en Wi-Fi à une unité centrale, un autre ESP32, qui jouait un rôle de base. Cette unité centrale a transmis en temps réel toutes les données collectées vers une application dédiée. Cette application permettait de visualiser les données en temps réel et de les sauvegarder pour une analyse ultérieure.",
+            "description": "Nous avons travaillé à deux sur ce projet. Nous avons utilisé des microcontrôleurs ESP32, avec des capteurs accéléromètre et gyroscope, afin de capturer des mouvements. Tous les microcontrôleurs étaient connectés en Wi-Fi à une base, une Raspberry. Cette base permet dans un premier temps, de sauvegarder les données sur une clé USB, ce qui facilite la visualisation ultérieure sur une application dédiée. Nous avons commencé à implémenter des méthodes pour visualiser en temps réel. Nous avons bien avancé sur cette partie, mais par manque de temps, elle n'est pas opérationnelle à 100%. Nous n'avons pas pu tester sur le cheval, mais les tests sur nous étaient concluants.",
             "photos1": [
                 {"type": "img","src": "StageNimbus/bat-horse.jpg", "desc": "Cheval avec la combinaison, pour les capteurs"}
             ],  
             "photos2": [
                 {"type": "img","src": "StageNimbus/esp32-seeed.jpg", "desc": "ESP32 utilisé"},
-                {"type": "img","src": "StageNimbus/assemblage.jpg", "desc": "Boite 3D pour accueillir l'ESP, capteur et batterie"},
-                {"type": "img","src": "StageNimbus/esp32.jpg", "desc": "ESP soudé avec capteur et batterie"}
+                {"type": "img","src": "StageNimbus/assemblage.jpg", "desc": "Boite 3D pour accueillir l'ESP, le capteur et la batterie"},
+                {"type": "img","src": "StageNimbus/esp32.jpg", "desc": "ESP, soudé avec le capteur et la batterie"}
             ],    
             "outil": "Liste des outils utilisés : ",
             "outils": [

@@ -19,7 +19,7 @@
                     <!-- TItre -->
                     <p :class="textSize()" class="mb-3 mt-0 text-justify align-self-center text-decoration-underline">{{ project.name }}</p>
                     <!-- Intro -->
-                    <p v-if="project.hasOwnProperty('intro')" :class="textSize()" class="mb-3 mt-0 text-justify align-self-center">{{ project.intro }}</p>
+                    <p v-if="project.hasOwnProperty('intro')" :class="textSize()" class="mb-2 mt-3 text-justify align-self-center" v-html="project.intro"></p>
                     <!-- Description -->
                     <p :class="textSize()" class="mb-2 mt-3 text-justify" v-html="project.description"></p>
                     <!-- Liste des outils utilisés -->
