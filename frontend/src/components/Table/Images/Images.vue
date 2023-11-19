@@ -44,9 +44,9 @@ export default {
       },
       setClassImage(){           // 'date' part size
         if(window.outerWidth < 500){
-            return 'img-image-90'
+            return 'img-image-40'
         } else {   
-            return 'img-image-60' 
+            return 'img-image-30' 
         }
       },
     }
@@ -86,11 +86,11 @@ export default {
     
 }
 /* Image size */
-.img-image-60{
+.img-image-30{
   height: 100%;
-  width: 60vw;
-}.img-image-90{
+  width: 30vw;
+}.img-image-40{
   height: 100%;
-  width: 90vw;
+  width: 40vw;
 }
 </style>
