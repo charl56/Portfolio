@@ -1,12 +1,13 @@
 <template>
   <v-app id="app">
-      <!-- Portfolio -->
-      <div>
-        <Loader/>
-        <Header />
-        <Table />
-        <Footer />
-      </div>
+    <!-- Portfolio -->
+    <div>
+      <!-- <div id="invertedcursor"></div> -->
+      <Header />
+      <Loader />
+      <Table />
+      <Footer />
+    </div>
   </v-app>
 </template>
 
@@ -24,6 +25,23 @@ export default {
     Table,
     Footer,
   },
+  created() {
+    // document.body.onmousemove = function (e) {
+      
+    //   document.documentElement.style.setProperty(
+    //     '--x', (
+    //       e.clientX + window.scrollX
+    //     )
+    //   + 'px'
+    //   );
+    //   document.documentElement.style.setProperty(
+    //     '--y', (
+    //       e.clientY + window.scrollY
+    //     )
+    //   + 'px'
+    //   );
+    // }
+  }
 }
 </script>
 
@@ -31,6 +49,10 @@ export default {
 :root {
   --background-color-1: #f5f9ff;
   --font-color: #2c3e50;
+}
+@font-face {
+	font-family: 'Noto_Sans_Tifinagh';
+	src: url('./fonts/Noto_Sans_Tifinagh/NotoSansTifinagh-Regular.ttf') format('truetype');
 }
 /* Hide scrollbar for Chrome, Safari and Opera */
 html::-webkit-scrollbar {
@@ -42,12 +64,16 @@ html {
   height: 100%;
   background-color: var(--background-color-1);
   /* Hide scrollbar for IE, Edge and Firefox */
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+  /* font-family: Verdana, Geneva, Tahoma, sans-serif; */
+  font-family: 'Noto_Sans_Tifinagh';
 }
 
+
 #app {
-  font-family: Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -58,13 +84,30 @@ html {
   bottom: 0;
   left: 0;
 }
+
 /* Surlignage du texte */
-::selection{
+::selection {
   background-color: var(--background-color-1);
   color: #7eb3e8;
 }
-::-moz-selection{
+
+::-moz-selection {
   background-color: var(--background-color-1);
   color: #2c3e50;
+}
+
+/* Cursor round inverted */
+#invertedcursor {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background: #fff;
+  border-radius: 50%;
+  top: var(--y, 0);
+  left: var(--x, 0);
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  mix-blend-mode: difference;
+  transition: transform .2s;
 }
 </style>

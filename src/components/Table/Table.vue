@@ -5,7 +5,22 @@ const iconENG = new URL('../../assets/Icons/england.png', import.meta.url).href
 </script>
 <template>
   <div class="div-table">
+    <div class="space-40vh"></div>
 
+    <!-- Lottie animation -->
+    <div class="div-scroll-down d-flex align-start justify-center">
+      <div v-if="showLoffie" id="lottie-scroll-down"></div>
+    </div>
+    <!-- Scroll horizontal animation -->
+    <div class="racesWrapper">
+      <div class="races">
+        <Images v-for="projet, index in appData" :key="index" :projet="projet" :id="index" />
+      </div>
+    </div>
+
+
+    <!-- Popup open project -->
+    <Popup />
 
     <div class="space-40vh d-flex">
       <!-- Download CV -->
@@ -25,21 +40,6 @@ const iconENG = new URL('../../assets/Icons/england.png', import.meta.url).href
       </div>
     </div>
 
-    <!-- Lottie animation -->
-    <div v-if="!scroll" class="div-scroll-down d-flex align-start justify-center">
-      <div id="lottie-scroll-down"></div>
-    </div>
-    <!-- Scroll horizontal animation -->
-    <div class="racesWrapper">
-      <div class="races">
-        <Images v-for="projet, index in appData" :key="index" :projet="projet" :id="index" />
-      </div>
-    </div>
-
-    <div class="space-20vh"></div>
-
-    <!-- Popup open project -->
-    <Popup />
 
   </div>
 </template>
@@ -65,16 +65,7 @@ export default {
     Popup,
   },
   mounted() { // Lance la fonction au chargement de la page
-    const data = [dataFR[0], dataENG[0]]        // Variable qui est envoyé au composant 'loader', en Fr et Eng
-    eventBus.emit("languageLoad", data);
-    this.loadImages(dataFR[1])                  // Fonction qui charge les images
 
-    // Cache lottie scroll down
-    window.addEventListener('scroll', (e) => {
-      setTimeout(() => {
-        this.scroll = true
-      }, 500)
-    }, false)
     // Lottie animation
     bodymovin.loadAnimation({
       container: document.getElementById('lottie-scroll-down'),
@@ -83,6 +74,36 @@ export default {
       autoplay: true,
       path: new URL('../../assets/Json/scroll-down2.json', import.meta.url).href
     })
+    this.showLoffie = false
+
+    // GSAP hide/show loffie animation
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.to(".div-scroll-down", {
+      scrollTrigger: {
+        trigger: ".div-scroll-down",                             // Where it declenche action
+        toggleActions: "restart pause reverse pause",       // "list" of action to do
+        start: "top top ",                             // Where trigger start : center of component, center of screen
+        end: "bottom bottom",                                  // Where trigger end : bottom of component, top of screen            
+        scrub: 1,                                           // Move every scroll
+        onEnter: () => { },
+        onLeave: () => {
+          document.querySelector('.div-scroll-down').style.position = 'absolute';
+          document.querySelector('.div-scroll-down').style.display = 'none';
+        },
+        onEnterBack: () => { },
+        onLeaveBack: () => {
+          document.querySelector('.div-scroll-down').style.position = 'fixed';
+          document.querySelector('.div-scroll-down').style.display = '';
+        },
+      },
+      opacity: 0,
+      ease: "none"
+    })
+
+    const data = [dataFR[0], dataENG[0]]        // Variable qui est envoyé au composant 'loader', en Fr et Eng
+    eventBus.emit("languageLoad", data);
+    this.loadImages(dataFR[1])                  // Fonction qui charge les images
+
 
 
     if (window.outerWidth > 1200) {
@@ -116,7 +137,8 @@ export default {
       appData: '',        // Données affi chées
       other: dataENG,     // Autre langue
       langue: 'Fr',       // Langue actuelle
-      loading: true,      // Chargement
+      loading: true,      // Chargement des images
+      showLoffie: true,  // Show scroll animation
       percentage: 0,
       scroll: false,      // user pas encore scroll
       iconFlag: null,     // Icons
@@ -203,6 +225,7 @@ export default {
           }
         }
       }
+      this.showLoffie = true
       this.appData = data
       // Attente de la fin du chargement de toutes les images
       Promise.all(promises).then(() => {
@@ -210,6 +233,7 @@ export default {
         eventBus.emit("dataLoad", true);
         this.loading = false
       }).catch(error => console.log(error))
+
     },
     async downloadCV() {
       try {
@@ -281,7 +305,7 @@ export default {
   height: 100vh;
   width: 100vw;
   position: fixed;
-  top: 0px;
+  top: 500px;
 }
 
 #lottie-scroll-down {
@@ -347,10 +371,15 @@ export default {
   .racesWrapper {
     transform: rotate3d(0, 0, 0, 0deg);
   }
-  .races{
+
+  .races {
     display: flex !important;
     justify-content: center !important;
     flex-direction: column !important;
+  }
+
+  .space-40vh {
+    height: 25vh;
   }
 }
 

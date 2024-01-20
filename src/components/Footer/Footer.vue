@@ -1,53 +1,78 @@
 <template>
-    <v-footer class="pa-0" id="footer-div" app bottom fixed padless>
-        <v-col class="text-center" cols="12" >
-            <v-row class="d-flex justify-space-around">
-                <p :class="footerSIze()"><a class="px-2 py-0" href="https://www.linkedin.com/in/charles-pichou/" target="_blank">LinkedIn</a></p>
-                <p :class="footerSIze()">2022 - {{ new Date().getFullYear() }}</p>
-                <p :class="footerSIze()"><a class="px-2 pa-0" href="https://github.com/charl56" target="_blank">GitHub</a></p>
-            </v-row>
-        </v-col>
-    </v-footer>
+    <div class="footer-div my-1" id="footer-div">
+        <v-row class="d-flex justify-space-around">
+            <p class="footer-text"><a class="px-2 py-0" href="https://www.linkedin.com/in/charles-pichou/" target="_blank">LinkedIn</a></p>
+            <p class="footer-text">2022 - {{ new Date().getFullYear() }}</p>
+            <p class="footer-text"><a class="px-2 pa-0" href="https://github.com/charl56" target="_blank">GitHub</a></p>
+        </v-row>
+    </div>
 </template>
   
 
-<script>  
-  export default {
+<script>
+// GSAP
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+export default {
     name: 'AppFooter',
-    methods:{
-        footerSIze(){
-            if(window.outerWidth < 400){
-                return 'text-h2 py-1'
-            } else if(window.outerWidth < 600){
-                return 'text-h3'
-            } else {   
-                return 'text-subtitle-1' 
-            }
-        }
+    mounted() {
+        // GSAP Animation to show/hide header
+            gsap.registerPlugin(ScrollTrigger);
+            gsap.to(".footer-div", {
+                scrollTrigger: {
+                    trigger: ".footer-div",                             // Where it declenche action
+                    toggleActions: "restart complete reverse pause",       // "list" of action to do
+                    start: "top 90%",                             // Where trigger start : center of component, center of screen
+                    end: "top bottom",                                  // Where trigger end : bottom of component, top of screen            
+                    scrub: 1,                                           // Move every scroll
+                },
+                duration: 3,
+                x: () => window.innerWidth,
+                y: -100,
+            })
     }
-  }
-  </script>
+}
+</script>
   
-  <!-- Add "scoped" attribute to limit CSS to this component only -->
+<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-#footer-div{
-    border-top: 1.5px solid black;
-    background-color: var(--background-color-1);
-    height: min-content;
+/* Div */
+#footer-div {
+    bottom: -100px;
+    right: 100vw;
+    position: fixed;
+    height: 4dvh;
+    width: 100vw;
+    padding: 5px 0;
+    display: flex;
+    align-items: center;
+}
+@media (max-width: 1200px) {
+    #footer-div {
+        height: 5dvh;
+    }
 }
 
-a{
+/* Elements */
+a {
     color: #2c3e50 !important;
     text-decoration: none !important;
 
-}a:hover{
-    cursor: pointer!important;
+}
+
+a:hover {
+    cursor: pointer !important;
     border-radius: 5px;
     background-color: #dbe4f1;
 }
-p{
-    margin-bottom: 0px !important;
+
+/* Text */
+.footer-text {
+    font-size: 2em;
+    font-weight: lighter;
 }
+
 </style>
   
   

@@ -20,7 +20,6 @@ COPY index.html ./
 COPY base.css ./
 
 # Args
-ARG VITE_FRONT_URI=$VITE_FRONT_URI 
 ARG VITE_FRONT_URL=$VITE_FRONT_URL
 
 # build app for production with minification

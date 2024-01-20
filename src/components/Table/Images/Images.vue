@@ -1,7 +1,6 @@
 <template>
   <div class="div-image" @click="openProject(projet)">
-    <v-img v-if="projet.hasOwnProperty('photos1')" :src="returnSrcImage(projet.photos1[0].src)" cover
-      class="img-size"></v-img>
+    <v-img v-if="projet.hasOwnProperty('photos1')" :src="returnSrcImage(projet.photos1[0].src)" cover class="img-size"></v-img>
     <p v-if="projet.hasOwnProperty('name')" class="title-image ml-10">{{ projet.name }}</p>
   </div>
 </template>
@@ -59,6 +58,7 @@ export default {
   border-bottom: 1.5px black solid;
   width: auto;
   height: 75vh;
+  filter: grayscale(100%);
 }
 
 .div-image:hover {
@@ -68,6 +68,7 @@ export default {
   border-right: 1.5px black solid;
   border-left: 1.5px black solid;
   z-index: 1000;
+  filter: grayscale(0%);
 }
 
 /* Title component */
@@ -96,6 +97,7 @@ export default {
     position: relative;
     width: 100%;
     height: 15vh;
+    filter: grayscale(0%);
   }
   .img-size {
     width: 100% !important;

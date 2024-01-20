@@ -7,16 +7,16 @@
                     <div id="lottie-arrow-down" @click="open = !open"></div>
                 </div>
                 <!-- Images -->
-                <div id="resizable" class="part">
-                    <v-carousel v-if="project.hasOwnProperty('photos1')" cycle class="d-flex justify-center" :show-arrows="setShowArrows(project.photos1)" hide-delimiters>
-                        <v-carousel-item id="image-projet" v-for="(photo, index) in project.photos1" :src="returnSrcImage(photo.src)" :key="index" width="100vw" height="auto">
+                <div class="part">
+                    <v-carousel v-if="project.hasOwnProperty('photos1')" cycle class="carousel-img d-flex justify-center" :show-arrows="setShowArrows(project.photos1)" hide-delimiters height="100%">
+                        <v-carousel-item id="image-projet" v-for="(photo, index) in project.photos1" :src="returnSrcImage(photo.src)" :key="index" width="100vw" height="100%" cover>
                             <p v-if="photo.hasOwnProperty('desc')" class="p-desc-photo px-2">{{ photo.desc }}</p>
                         </v-carousel-item>
                     </v-carousel>
                 </div>
                 <!-- Text -->
                 <div class="center px-3 my-4 d-flex flex-column">
-                    <!-- TItre -->
+                    <!-- Titre -->
                     <p :class="textSize()" class="mb-3 mt-0 text-justify align-self-center text-decoration-underline">{{ project.name }}</p>
                     <!-- Intro -->
                     <p v-if="project.hasOwnProperty('intro')" :class="textSize()" class="mb-2 mt-3 text-justify align-self-center" v-html="project.intro"></p>
@@ -32,8 +32,8 @@
                 </div>
                 <!-- Images -->
                 <div class="part">
-                    <v-carousel v-if="project.hasOwnProperty('photos2')" cycle class="d-flex justify-center" :show-arrows="setShowArrows(project.photos2)" hide-delimiters>
-                        <v-carousel-item id="image-projet" v-for="(photo, index) in project.photos2" :src="returnSrcImage(photo.src)" :key="index" width="100vw" height="auto">
+                    <v-carousel v-if="project.hasOwnProperty('photos2')" cycle class="carousel-img d-flex justify-center" :show-arrows="setShowArrows(project.photos2)" hide-delimiters height="100%">
+                        <v-carousel-item id="image-projet" v-for="(photo, index) in project.photos2" :src="returnSrcImage(photo.src)" :key="index" width="100vw" height="100%" cover>
                             <p v-if="photo.hasOwnProperty('desc')" class="p-desc-photo px-2">{{ photo.desc }}</p>
                         </v-carousel-item>
                     </v-carousel>
@@ -204,11 +204,16 @@ export default {
     margin-left: auto;
     margin-right: auto;
     border-radius: 5px;
-    background-color: var(--background-color-1);
-    font-size: 2vw;
-    color: var(--font-color);
+    font-size: 2em;
+    color: white;
+    text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
 }
 
+/* carousel size */
+.carousel-img{  
+    /* width: 80vw !important;
+    height: 100% !important; */
+}
 
 /* Videos */
 .div-video{
