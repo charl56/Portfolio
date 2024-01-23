@@ -8,8 +8,8 @@ const iconENG = new URL('../../assets/Icons/england.png', import.meta.url).href
     <div class="space-40vh"></div>
 
     <!-- Lottie animation -->
-    <div class="div-scroll-down d-flex align-start justify-center">
-      <div v-if="showLoffie" id="lottie-scroll-down"></div>
+    <div class="div-scroll-down d-flex align-end justify-center">
+      <div id="lottie-scroll-down"></div>
     </div>
     <!-- Scroll horizontal animation -->
     <div class="racesWrapper">
@@ -66,6 +66,7 @@ export default {
   },
   mounted() { // Lance la fonction au chargement de la page
 
+    document.getElementById("lottie-scroll-down").style.visibility = "hidden";
     // Lottie animation
     bodymovin.loadAnimation({
       container: document.getElementById('lottie-scroll-down'),
@@ -74,7 +75,6 @@ export default {
       autoplay: true,
       path: new URL('../../assets/Json/scroll-down2.json', import.meta.url).href
     })
-    this.showLoffie = false
 
     // GSAP hide/show loffie animation
     gsap.registerPlugin(ScrollTrigger);
@@ -137,8 +137,6 @@ export default {
       appData: '',        // Données affi chées
       other: dataENG,     // Autre langue
       langue: 'Fr',       // Langue actuelle
-      loading: true,      // Chargement des images
-      showLoffie: true,  // Show scroll animation
       percentage: 0,
       scroll: false,      // user pas encore scroll
       iconFlag: null,     // Icons
@@ -225,13 +223,13 @@ export default {
           }
         }
       }
-      this.showLoffie = true
       this.appData = data
       // Attente de la fin du chargement de toutes les images
       Promise.all(promises).then(() => {
         // Event bus pour elenver barre de chargement
         eventBus.emit("dataLoad", true);
-        this.loading = false
+        // Show scoll down loffie
+        document.getElementById("lottie-scroll-down").style.visibility = "visible";
       }).catch(error => console.log(error))
 
     },
@@ -305,7 +303,8 @@ export default {
   height: 100vh;
   width: 100vw;
   position: fixed;
-  top: 500px;
+  top: 0;
+  left: 0;
 }
 
 #lottie-scroll-down {
