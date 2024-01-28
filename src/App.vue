@@ -2,11 +2,11 @@
   <v-app id="app">
     <!-- Portfolio -->
     <div>
-      <!-- <div id="invertedcursor"></div> -->
       <Header />
       <Loader />
       <Table />
       <Footer />
+      <!-- <Cursor /> -->
     </div>
   </v-app>
 </template>
@@ -16,6 +16,7 @@ import Loader from './components/Loader/Loader.vue'
 import Header from './components/Header/Header.vue'
 import Table from './components/Table/Table.vue'
 import Footer from './components/Footer/Footer.vue'
+import Cursor from './components/Cursor/Cursor.vue'
 
 export default {
   name: 'App',
@@ -24,23 +25,9 @@ export default {
     Header,
     Table,
     Footer,
+    Cursor
   },
   created() {
-    // document.body.onmousemove = function (e) {
-      
-    //   document.documentElement.style.setProperty(
-    //     '--x', (
-    //       e.clientX + window.scrollX
-    //     )
-    //   + 'px'
-    //   );
-    //   document.documentElement.style.setProperty(
-    //     '--y', (
-    //       e.clientY + window.scrollY
-    //     )
-    //   + 'px'
-    //   );
-    // }
   }
 }
 </script>
@@ -61,15 +48,16 @@ html::-webkit-scrollbar {
 
 html {
   margin: 0;
-  height: 100%;
+  height: 100dvh;
   background-color: var(--background-color-1);
   /* Hide scrollbar for IE, Edge and Firefox */
   -ms-overflow-style: none;
   /* IE and Edge */
   scrollbar-width: none;
   /* Firefox */
-  /* font-family: Verdana, Geneva, Tahoma, sans-serif; */
-  font-family: 'Noto_Sans_Tifinagh';
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  /* font-family: 'Noto_Sans_Tifinagh'; */
+  /* cursor: none; */
 }
 
 

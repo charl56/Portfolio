@@ -4,36 +4,21 @@
 <template>
     <!-- Dialog d'attente de chargement -->
     <div class="loader-div">
+        <!-- Loader -->
+        <div class="loading-percentage-parent">
+            <div class="loading-percentage-child">
+                <p class="loading-percentage-text">Chargement... {{ percentage }}%</p>
+            </div>
+        </div>
         <!-- Présentation -->
         <v-row class="my-4 d-flex align-end justify-center row-welcome">
-            <p class="px-3 py-2 loader-text-header">{{ loaderData['welcome'] }}</p>
+            <p class="px-3 py-2 loader-text-header" id="loader-text-header">Bienvenue</p>
         </v-row>
         <!-- Présentation -->
         <v-row class="my-4 py-0 d-flex align-center justify-center">
             <div class="d-flex flex-column">
-                <p class="px-2 py-0 loader-text-content">{{ loaderData['presentation1'] }}</p>
-                <p class="px-2 py-0 loader-text-content">{{ loaderData['presentation2'] }}</p>
-            </div>
-        </v-row>
-        <!-- Enter -->
-        <v-row class="my-0 d-flex align-start justify-center row-loading">
-            <!-- Loader -->
-            <div v-if="!loaded" class="d-flex flex-column align-center justify-center div-loading">
-                <p class="px-3 py-1 no-loaded show-loader">{{ percentage }}%</p>
-                <div class="lds-spinner">
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                </div>
+                <!-- <p class="px-2 py-0 loader-text-content">{{ loaderData['presentation1'] }} </p> -->
+                <p class="px-2 py-0 loader-text-content" id="loader-text-content">{{ loaderData['presentation2'] }}</p>
             </div>
         </v-row>
     </div>
@@ -44,11 +29,24 @@ import { eventBus } from "../../plugins/eventBus";
 // GSAP
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+//
+import SplitType from 'split-type';
+
 
 export default {
     name: 'AppLoader',
     mounted() {
-        // GSAP Animation to show/hide header
+
+        gsap.from('.loading-percentage-text', {
+            duration: 1,
+            y: -150,
+            stagger: 0.5,
+            delay: 0.4,
+            ease: "expo.inOut",
+        })
+
+
+        // GSAP Animation to show/hide loader
         gsap.registerPlugin(ScrollTrigger);
         gsap.to(".loader-div", {
             scrollTrigger: {
@@ -73,7 +71,6 @@ export default {
             ease: "none"
         })
 
-
         // Disable scrolling
         let scrollTop = document.documentElement.scrollTop;
         let scrollLeft = document.documentElement.scrollLeft;
@@ -81,7 +78,6 @@ export default {
         window.onscroll = function () {
             window.scrollTo(scrollLeft, scrollTop);
         };
-
     },
     created() {
         // Set when data are loaded
@@ -113,6 +109,19 @@ export default {
             if (this.percentage == 100) {
                 window.onscroll = function () {
                 };
+                // When data load : hide loader text
+                gsap.to('.loading-percentage-text', {
+                    duration: 1,
+                    y: 150,
+                    ease: "expo.inOut",
+                })
+                // Then slide to show welcome text
+                gsap.to('.loading-percentage-parent', {
+                    duration: 1,
+                    y: window.innerHeight,
+                    ease: "power1.inOut",
+                    delay: 2,
+                })
             }
         });
     },
@@ -142,27 +151,56 @@ export default {
 }
 
 /* Welcome part */
-.row-loading {
-    height: 10vh;
+.loading-percentage-parent{
+    width: 100vw;
+    height: 100dvh;
+    background-color: #57677f;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1025;
+    display: flex;
+    align-items: flex-end;
+    justify-content: end;
+    padding: 20px;
+}
+.loading-percentage-child{
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+
+}
+.loading-percentage-text {
+    font-size: 4rem;
+    text-transform: uppercase;
 }
 
+
+/* Anime title */
+
 /* Text header */
+.loader-text-header {
+    font-weight: 600;
+    /* clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%); */
+}
+
 @media screen and (min-width: 320px) {
     .loader-text-header {
         font-size: calc(64px + 6 * ((100vw) / 680));
     }
 }
+
 @media screen and (min-width: 1000px) {
     .loader-text-header {
         font-size: 4em;
     }
 }
+
 /* Text content */
 @media screen and (min-width: 320px) {
     .loader-text-content {
         font-size: calc(32px + 6 * ((100vw) / 680));
     }
 }
+
 @media screen and (min-width: 1000px) {
     .loader-text-content {
         font-size: 2em;
@@ -178,7 +216,7 @@ export default {
 
 
 /* Animation loading */
-.div-loading {
+/* .div-loading {
     position: absolute;
     width: 120px;
     height: 120px;
@@ -285,6 +323,5 @@ export default {
     100% {
         opacity: 0;
     }
-}
-
+} */
 </style>

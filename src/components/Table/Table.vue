@@ -5,7 +5,6 @@ const iconENG = new URL('../../assets/Icons/england.png', import.meta.url).href
 </script>
 <template>
   <div class="div-table">
-    <div class="space-40vh"></div>
 
     <!-- Lottie animation -->
     <div class="div-scroll-down d-flex align-end justify-center">
@@ -82,9 +81,10 @@ export default {
       scrollTrigger: {
         trigger: ".div-scroll-down",                             // Where it declenche action
         toggleActions: "restart pause reverse pause",       // "list" of action to do
-        start: "top top ",                             // Where trigger start : center of component, center of screen
+        start: "bottom center ",                             // Where trigger start : center of component, center of screen
         end: "bottom bottom",                                  // Where trigger end : bottom of component, top of screen            
         scrub: 1,                                           // Move every scroll
+        pin: true,                                           // Pin the element to the top
         onEnter: () => { },
         onLeave: () => {
           document.querySelector('.div-scroll-down').style.position = 'absolute';
@@ -229,7 +229,10 @@ export default {
         // Event bus pour elenver barre de chargement
         eventBus.emit("dataLoad", true);
         // Show scoll down loffie
-        document.getElementById("lottie-scroll-down").style.visibility = "visible";
+        setTimeout(() => {
+          document.getElementById("lottie-scroll-down").style.visibility = "visible";
+        }, 3000); // 3000 milliseconds = 3 seconds
+
       }).catch(error => console.log(error))
 
     },
@@ -303,8 +306,7 @@ export default {
   height: 100vh;
   width: 100vw;
   position: fixed;
-  top: 0;
-  left: 0;
+  bottom: 0;
 }
 
 #lottie-scroll-down {
@@ -323,7 +325,7 @@ export default {
 }
 
 .icon-post-header:hover {
-  cursor: pointer;
+  /* cursor: pointer; */
   transform: scale(1.2);
 }
 
@@ -351,6 +353,10 @@ export default {
   }
 }
 
+.racesWrapper {
+  z-index: 1010 !important;
+}
+
 @media (min-width: 1200px) {
 
   /* GSAP Animation scroll horizontale */
@@ -368,6 +374,7 @@ export default {
 
 @media (max-width: 1199px) {
   .racesWrapper {
+    position: relative;
     transform: rotate3d(0, 0, 0, 0deg);
   }
 

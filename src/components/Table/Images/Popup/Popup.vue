@@ -163,7 +163,7 @@ export default {
 <style scoped>
 /* Size popup */
 .div-popup-transistion {
-    z-index: 1006;
+    z-index: 10013;
     position: fixed;
     top: 0%;
     left: 0%;
