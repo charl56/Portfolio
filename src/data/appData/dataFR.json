@@ -115,7 +115,7 @@
             "name": "Jeu web 3D",
             "date": "Juin 2023 - Juillet 2023",
             "intro": "Jeu zombie en web 3d",
-            "description": "J'ai tenté de reproduire le mode zombie de BO2 (Call of duty) sur navigateur, de façon très expérimentale. Pour cela j'ai utilisé VueJs, ce qui me permet de faire une web app. J'ai ensuite découvert et utilisé les frameworks ThreeJs pour la 3D, et AmmoJs pour ajouter une partie physique à l'environnement 3D. <br />J'ai commencé par faire un jeu de tire. Puis j'ai eu l'idée de faire un jeu de zombie, avec un système de manche qui fais spawns plus de zombies à chaques changement de manche. J'ai ensuite ajouté un chargeur avec un nombre de balles limités, la possibilité d'acheter des armes et des munitions sur les murs.<br /><a href='/zombie/' target='_blank'>Voici le jeu</a>. Jeu encore en développement, donc il y a pas mal de choses à améliorer.",
+            "description": "J'ai tenté faire un jeu sur le principe du mode zombie de BO2, sur navigateur, de façon très expérimentale. Pour cela j'ai utilisé VueJs, ce qui me permet de faire une web app. J'ai ensuite découvert et utilisé les frameworks ThreeJs pour la 3D, et AmmoJs pour ajouter une partie physique à l'environnement 3D. <br />J'ai commencé par faire un jeu de tire. Puis j'ai eu l'idée de faire un jeu de zombie, avec un système de manche qui fais spawns plus de zombies à chaques changement de manche. J'ai ensuite ajouté un chargeur avec un nombre de balles limités, la possibilité d'acheter des armes et des munitions sur les murs.<br /><a href='/zombie/' target='_blank'>Voici le jeu</a>. Jeu encore en développement, donc il y a pas mal de choses à améliorer.",
             "photos1": [
                 {"type": "img","src": "Zombie3D/gameplay-1.jpg"},
                 {"type": "img","src": "Zombie3D/buy-weapon.jpg", "desc": "Possibilité d'acheter des armes en jeu"}
@@ -147,7 +147,28 @@
             "outils": [
                 {"name": "C++"},
                 {"name": "ESP32"},
+                {"name": "Solidworks"},
                 {"name": "Raspberry"}
+            ]
+        },
+        {
+            "name": "Récepteur musique bluetooth",
+            "date": "Janvier 2023 - Février 2023",
+            "intro": "Le but de ce projet est de réaliser un module bluetooth pour écouter de la musique sur plusieurs enceintes en même temps.",
+            "description": "J'ai utilisé un ESP32 pico kit qui sert de récepteur bluetooth. J'ai ensuite récupéré un code sur <a href='https://github.com/pschatzmann/ESP32-A2DP' target='_blank'>Github</a> qui permet de transformer le signal bluetooth, en signal analogique sur les pins de l'ESP32. Cela va permettre de 'transférer' la musique reçu en bluetooth, sur des connecteurs jack femelles. Je peux donc ensuite brancher des enceintes dessus, et avoir de la musique sur plusieurs appareils différents. Pour l'instant j'ai mis en place 2 connecteurs car cela me suffisait pour mon projet. ",
+            "photos1": [
+                {"type": "img","src": "Esp32Musique/jack_and_usb.jpg", "desc": "Côté droite ESP32 : prise jack et cable d'alimentation"},
+                {"type": "img","src": "Esp32Musique/jack.jpg", "desc": "Côté gauche : prise jack"}
+            ],  
+            "photos2": [
+                {"type": "img","src": "Esp32Musique/model.jpg", "desc": "Modélisation 3D de la boite"},
+                {"type": "img","src": "Esp32Musique/inside.jpg", "desc": "Soudures entre l'ESP et les connecteurs jack"}
+            ],    
+            "outil": "Liste des outils utilisés : ",
+            "outils": [
+                {"name": "C++"},
+                {"name": "ESP32"},
+                {"name": "Solidworks"}
             ]
         }
     ]

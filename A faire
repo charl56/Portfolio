@@ -1,8 +1,10 @@
 font size partout : enlever class pour responsive
 Page d'accueil : Ajouter du contenue ??
 Popup de projets : Mieux organiser/afficher ??
-Taille footer agrandire sur smartphone
-Bug height smartphone : change la taille quand le truc en haut (avec url, +, etc) s'enlève, cela change taille et donc fait buger l'animation
+
+Height smaprtphone :
+    Taille footer agrandire sur smartphone : opera sur smaprtphone le bas est pas pris en compte
+    Bug height smartphone : change la taille quand le truc en haut (avec url, +, etc) s'enlève, cela change taille et donc fait buger l'animation
 
 
 
