@@ -8,8 +8,8 @@
                 </div>
                 <!-- Images -->
                 <div class="part">
-                    <v-carousel v-if="project.hasOwnProperty('photos1')" cycle class="carousel-img d-flex justify-center" :show-arrows="setShowArrows(project.photos1)" hide-delimiters height="100%">
-                        <v-carousel-item id="image-projet" v-for="(photo, index) in project.photos1" :src="returnSrcImage(photo.src)" :key="index" width="100vw" height="100%" cover>
+                    <v-carousel v-if="project.hasOwnProperty('photos1')" cycle class="carousel-img" :show-arrows="setShowArrows(project.photos1)" hide-delimiters height="500px">
+                        <v-carousel-item id="image-projet" v-for="(photo, index) in project.photos1" :src="returnSrcImage(photo.src)" :key="index" height="100%" >
                             <p v-if="photo.hasOwnProperty('desc')" class="p-desc-photo px-2">{{ photo.desc }}</p>
                         </v-carousel-item>
                     </v-carousel>
@@ -32,8 +32,8 @@
                 </div>
                 <!-- Images -->
                 <div class="part">
-                    <v-carousel v-if="project.hasOwnProperty('photos2')" cycle class="carousel-img d-flex justify-center" :show-arrows="setShowArrows(project.photos2)" hide-delimiters height="100%">
-                        <v-carousel-item id="image-projet" v-for="(photo, index) in project.photos2" :src="returnSrcImage(photo.src)" :key="index" width="100vw" height="100%" cover>
+                    <v-carousel v-if="project.hasOwnProperty('photos2')" cycle class="carousel-img" :show-arrows="setShowArrows(project.photos2)" hide-delimiters height="500px">
+                        <v-carousel-item id="image-projet" v-for="(photo, index) in project.photos2" :src="returnSrcImage(photo.src)" :key="index" height="100%">
                             <p v-if="photo.hasOwnProperty('desc')" class="p-desc-photo px-2">{{ photo.desc }}</p>
                         </v-carousel-item>
                     </v-carousel>
@@ -193,7 +193,7 @@ export default {
 }
 .part, .center{
     height: auto;
-    width: 100%;
+    margin: 10px 25px;
 }
 
 /* Desc photos */
@@ -211,8 +211,6 @@ export default {
 
 /* carousel size */
 .carousel-img{  
-    /* width: 80vw !important;
-    height: 100% !important; */
 }
 
 /* Videos */

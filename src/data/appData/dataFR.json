@@ -174,9 +174,9 @@
             "name": "FPS multijoueur",
             "date": "Novemmbre 2023 - Juillet 2024",
             "intro": "Pour ce projet j'ai voulu créer un jeu multijoueur sur navigateur",
-            "description": "J'ai utilisé un ESP32 pico kit qui sert de récepteur bluetooth. J'ai ensuite récupéré un code sur <a href='https://github.com/pschatzmann/ESP32-A2DP' target='_blank'>Github</a> qui permet de transformer le signal bluetooth, en signal analogique sur les pins de l'ESP32. Cela va permettre de 'transférer' la musique reçu en bluetooth, sur des connecteurs jack femelles. Je peux donc ensuite brancher des enceintes dessus, et avoir de la musique sur plusieurs appareils différents. Pour l'instant j'ai mis en place 2 connecteurs car cela me suffisait pour mon projet. ",
+            "description": "Les différents buts de ce proejts sont déjà d'améliorer le jeu de zombie, afin de jouer à plusieurs. Mais également de voir ce qui est possible ou non, en jeu sur navigateur. <br /><a href='/webfps/' target='_blank'>Voici le jeu</a> ",
             "photos1": [
-                {"type": "img","src": "FpsMulti/view_spawn.png", "desc": "Côté droite ESP32 : prise jack et cable d'alimentation"}
+                {"type": "img","src": "FpsMulti/view_spawn.png", "desc": "Vue depuis le spawn"}
             ],  
             "outil": "Liste des outils utilisés : ",
             "outils": [

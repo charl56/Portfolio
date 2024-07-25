@@ -2,7 +2,7 @@
     <div class="footer-div my-1" id="footer-div">
         <v-row class="d-flex justify-space-around">
             <p class="footer-text"><a class="px-2 py-0" href="https://www.linkedin.com/in/charles-pichou/" target="_blank">LinkedIn</a></p>
-            <p class="footer-text">2022 - {{ new Date().getFullYear() }}</p>
+            <p class="footer-text-date">2022 - {{ new Date().getFullYear() }}</p>
             <p class="footer-text"><a class="px-2 pa-0" href="https://github.com/charl56" target="_blank">GitHub</a></p>
         </v-row>
     </div>
@@ -47,6 +47,8 @@ export default {
     padding: 5px 0;
     display: flex;
     align-items: center;
+    z-index: 1006;
+
 }
 @media (max-width: 1200px) {
     #footer-div {
@@ -58,19 +60,18 @@ export default {
 a {
     color: #2c3e50 !important;
     text-decoration: none !important;
-
 }
 
 a:hover {
     cursor: pointer !important;
-    border-radius: 5px;
-    background-color: #dbe4f1;
 }
 
 /* Text */
-.footer-text {
+.footer-text, .footer-text-date {
     font-size: 2em;
     font-weight: lighter;
+}.footer-text:hover {
+    transform: scale(1.05);
 }
 
 </style>
