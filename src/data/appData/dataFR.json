@@ -2,8 +2,7 @@
     [
         {
             "welcome": "Bienvenue",
-            "presentation1": "Je suis Charles, étudiant en école d'ingénieur à l'ESEO, Angers",
-            "presentation2": "Voici quelques projets réalisé ces dernières années",
+            "presentation1": "Voici quelques projets réalisé ces dernières années",
             "loading1": "Chargement des photos",
             "loading2": "Entrer"
         }
@@ -153,7 +152,7 @@
         },
         {
             "name": "Récepteur musique bluetooth",
-            "date": "Janvier 2023 - Février 2023",
+            "date": "Janvier 2024 - Février 2024",
             "intro": "Le but de ce projet est de réaliser un module bluetooth pour écouter de la musique sur plusieurs enceintes en même temps.",
             "description": "J'ai utilisé un ESP32 pico kit qui sert de récepteur bluetooth. J'ai ensuite récupéré un code sur <a href='https://github.com/pschatzmann/ESP32-A2DP' target='_blank'>Github</a> qui permet de transformer le signal bluetooth, en signal analogique sur les pins de l'ESP32. Cela va permettre de 'transférer' la musique reçu en bluetooth, sur des connecteurs jack femelles. Je peux donc ensuite brancher des enceintes dessus, et avoir de la musique sur plusieurs appareils différents. Pour l'instant j'ai mis en place 2 connecteurs car cela me suffisait pour mon projet. ",
             "photos1": [
@@ -169,6 +168,22 @@
                 {"name": "C++"},
                 {"name": "ESP32"},
                 {"name": "Solidworks"}
+            ]
+        },
+        {
+            "name": "FPS multijoueur",
+            "date": "Novemmbre 2023 - Juillet 2024",
+            "intro": "Pour ce projet j'ai voulu créer un jeu multijoueur sur navigateur",
+            "description": "J'ai utilisé un ESP32 pico kit qui sert de récepteur bluetooth. J'ai ensuite récupéré un code sur <a href='https://github.com/pschatzmann/ESP32-A2DP' target='_blank'>Github</a> qui permet de transformer le signal bluetooth, en signal analogique sur les pins de l'ESP32. Cela va permettre de 'transférer' la musique reçu en bluetooth, sur des connecteurs jack femelles. Je peux donc ensuite brancher des enceintes dessus, et avoir de la musique sur plusieurs appareils différents. Pour l'instant j'ai mis en place 2 connecteurs car cela me suffisait pour mon projet. ",
+            "photos1": [
+                {"type": "img","src": "FpsMulti/view_spawn.png", "desc": "Côté droite ESP32 : prise jack et cable d'alimentation"}
+            ],  
+            "outil": "Liste des outils utilisés : ",
+            "outils": [
+                {"name": "VueJs"},
+                {"name": "NodeJs"},
+                {"name": "ThreeJs"},
+                {"name": "AmmoJs"}
             ]
         }
     ]

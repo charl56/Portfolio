@@ -120,10 +120,11 @@ export default {
         duration: 3,
         ease: "none",
       });
+      
       ScrollTrigger.create({
         trigger: ".racesWrapper",
-        start: "top 15%",
-        end: () => `+=${getScrollAmount() * -1}`,
+        start: "top 10%",
+        end: () => `+=${-getScrollAmount()}`,
         pin: true,
         animation: tween,
         scrub: 1,
@@ -361,7 +362,7 @@ export default {
 
   /* GSAP Animation scroll horizontale */
   .racesWrapper {
-    transform: rotate3d(0, 1, 1, 3deg);
+    /* transform: rotate3d(0, 1, 1, 3deg); */
   }
 
   .races {

@@ -17,8 +17,7 @@
         <!-- Présentation -->
         <v-row class="my-4 py-0 d-flex align-center justify-center">
             <div class="d-flex flex-column">
-                <!-- <p class="px-2 py-0 loader-text-content">{{ loaderData['presentation1'] }} </p> -->
-                <p class="px-2 py-0 loader-text-content" id="loader-text-content">{{ loaderData['presentation2'] }}</p>
+                <p class="px-2 py-0 loader-text-content" id="loader-text-content">{{ loaderData['presentation1'] }}</p>
             </div>
         </v-row>
     </div>
