@@ -1,4 +1,4 @@
-name: Deploy portfolio on server
+name: Deploy portfolio project on server
 
 on:
   push:
