@@ -36,7 +36,7 @@ export default {
     },
     mounted() {
         if(window.screen.width < 550) {
-            document.querySelector(".photos3d-description").innerText = "Utiliser 1 doigt pour pivoter, et 2 pour zommer/dezoomer";
+            document.querySelector(".photos3d-description").innerText = "Utiliser 1 doigt pour pivoter, et 2 pour déplacer l'objet ou zommer/dezoomer";
         }
         this.container = document.getElementById(this.projectName);
 

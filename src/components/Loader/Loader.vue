@@ -36,39 +36,43 @@ export default {
     name: 'AppLoader',
     mounted() {
 
-        gsap.from('.loading-percentage-text', {
-            duration: 1,
-            y: -150,
-            stagger: 0.5,
-            delay: 0.4,
-            ease: "expo.inOut",
-        })
+        if (window.screen.width > 550) {
+            gsap.from('.loading-percentage-text', {
+                duration: 1,
+                y: -150,
+                stagger: 0.5,
+                delay: 0.4,
+                ease: "expo.inOut",
+            })
 
 
-        // GSAP Animation to show/hide loader
-        gsap.registerPlugin(ScrollTrigger);
-        gsap.to(".loader-div", {
-            scrollTrigger: {
-                trigger: ".loader-div",                             // Where it declenche action
-                toggleActions: "restart pause reverse pause",       // "list" of action to do
-                start: "top top ",                             // Where trigger start : center of component, center of screen
-                end: "bottom top",                                  // Where trigger end : bottom of component, top of screen            
-                scrub: 1,                                           // Move every scroll
-                pin: true,                                           // Let the component on the middle of the screen
-                pinSpacing: false,
-                onEnter: () => { },
-                onLeave: () => {
-                    document.querySelector('.loader-div').style.display = 'none';
+            // GSAP Animation to show/hide loader
+            gsap.registerPlugin(ScrollTrigger);
+            gsap.to(".loader-div", {
+                scrollTrigger: {
+                    trigger: ".loader-div",                             // Where it declenche action
+                    toggleActions: "restart pause reverse pause",       // "list" of action to do
+                    start: "top top ",                             // Where trigger start : center of component, center of screen
+                    end: "bottom top",                                  // Where trigger end : bottom of component, top of screen            
+                    scrub: 1,                                           // Move every scroll
+                    pin: true,                                           // Let the component on the middle of the screen
+                    pinSpacing: false,
+                    onEnter: () => { },
+                    onLeave: () => {
+                        document.querySelector('.loader-div').style.display = 'none';
+                    },
+                    onEnterBack: () => { },
+                    onLeaveBack: () => {
+                        document.querySelector('.loader-div').style.display = '';
+                    },
                 },
-                onEnterBack: () => { },
-                onLeaveBack: () => {
-                    document.querySelector('.loader-div').style.display = '';
-                },
-            },
-            x: () => window.innerWidth,
-            duration: 3,
-            ease: "none"
-        })
+                x: () => window.innerWidth,
+                duration: 3,
+                ease: "none"
+            })
+
+
+        }
 
         // Disable scrolling
         let scrollTop = document.documentElement.scrollTop;
@@ -82,6 +86,7 @@ export default {
         // Set when data are loaded
         eventBus.on('dataLoad', (data) => {
             if (data) {
+                document.get
                 this.loaded = true
                 this.value = this.dataFr['loading2']
             } else {
@@ -113,13 +118,13 @@ export default {
                     duration: 1,
                     y: 150,
                     ease: "expo.inOut",
-                })
-                // Then slide to show welcome text
-                gsap.to('.loading-percentage-parent', {
-                    duration: 1,
-                    y: window.innerHeight,
-                    ease: "power1.inOut",
-                    delay: 2,
+                }).then(() => {
+                    // Then slide to show welcome text
+                    gsap.to('.loading-percentage-parent', {
+                        duration: 1,
+                        y: -window.innerHeight,
+                        ease: "power1.inOut",
+                    })
                 })
             }
         });
@@ -149,8 +154,15 @@ export default {
     background: linear-gradient(to left, #a1d1f8, var(--background-color-1));
 }
 
+@media (max-width: 550px) {
+    .loader-div {
+        background: linear-gradient(to bottom, #a1d1f8, var(--background-color-1));
+    }
+
+}
+
 /* Welcome part */
-.loading-percentage-parent{
+.loading-percentage-parent {
     width: 100vw;
     height: 100dvh;
     background-color: #57677f;
@@ -163,10 +175,12 @@ export default {
     justify-content: end;
     padding: 20px;
 }
-.loading-percentage-child{
+
+.loading-percentage-child {
     clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
 
 }
+
 .loading-percentage-text {
     font-size: xx-large;
     text-transform: uppercase;
@@ -176,12 +190,13 @@ export default {
 .loader-text-header {
     font-weight: 600;
     font-size: xxx-large;
-}.loader-text-content{
+}
+
+.loader-text-content {
     font-size: x-large;
 }
 
 .no-loaded {
     animation-duration: 1.2s;
 }
-
 </style>

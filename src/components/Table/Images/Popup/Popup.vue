@@ -2,6 +2,9 @@
     <Transition @before-enter="onBeforeEnter" @enter="onEnter" @leave="onLeave" :css="false">
         <div v-if="open" class="popup-div">
             <div class="popup-description">
+                <div class="popup-closer" @click="closePopup">
+                    fermer
+                </div>
                 <!-- Titre -->
                 <p class="">{{ project.name }}</p>
                 <!-- Intro -->
@@ -19,9 +22,7 @@
             <div class="popup-photos">
                 <Photos3d :projectName="renameProjectForId(project.name)" :photos="project.photos" />
             </div>
-            <div class="popup-closer" @click="this.open = false">
-                fermer
-            </div>
+
         </div>
     </Transition>
 </template>
@@ -39,10 +40,10 @@ export default {
     components: {
         Photos3d
     },
-    created() { // Lance la fonction au chargement de la page
+    created() {
+        // Lance la fonction au chargement de la page
         eventBus.on('openThisProject', (data) => {
-            this.open = true
-            this.project = data
+            this.openPopup(data)
         });
         // Is use to open popup on the mouse
         window.addEventListener('mousemove', (e) => {
@@ -62,6 +63,22 @@ export default {
         }
     },
     methods: {
+        openPopup(data) {
+            this.project = data
+            this.open = true
+
+            let scrollTop = document.documentElement.scrollTop;
+            let scrollLeft = document.documentElement.scrollLeft;
+
+            window.onscroll = function () {
+                window.scrollTo(scrollLeft, scrollTop);
+            };
+        },
+        closePopup() {
+            this.open = false
+            window.onscroll = function () {
+            };
+        },
         // Transition opening
         onBeforeEnter(el) {
             gsap.set(el, {
@@ -140,6 +157,7 @@ export default {
     flex-direction: column;
     justify-content: space-between;
     z-index: 1014;
+    overflow: scroll;
 }
 
 .popup-description p {
@@ -196,9 +214,6 @@ export default {
     .popup-photos {
         width: 100% !important;
         height: 50% !important;
-    }
-    .popup-description {
-        overflow: scroll;
     }
 
 

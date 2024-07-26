@@ -75,8 +75,6 @@ html {
 	background-color: var(--background-color-1) !important;
 	top: 0;
 	right: 0;
-	bottom: 0;
-	left: 0;
 }
 
 /* Surlignage du texte */
