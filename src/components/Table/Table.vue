@@ -160,8 +160,17 @@ export default {
                             img.src = 'images/' + image.src
                         }
                         // Chargement des photos, pourcentage
-                        eventBus.emit('progressValue', 100)
-                    
+                        promises.push(
+                            new Promise((resolve, reject) => {
+                                img.onload = () => {
+                                    progress++;
+                                    this.percentage = (progress / totalImages) * 100;
+                                    eventBus.emit('progressValue', this.percentage)
+                                    resolve();
+                                };
+                                img.onerror = reject;
+                            })
+                        );
                     }
                 }
             }

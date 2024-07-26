@@ -154,6 +154,12 @@ export default {
     background: linear-gradient(to left, #a1d1f8, var(--background-color-1));
 }
 
+@media (max-width: 550px) {
+    .loader-div {
+        background: linear-gradient(to bottom, #a1d1f8, var(--background-color-1));
+    }
+
+}
 
 /* Welcome part */
 .loading-percentage-parent {
