@@ -1,4 +1,4 @@
-name: Deploy portfolio project on server
+name: Deploy web fps project on server
 
 on:
   push:
@@ -20,12 +20,11 @@ jobs:
 
     - name: Copy modified files via rsync
       run: |
-        rsync -avz --exclude='.git*' -e "ssh -o StrictHostKeyChecking=no -p ${{ secrets.SSH_PORT }}" --delete ${{ github.workspace }}/ ${{ secrets.USER }}@${{ secrets.SERVER_IP }}:/srv/Portfolio
+        rsync -avz --exclude='.git*' -e "ssh -o StrictHostKeyChecking=no -p ${{ secrets.SSH_PORT }}" --delete ${{ github.workspace }}/ ${{ secrets.USER }}@${{ secrets.SERVER_IP }}:/srv/WebFps
 
     - name: Deploy
       run: |
         ssh -p ${{ secrets.SSH_PORT }} -o StrictHostKeyChecking=no ${{ secrets.USER }}@${{ secrets.SERVER_IP }} << 'EOF'
-        cd /srv/Portfolio
-        docker compose down
-        docker compose up -d --build
+        cd /srv/WebFps
+        ls -la
         EOF
