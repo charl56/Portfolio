@@ -157,7 +157,8 @@ export default {
     flex-direction: column;
     justify-content: space-between;
     z-index: 1014;
-    overflow: scroll;
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
 
 .popup-description p {
@@ -203,7 +204,7 @@ export default {
 }
 
 /* Media query for smaller screens */
-@media (max-width: 550px) {
+@media (max-width: 1000px) {
     .popup-div {
         height: 100dvh;
         top: 0vh;

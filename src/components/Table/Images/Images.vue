@@ -94,7 +94,7 @@ export default {
     width: 30vw;
 }
 
-@media (max-width: 1199px) {
+@media (max-width: 999px) {
     .div-image {
         position: relative;
         width: 100%;

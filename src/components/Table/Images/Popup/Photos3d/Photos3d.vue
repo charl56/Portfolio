@@ -35,7 +35,7 @@ export default {
         projectName: 'initPhotos3d',
     },
     mounted() {
-        if(window.screen.width < 550) {
+        if(window.screen.width < 1000) {
             document.querySelector(".photos3d-description").innerText = "Utiliser 1 doigt pour pivoter, et 2 pour déplacer l'objet ou zommer/dezoomer";
         }
         this.container = document.getElementById(this.projectName);
@@ -87,7 +87,7 @@ export default {
     padding: 10px 30px;
 }
 
-@media (max-width: 550px) {
+@media (max-width: 1000px) {
     .photos3d-loader {
         width: 100%;
         height: 50%;
@@ -109,7 +109,7 @@ export default {
 .photos3d-description {
     font-size: larger;
 }
-@media (max-width: 550px) {
+@media (max-width: 1000px) {
     .photos3d-description, .photos3d-loader-text {
         font-size: xx-large;
     }
@@ -123,7 +123,7 @@ export default {
     padding: 5px 10px;
     border-radius: 5px;
 }
-@media (max-width: 550px) {
+@media (max-width: 1000px) {
     .photos3d-loader-btn {
         font-size: xx-large;
     }

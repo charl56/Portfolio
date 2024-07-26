@@ -84,9 +84,7 @@ export default {
         eventBus.emit("languageLoad", data);
         this.loadImages(dataFR[1])                  // Fonction qui charge les images
 
-
-
-        if (window.outerWidth > 1200) {
+        if (window.innerWidth > 1000) {
             // Animation scroll horizontale
             gsap.registerPlugin(ScrollTrigger);
             const races = document.querySelector(".races");
@@ -162,17 +160,8 @@ export default {
                             img.src = 'images/' + image.src
                         }
                         // Chargement des photos, pourcentage
-                        promises.push(
-                            new Promise((resolve, reject) => {
-                                img.onload = () => {
-                                    progress++;
-                                    this.percentage = (progress / totalImages) * 100;
-                                    eventBus.emit('progressValue', this.percentage)
-                                    resolve();
-                                };
-                                img.onerror = reject;
-                            })
-                        );
+                        eventBus.emit('progressValue', 100)
+                    
                     }
                 }
             }
@@ -188,24 +177,6 @@ export default {
 
             }).catch(error => console.log(error))
 
-        },
-        imageSize() {
-            if (window.outerWidth < 400) {
-                return '90'
-            } else if (window.outerWidth < 600) {
-                return '75'
-            } else {
-                return '30'
-            }
-        },
-        titleProjectSize() {
-            if (window.outerWidth < 400) {
-                return 'text-h2'
-            } else if (window.outerWidth < 600) {
-                return 'text-h3'
-            } else {
-                return 'text-h5'
-            }
         },
     },
 }
@@ -289,7 +260,7 @@ export default {
 
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1000px) {
 
     /* GSAP Animation scroll horizontale */
     .racesWrapper {
@@ -304,7 +275,7 @@ export default {
 
 }
 
-@media (max-width: 1199px) {
+@media (max-width: 999px) {
     .racesWrapper {}
 
     .races {

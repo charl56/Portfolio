@@ -36,7 +36,7 @@ export default {
     name: 'AppLoader',
     mounted() {
 
-        if (window.screen.width > 550) {
+        if (window.screen.width > 1000) {
             gsap.from('.loading-percentage-text', {
                 duration: 1,
                 y: -150,
@@ -154,12 +154,6 @@ export default {
     background: linear-gradient(to left, #a1d1f8, var(--background-color-1));
 }
 
-@media (max-width: 550px) {
-    .loader-div {
-        background: linear-gradient(to bottom, #a1d1f8, var(--background-color-1));
-    }
-
-}
 
 /* Welcome part */
 .loading-percentage-parent {
