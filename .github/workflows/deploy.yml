@@ -26,8 +26,6 @@ jobs:
       run: |
         ssh -p ${{ secrets.SSH_PORT }} -o StrictHostKeyChecking=no ${{ secrets.USER }}@${{ secrets.SERVER_IP }} << 'EOF'
         cd /srv/Portfolio
-        echo "Stopping and removing the existing containers"
         docker compose down
-        echo "Build neewwss"
         docker compose up -d --build
         EOF
