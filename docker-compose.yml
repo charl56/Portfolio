@@ -3,7 +3,7 @@ services:
   charles:
     container_name: charles
     build:
-      context: ./Portfolio # Lieu du dossier 'frontend' dans le projet
+      # context: ./Portfolio # Lieu du dossier 'frontend' dans le projet
       dockerfile: ./Dockerfile # Lieu du dockerfile, par rapport au context
       args:
         # Permet au front d'avoir les adresses ip du front et du back
