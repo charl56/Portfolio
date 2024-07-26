@@ -63,7 +63,7 @@ a:hover {
 
 /* Text */
 .footer-text, .footer-text-date {
-    font-size: 2em;
+    font-size: larger;
     font-weight: lighter;
 }.footer-text:hover {
     transform: scale(1.05);

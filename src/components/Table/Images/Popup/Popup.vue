@@ -1,52 +1,26 @@
 <template>
     <Transition @before-enter="onBeforeEnter" @enter="onEnter" @leave="onLeave" :css="false">
-        <div v-if="open" class="div-popup-transistion d-flex align-center justify-center">
-            <div class="projet px-0 mx-0 my-0 justify-space-between">
-                <!-- Back btn -->
-                <div class="div-arrow-down d-flex align-start justify-center my-3">
-                    <div id="lottie-arrow-down" @click="open = !open"></div>
-                </div>
-                <!-- Images -->
-                <div class="part">
-                    <v-carousel v-if="project.hasOwnProperty('photos1')" cycle class="carousel-img" :show-arrows="setShowArrows(project.photos1)" hide-delimiters height="500px">
-                        <v-carousel-item id="image-projet" v-for="(photo, index) in project.photos1" :src="returnSrcImage(photo.src)" :key="index" height="100%" >
-                            <p v-if="photo.hasOwnProperty('desc')" class="p-desc-photo px-2">{{ photo.desc }}</p>
-                        </v-carousel-item>
-                    </v-carousel>
-                </div>
-                <!-- Text -->
-                <div class="center px-3 my-4 d-flex flex-column">
-                    <!-- Titre -->
-                    <p :class="textSize()" class="mb-3 mt-0 text-justify align-self-center text-decoration-underline">{{ project.name }}</p>
-                    <!-- Intro -->
-                    <p v-if="project.hasOwnProperty('intro')" :class="textSize()" class="mb-2 mt-3 text-justify align-self-center" v-html="project.intro"></p>
-                    <!-- Description -->
-                    <p :class="textSize()" class="mb-2 mt-3 text-justify" v-html="project.description"></p>
-                    <!-- Liste des outils utilisés -->
-                    <p v-if="project.hasOwnProperty('outils')" :class="textSize()" class="text-start mt-2 mb-0">{{ project.outil }}</p>
-                    <ul v-for="outil, index in project.outils" :key="index" class="d-flex justify-start pl-5">
-                        <li :class="outilSize()">{{ outil.name }}</li>
-                    </ul>
-                    <!-- Dates -->
-                    <p v-if="project.hasOwnProperty('date')" :class="dateSize()" class="mt-10 mb-0 text-center font-italic align-self-end">{{ project.date }}</p>
-                </div>
-                <!-- Images -->
-                <div class="part">
-                    <v-carousel v-if="project.hasOwnProperty('photos2')" cycle class="carousel-img" :show-arrows="setShowArrows(project.photos2)" hide-delimiters height="500px">
-                        <v-carousel-item id="image-projet" v-for="(photo, index) in project.photos2" :src="returnSrcImage(photo.src)" :key="index" height="100%">
-                            <p v-if="photo.hasOwnProperty('desc')" class="p-desc-photo px-2">{{ photo.desc }}</p>
-                        </v-carousel-item>
-                    </v-carousel>
-                    <div v-else-if="project.hasOwnProperty('video')" class="div-video">
-                        <v-carousel class="d-flex justify-center" show-arrows="hover" hide-delimiters width="100%" height="400px">
-                            <v-carousel-item v-for="(video, index) in project.video" :key="index">
-                                <video id="video-projet" controls>
-                                    <source :src="returnSrcImage(video.src)">
-                                </video>
-                            </v-carousel-item>
-                        </v-carousel>
-                    </div>
-                </div>
+        <div v-if="open" class="popup-div">
+            <div class="popup-description">
+                <!-- Titre -->
+                <p class="">{{ project.name }}</p>
+                <!-- Intro -->
+                <p v-if="project.hasOwnProperty('intro')" class="" v-html="project.intro"></p>
+                <!-- Description -->
+                <p class="" v-html="project.description"></p>
+                <!-- Liste des outils utilisés -->
+                <ul class="">
+                    <p v-if="project.hasOwnProperty('outils')" class="">{{ project.outil }}</p>
+                    <li v-for="outil, index in project.outils" :key="index">{{ outil.name }}</li>
+                </ul>
+                <!-- Dates -->
+                <p v-if="project.hasOwnProperty('date')" class="">{{ project.date }}</p>
+            </div>
+            <div class="popup-photos">
+                <Photos3d :projectName="renameProjectForId(project.name)" :photos="project.photos" />
+            </div>
+            <div class="popup-closer" @click="this.open = false">
+                fermer
             </div>
         </div>
     </Transition>
@@ -58,12 +32,12 @@
 import { eventBus } from '../../../../plugins/eventBus';
 import gsap from 'gsap'
 import '../../../../plugins/body-movin'
-// Functions
-import {popup} from '../../../../plugins/popup-functions'
+import Photos3d from './Photos3d/Photos3d.vue';
 
 export default {
     name: 'AppPopup',
     components: {
+        Photos3d
     },
     created() { // Lance la fonction au chargement de la page
         eventBus.on('openThisProject', (data) => {
@@ -109,7 +83,7 @@ export default {
                 x: 0,
                 y: 0
             })
-            this.setLottieAnimation()
+            // this.setLottieAnimation()
         },
         onLeave(el, done) {
             gsap.to(el, {
@@ -126,100 +100,111 @@ export default {
                 onComplete: done
             })
         },
-        setLottieAnimation(){
-            // Lottie animation arrow
-            bodymovin.loadAnimation({
-                container: document.getElementById('lottie-arrow-down'),
-                renderer: 'svg',
-                loop: true,
-                autoplay: true,
-                path: new URL('../../../../assets/Json/scroll-down.json', import.meta.url).href
-            })
-        },
-        returnSrcImage(src){
-            if(import.meta.env.DEV){
-                return new URL('../../../../../images/' + src, import.meta.url).href   
+        returnSrcImage(src) {
+            if (import.meta.env.DEV) {
+                return new URL('../../../../../images/' + src, import.meta.url).href
             } else {
-                return 'images/' + src   
+                return 'images/' + src
             }
         },
-        setShowArrows(data){
-            return popup.setShowArrows(data)
-        },
-        outilSize(){
-            return popup.outilSize()
-        },
-        textSize() {         // Text size responsive
-            return popup.textSize()
-        },
-        dateSize(){
-            return popup.dateSize()
-        },
+        renameProjectForId(projectName) {
+            return projectName.replace(/ /g, '-').toLowerCase()
+        }
     },
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-/* Size popup */
-.div-popup-transistion {
-    z-index: 10013;
+.popup-div {
+    height: 80vh;
+    width: 100vw;
+    top: 10vh;
     position: fixed;
-    top: 0%;
-    left: 0%;
-    height: 100%;
-    width: 100%;
     background-color: var(--background-color-1);
-}
-/* Lotti btn back */
-.div-arrow-down{
-    height: 10vh;
-    width: 100%;
-}#lottie-arrow-down{
-    height: 80%;
-    width: fit-content;
-}#lottie-arrow-down:hover{
-    cursor: pointer;
-    transform: scale(1.1);
-}
-
-/* Projet design */
-.projet{
-    width: 100%;
-    height: 100%;
-    overflow-y: scroll;
     display: flex;
-    flex-direction: column;
-}
-.part, .center{
-    height: auto;
-    margin: 10px 25px;
+    flex-direction: row;
+    z-index: 1013;
 }
 
-/* Desc photos */
-.p-desc-photo{
-    position: relative;
-    top: 90%;
-    width: fit-content;
-    margin-left: auto;
-    margin-right: auto;
-    border-radius: 5px;
-    font-size: 2em;
-    color: white;
-    text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black;
-}
-
-/* carousel size */
-.carousel-img{  
-}
-
-/* Videos */
-.div-video{
-    height: auto !important;
-    width: 100% !important;
-}
-#video-projet{
-    width: auto;
+.popup-description,
+.popup-photos {
     height: 100%;
+    width: 50%;
+}
+
+/*  */
+.popup-description {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 1014;
+}
+
+.popup-description p {
+    font-size: larger;
+    margin: 10px 20px;
+}
+
+.popup-description ul p {
+    margin: 0px;
+}
+
+.popup-description p:first-of-type {
+    font-size: xx-large;
+}
+
+.popup-description p:last-of-type {
+    font-size: medium;
+    font-style: italic;
+}
+
+/*  */
+.popup-photos:hover {
+    z-index: 1013;
+    cursor: pointer;
+}
+
+/* Btn close */
+.popup-closer {
+    top: 0;
+    right: 0;
+    position: absolute;
+    width: min-content !important;
+    height: min-content !important;
+    z-index: 1015;
+    font-size: large;
+    padding: 5px 10px;
+    border-bottom-left-radius: 5px;
+}
+
+.popup-closer:hover {
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* Media query for smaller screens */
+@media (max-width: 550px) {
+    .popup-div {
+        height: 100dvh;
+        top: 0vh;
+        flex-direction: column !important;
+    }
+
+    .popup-description,
+    .popup-photos {
+        width: 100% !important;
+        height: 50% !important;
+    }
+    .popup-description {
+        overflow: scroll;
+    }
+
+
+    .popup-closer {
+        top: 10px;
+        right: 10px;
+    }
 }
 </style>

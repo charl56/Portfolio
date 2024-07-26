@@ -18,7 +18,7 @@
         </div>
     </div>
 </template>
-  
+
 
 <script>
 // GSAP
@@ -29,30 +29,30 @@ export default {
     name: 'AppHeader',
     mounted() {
         // GSAP Animation to show/hide header
-            gsap.registerPlugin(ScrollTrigger);
-            gsap.to(".header-div", {
-                scrollTrigger: {
-                    trigger: ".header-div",                             // Where it declenche action
-                    toggleActions: "restart complete reverse pause",       // "list" of action to do
-                    start: "top top ",                             // Where trigger start : center of component, center of screen
-                    end: "bottom top",                                  // Where trigger end : bottom of component, top of screen            
-                    scrub: 1,                                           // Move every scroll
-                },
-                duration: 3,
-                x: () => -window.innerWidth,
-                y: -100,
-            })
+        gsap.registerPlugin(ScrollTrigger);
+        gsap.to(".header-div", {
+            scrollTrigger: {
+                trigger: ".header-div",                             // Where it declenche action
+                toggleActions: "restart complete reverse pause",       // "list" of action to do
+                start: "top top ",                             // Where trigger start : center of component, center of screen
+                end: "bottom top",                                  // Where trigger end : bottom of component, top of screen            
+                scrub: 1,                                           // Move every scroll
+            },
+            duration: 3,
+            x: () => -window.innerWidth,
+            y: -100,
+        })
     }
 }
 </script>
-  
+
 <style scoped>
 /* Div */
 #header-div {
     top: 100px;
     left: 100vw;
     position: fixed;
-    height: min-content;
+    height: 5vh;
     width: 100vw;
     z-index: 1006;
     cursor: none;
@@ -87,19 +87,18 @@ export default {
 span {
     float: left;
     width: 50%;
+
 }
 
 /* Text */
 .header-text {
-    font-size: 3em;
+    font-size: xxx-large;
     margin: 5px 0px;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 500px) {
     .header-text {
-        font-size: 2em;
+        font-size: x-large;
     }
 }
 </style>
-  
-  

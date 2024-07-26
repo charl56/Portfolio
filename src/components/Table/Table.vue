@@ -1,8 +1,3 @@
-<script setup>
-const iconDl = new URL('../../assets/Icons/download.png', import.meta.url).href
-const iconFR = new URL('../../assets/Icons/france.png', import.meta.url).href
-const iconENG = new URL('../../assets/Icons/england.png', import.meta.url).href
-</script>
 <template>
     <div class="div-table">
 
@@ -144,11 +139,8 @@ export default {
         calculateTotalImages(data) {
             let totalImages = 0;
             for (const projet of data) {
-                if (projet.photos1 != undefined) {
-                    totalImages += projet.photos1.length;
-                }
-                if (projet.photos2 != undefined) {
-                    totalImages += projet.photos2.filter(image => image.type === 'img').length;
+                if (projet.photos != undefined) {
+                    totalImages += projet.photos.length;
                 }
             }
             return totalImages;
@@ -161,8 +153,8 @@ export default {
 
             let promises = []
             for (const projet of data) {
-                if (projet.photos1 != undefined) {
-                    for (const image of projet.photos1) {
+                if (projet.photos != undefined) {
+                    for (const image of projet.photos) {
                         let img = new Image()
                         if (import.meta.env.DEV) {
                             img.src = new URL('../../../images/' + image.src, import.meta.url).href
@@ -181,31 +173,6 @@ export default {
                                 img.onerror = reject;
                             })
                         );
-                    }
-                }
-                if (projet.photos2 != undefined) {
-                    for (const image of projet.photos2) {
-                        // Seulement pour les images
-                        if (image.type == 'img') {
-                            let img = new Image()
-                            if (import.meta.env.DEV) {
-                                img.src = new URL('../../../images/' + image.src, import.meta.url).href
-                            } else {
-                                img.src = 'images/' + image.src
-                            }
-                            // Chargement des photos, pourcentage
-                            promises.push(
-                                new Promise((resolve, reject) => {
-                                    img.onload = () => {
-                                        progress++;
-                                        this.percentage = (progress / totalImages) * 100;
-                                        eventBus.emit('progressValue', this.percentage)
-                                        resolve();
-                                    };
-                                    img.onerror = reject;
-                                })
-                            );
-                        }
                     }
                 }
             }

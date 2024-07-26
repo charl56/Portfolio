@@ -1,6 +1,6 @@
 <template>
     <div class="div-image" @click="openProject(projet)">
-        <v-img v-if="projet.hasOwnProperty('photos1')" :src="returnSrcImage(projet.photos1[0].src)" cover class="img-size"></v-img>
+        <v-img v-if="projet.hasOwnProperty('photos')" :src="returnSrcImage(projet.photos[0].src)" cover class="img-size"></v-img>
         <p v-if="projet.hasOwnProperty('name')" class="title-image">{{ projet.name }}</p>
     </div>
 </template>
@@ -75,7 +75,7 @@ export default {
         position: fixed;
         bottom: 20px;
         margin-left: 10px;
-        font-family: 'Staatliches', cursive;
+        /* font-family: 'Staatliches', cursive; */
         font-size: 2.5vw;
         text-decoration: underline;
         flex-shrink: 0;
