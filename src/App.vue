@@ -6,6 +6,7 @@
       <Loader />
       <Table />
       <Footer />
+
       <!-- <Cursor /> -->
     </div>
   </v-app>

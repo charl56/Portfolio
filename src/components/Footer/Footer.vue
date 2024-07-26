@@ -23,13 +23,11 @@ export default {
                 scrollTrigger: {
                     trigger: ".footer-div",                             // Where it declenche action
                     toggleActions: "restart complete reverse pause",       // "list" of action to do
-                    start: "top 90%",                             // Where trigger start : center of component, center of screen
-                    end: "top bottom",                                  // Where trigger end : bottom of component, top of screen            
-                    scrub: 1,                                           // Move every scroll
+                    start: "top bottom",                             // Where trigger start : center of component, center of screen
+                    scrub: 1,     
                 },
                 duration: 3,
-                x: () => window.innerWidth,
-                y: -100,
+                y: 200,
             })
     }
 }
@@ -39,9 +37,6 @@ export default {
 <style scoped>
 /* Div */
 #footer-div {
-    bottom: -100px;
-    right: 100vw;
-    position: fixed;
     height: 4dvh;
     width: 100vw;
     padding: 5px 0;

@@ -21,10 +21,9 @@ const iconENG = new URL('../../assets/Icons/england.png', import.meta.url).href
         <!-- Popup open project -->
         <Popup />
 
-        <div class="space-80vh d-flex">
+        <div class="space-100vh d-flex">
             <!-- ouai la team -->
         </div>
-
 
     </div>
 </template>
@@ -360,7 +359,7 @@ export default {
     height: 40vh;
 }
 
-.space-80vh {
-    height: 80vh;
+.space-100vh {
+    height: 100vh;
 }
 </style>
