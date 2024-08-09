@@ -17,7 +17,6 @@ RUN npm install
 COPY src/ ./src
 COPY vite.config.js ./
 COPY index.html ./
-COPY base.css ./
 
 # Args
 ARG VITE_FRONT_URL=$VITE_FRONT_URL
