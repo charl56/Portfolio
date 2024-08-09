@@ -15,10 +15,8 @@
 
         <!-- Popup open project -->
         <Popup />
-
-        <div class="space-100vh d-flex">
-            <!-- ouai la team -->
-        </div>
+        <!-- 3D object -->
+        <Object />
 
     </div>
 </template>
@@ -36,12 +34,14 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 // Component
 import Images from './Images/Images.vue'
 import Popup from './Images/Popup/Popup.vue'
+import Object from './Object/Object.vue';
 
 export default {
     name: 'AppTable',
     components: {
         Images,
         Popup,
+        Object
     },
     mounted() { // Lance la fonction au chargement de la page
 
@@ -304,9 +304,5 @@ export default {
 
 .space-40vh {
     height: 40vh;
-}
-
-.space-100vh {
-    height: 100vh;
 }
 </style>

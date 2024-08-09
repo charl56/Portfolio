@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+import { RectAreaLightHelper } from 'three/addons/helpers/RectAreaLightHelper.js';
+import { RectAreaLightUniformsLib } from 'three/addons/lights/RectAreaLightUniformsLib.js';
 
 const clock = new THREE.Clock();
 
@@ -40,46 +42,7 @@ export class PhotoVisualisation {
         this.renderer_.setAnimationLoop(this.animate);
         this.container_.appendChild(this.renderer_.domElement);
 
-        const light = new THREE.DirectionalLight(0xffffff, 1);
-        light.position.set(5, 10, 7.5);
-        this.scene_.add(light);
-
-        const loadingManager = new THREE.LoadingManager();
-        loadingManager.onProgress = (item, loaded, total) => {
-            this.onProgress_((loaded / total) * 100);
-        };
-
-        // Cube with pictures
-        const textures = [];
-        const materials = [];
-        const geometry = new THREE.BoxGeometry(5, 4, 5, 10, 10, 10);
-
-        for (let i = 0; i < this.photos_.length; i++) {
-            textures.push(new THREE.TextureLoader(loadingManager).load('../../../../../../images/' + this.photos_[i].src));
-        }
-
-        while (materials.length < 6) {
-            for (let i = 0; i < textures.length && materials.length < 6; i++) {
-                if (materials.length == 2 || materials.length == 3) {
-                    materials.push(new THREE.MeshBasicMaterial({ color: 0x000000, transparent: true, side: THREE.DoubleSide }));
-                } else {
-                    materials.push(new THREE.MeshBasicMaterial({ map: textures[i], transparent: true, side: THREE.DoubleSide }));
-                }
-            }
-        }
-
-        this.cube_ = new THREE.Mesh(geometry, materials);
-        this.cube_.receiveShadow = true;
-
-        // Cube support
-        let bone1 = new THREE.Mesh(
-            new THREE.CylinderGeometry(1, 3, 8, 32),
-            new THREE.MeshBasicMaterial({ color: 0xcccccc })
-        );
-        bone1.position.set(0, -5, 0);
-
-        this.cube_.add(bone1);
-        this.scene_.add(this.cube_);
+        this.setupScene();
 
         this.controls_ = new OrbitControls(this.camera_, this.renderer_.domElement);
         this.controls_.minDistance = 0;
@@ -94,6 +57,68 @@ export class PhotoVisualisation {
         });
 
         window.addEventListener('resize', this.onWindowResize);
+    }
+
+    setupScene() {
+
+        const loadingManager = new THREE.LoadingManager();
+        loadingManager.onProgress = (item, loaded, total) => {
+            this.onProgress_((loaded / total) * 100);
+        };
+
+
+        // Floor support
+        const geoFloor = new THREE.BoxGeometry(14, 0.1, 14);
+        const matStdFloor = new THREE.MeshStandardMaterial({ roughness: 0.5, metalness: 0.5 });
+        const mshStdFloor = new THREE.Mesh(geoFloor, matStdFloor);
+        mshStdFloor.position.set(0, -8, 0);
+        this.scene_.add(mshStdFloor);
+
+
+        // Cube with pictures
+        const textures = [];
+        const materials = [];
+        const geometry = new THREE.BoxGeometry(5, 4, 5, 10, 10, 10);
+
+        for (let i = 0; i < this.photos_.length; i++) {
+            textures.push(new THREE.TextureLoader(loadingManager).load('../../../../../../images/' + this.photos_[i].src));
+        }
+
+        while (materials.length < 6) {
+            for (let i = 0; i < textures.length && materials.length < 6; i++) {
+                if (materials.length == 3) {
+                    materials.push(new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, side: THREE.DoubleSide }));
+                } else if (materials.length == 2 ) {
+                    materials.push(new THREE.MeshBasicMaterial({ map: new THREE.TextureLoader(loadingManager).load('../../../../../../images/Signature/signature.jpg'), transparent: false, side: THREE.DoubleSide }));
+                } else {
+                    materials.push(new THREE.MeshBasicMaterial({ map: textures[i], transparent: true, side: THREE.DoubleSide }));
+                }
+            }
+        }
+
+        this.cube_ = new THREE.Mesh(geometry, materials);
+        this.cube_.receiveShadow = true;
+        this.scene_.add(this.cube_);
+
+        
+        // Cylindre support
+        const support = new THREE.Mesh(
+            new THREE.CylinderGeometry(1, 2, 6, 32),
+            new THREE.MeshStandardMaterial({ color: 0xf7efd7, roughness: 0.5, metalness: 0.5 })
+        );
+        support.position.set(0, -5, 0);
+        support.receiveShadow = true;
+        support.castShadow = true;
+        this.cube_.add(support);
+
+
+        ////// Light bottom
+        RectAreaLightUniformsLib.init();
+        const rectLight1 = new THREE.RectAreaLight(0xffffff, 1.5, 5, 5);
+        rectLight1.position.set(0, -2.001, 0);
+        rectLight1.rotation.x = - Math.PI / 2;
+        this.cube_.add(rectLight1);
+        this.scene_.add(new RectAreaLightHelper(rectLight1));
     }
 
     onWindowResize() {

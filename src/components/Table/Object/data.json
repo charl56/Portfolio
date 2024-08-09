@@ -1,0 +1,24 @@
+{
+    "titles": [
+        {
+            "title": "Nouveau",
+            "description": "Nouveau"
+        },
+        {
+            "title": "En cours",
+            "description": "En cours"
+        },
+        {
+            "title": "Terminé",
+            "description": "Terminé"
+        },
+        {
+            "title": "Annulé",
+            "description": "Annulé"
+        },
+        {
+            "title": "En attente",
+            "description": "En attente"
+        }
+    ]
+}
