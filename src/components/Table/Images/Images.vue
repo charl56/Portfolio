@@ -1,6 +1,7 @@
 <template>
     <div class="div-image" @click="openProject(projet)">
-        <v-img v-if="projet.hasOwnProperty('photos')" :src="returnSrcImage(projet.photos[0].src)" cover class="img-size"></v-img>
+        <v-img v-if="projet.hasOwnProperty('photos')" :src="returnSrcImage(projet.photos[0].src)" cover
+            class="img-size"></v-img>
         <p v-if="projet.hasOwnProperty('name')" class="title-image">{{ projet.name }}</p>
     </div>
 </template>
@@ -56,34 +57,30 @@ export default {
     width: auto;
     height: 75vh;
     filter: grayscale(100%);
-    transition: transform 0.3s ease-in-out; 
-
-    p {
-        display: none;
-    }
-}
-
-.div-image:hover {
-    cursor: pointer;
-    transform: scale(1.02);
-    z-index: 1000;
-    filter: grayscale(0%);
-    border-radius: 5px;
+    transition: transform 0.3s ease-in-out;
 
     p {
         display: block;
         position: fixed;
         bottom: 20px;
         margin-left: 10px;
+        mix-blend-mode: difference;
         /* font-family: 'Staatliches', cursive; */
-        font-size: 2.5vw;
-        text-decoration: underline;
+        font-size: 2vw;
+        font-weight: bold;
         flex-shrink: 0;
-        color: var(--background-color-1);
-        /* Couleur du texte en blanc */
-        text-shadow: -2px -2px 0 var(--font-color), 2px -2px 0 var(--font-color), -2px 2px 0 var(--font-color), 2px 2px 0 var(--font-color);
-        /* Ombre de texte pour le contour noir */
+        color: white;
+    }
+}
 
+.div-image:hover {
+    cursor: pointer;
+    z-index: 1000;
+    filter: grayscale(0%);
+    border-radius: 5px;
+    transform: scaleZ(5);
+    p {
+        display: none;
     }
 
 }
