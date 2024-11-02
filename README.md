@@ -42,3 +42,12 @@ npm run build
 * cd /folder_name/frontend
 * docker compose build
 * docker compose up -d
+
+
+
+
+
+Sources
+font : fontsgeek.com
+3d model space ship : If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Cowboy bebop SwordFish Ship" (https://sketchfab.com/3d-models/cowboy-bebop-swordfish-ship-e95b18f12f5a401bba0b247e5ca98da2) by Hugo.Benard (https://sketchfab.com/Hugo.Benard) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
