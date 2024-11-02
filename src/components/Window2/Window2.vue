@@ -21,10 +21,6 @@ export default {
     mounted() {
         const innerHeight = window.innerHeight;
         const innerWidth = window.innerWidth;
-        const window3Height = document.getElementsByClassName('projects-div__background-color')[0].offsetHeight
-        console.log(window3Height)
-        console.log(innerHeight * 0.9)
-        console.log(innerHeight * 0.1)
 
         gsap.registerPlugin(ScrollTrigger);
 

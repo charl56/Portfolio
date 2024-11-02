@@ -35,7 +35,6 @@ export default {
                 end: "center center",            // Where trigger end : bottom of component, 70% of top of screen
                 pin: true,
                 scrub: 1,
-                markers: true
             }
         })
             .to('.projects-p__title', { x: window.innerWidth, duration: 3, stagger: 1 })
