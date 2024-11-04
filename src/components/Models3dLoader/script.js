@@ -88,9 +88,7 @@ export class Models3DVisualisation {
 
 
                 model.position.set(0, 0, 0);
-                // model.rotation.set(0, 0, 0)
-                model.rotation.set(-Math.PI/2, 0, Math.PI/2)
-                // model.lookAt(0, 10, 0)
+                model.rotation.set(-Math.PI/2, 0, Math.PI/3);
                 this.scene_.add(model);
 
                 resolve();
@@ -109,9 +107,9 @@ export class Models3DVisualisation {
 
         const scrollY = window.scrollY;
         gsap.to(this.model_.rotation, {
-            z: scrollY * 0.025,
-            duration: 0.2,
-            ease: 'power2.out'
+            z: scrollY * 0.002,
+            duration: 1,
+            ease: 'power2.out',
         });
     }
 

@@ -51,8 +51,8 @@ export default {
             .to('.window-div__fourth', { height: innerHeight, duration: 0, borderLeft: 2 }, "<")
             // Frame 3 : Separation, little top right et bottom left         
             .to('.window-div__first', { height: innerHeight * 0.9, duration: 3, stagger: 1 })
-            .to('.window-div__second', { height: innerHeight * 0.1, duration: 3, stagger: 1 }, "<")
-            .to('.window-div__third', { height: innerHeight * 0.1, duration: 3, stagger: 1 }, "<")
+            .to('.window-div__second', { height: innerHeight * 0.1, duration: 3, stagger: 1, borderLeft: "2px solid var(--border-color)" }, "<")
+            .to('.window-div__third', { height: innerHeight * 0.1, duration: 3, stagger: 1, borderRight: "2px solid var(--border-color)" }, "<")
             .to('.window-div__fourth', { height: innerHeight * 0.9, duration: 3, stagger: 1 }, "<")
             .to('.projects-div__background-color', { clipPath: "polygon(0vh 40vh, 50vw 40vh, 50vw 100vh, 0vh 100vh)", duration: 3, stagger: 1 }, "<")
             // Before separate, remove border
@@ -60,16 +60,16 @@ export default {
             .to('.window-div__third', { borderRightWidth: 0 }, "<")
             // Frame 4 : opening in the middle
             .to('.window-div__first', { height: innerHeight * 0.65, width: innerWidth * 0.35, duration: 3, stagger: 1 })
-            .to('.window-div__second', { height: innerHeight * 0.35, width: innerWidth * 0.65, duration: 3, stagger: 1 }, "<")
-            .to('.window-div__third', { height: innerHeight * 0.35, width: innerWidth * 0.65, duration: 3, stagger: 1 }, "<")
+            .to('.window-div__second', { height: innerHeight * 0.35, width: innerWidth * 0.65, duration: 3, stagger: 1, borderLeft: null }, "<")
+            .to('.window-div__third', { height: innerHeight * 0.35, width: innerWidth * 0.65, duration: 3, stagger: 1, borderRight: null }, "<")
             .to('.window-div__fourth', { height: innerHeight * 0.65, width: innerWidth * 0.35, duration: 3, stagger: 1 }, "<")
             .to('.projects-div__background-color', { clipPath: "polygon(0vh 15vh, 65vw 15vh, 65vw 100vh, 0vh 100vh)", duration: 3, stagger: 1 }, "<")
             // Frame 5 : close horizontally
-            .to('.window-div__first', { height: innerHeight * 0.5, width: 0, duration: 3, stagger: 1 })
-            .to('.window-div__second', { height: innerHeight * 0.5, width: innerWidth, duration: 3, stagger: 1 }, "<")
-            .to('.window-div__third', { height: innerHeight * 0.5, width: innerWidth, duration: 3, stagger: 1 }, "<")
-            .to('.window-div__fourth', { height: innerHeight * 0.5, width: 0, duration: 3, stagger: 1 }, "<")
-            .to('.projects-div__background-color', { clipPath: "polygon(0vh 0vh, 100vw 0vh, 100vw 100vh, 0vh 100vh)", duration: 3, stagger: 1 }, "<")
+            .to('.window-div__first', { height: innerHeight * 0.5, width: 0, duration: 3, stagger: 0 })
+            .to('.window-div__second', { height: innerHeight * 0.5, width: innerWidth, duration: 3, stagger: 0 }, "<")
+            .to('.window-div__third', { height: innerHeight * 0.5, width: innerWidth, duration: 3, stagger: 0 }, "<")
+            .to('.window-div__fourth', { height: innerHeight * 0.5, width: 0, duration: 3, stagger: 0 }, "<")
+            .to('.projects-div__background-color', { clipPath: "polygon(0vh 0vh, 100vw 0vh, 100vw 100vh, 0vh 100vh)", duration: 3, stagger: 0 }, "<")
 
             // Remove side border color
             .to('.window-div__first', { borderRight: null })

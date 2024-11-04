@@ -6,6 +6,8 @@
     </div>
     <div v-if="toggleMenu" class="menuButton-div" ref="menuDiv">
         <p>Ouai me menu ic</p>
+        <a href="#projects-div">Projets</a>
+
     </div>
 </template>
 
@@ -34,7 +36,6 @@ export default {
                     start: "bottom top",
                     end: "+=100",
                     scrub: true,
-                    markers: true
                 }
             }
         );

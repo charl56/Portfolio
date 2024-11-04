@@ -1,11 +1,20 @@
 <template>
-    <div class="projects-div">
+    <div class="projects-div" id="projects-div">
         <div class="projects-div__background-color">
-            <div class="projects-div__name" v-for="projet, index in appData" :key="index" :projet="projet" :id="index">
+            <div class="projects-div__name" v-for="projet, index in appData" :key="index" :projet="projet" :id="index"
+                @mouseover="onHoverProject(projet)" @mouseleave="onLeaveProject">
                 <p class="projects-p__name" v-random-position v-scramble-text>{{ projet.name }}</p>
             </div>
-            <p class="projects-p__title" v-scramble-text>PROJETS</p>
+            <p class="projects-p__title">PROJETS</p>
         </div>
+
+        <svg width="0" height="0">
+            <filter id="grain-filter">
+                <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="1" stitchTiles="stitch">
+                </feTurbulence>
+                <feColorMatrix type="saturate" values="0"></feColorMatrix>
+            </filter>
+        </svg>
     </div>
 </template>
 
@@ -37,7 +46,7 @@ export default {
                 scrub: 1,
             }
         })
-            .to('.projects-p__title', { x: window.innerWidth, duration: 3, stagger: 1 })
+            .to('.projects-p__title', { x: window.innerWidth / 2, duration: 3, stagger: 1 })
             .to(projectNames, {
                 x: (index, target) => {
                     const initialLeft = parseFloat(target.dataset.initialLeft);
@@ -122,6 +131,29 @@ export default {
                     el._cleanup();
                 }
             }
+        },
+    },
+    methods: {
+        onHoverProject(projet) {
+            var src = projet.photos[0].src;
+
+            const backgroundElement = document.querySelector('.projects-div__background-color');
+            var url;
+
+            if (import.meta.env.DEV) {
+                url = new URL('../../../images/' + src, import.meta.url).href
+            } else {
+                url = 'images/' + src
+            }
+
+            // Change l'URL de l'image de fond
+            if (backgroundElement) {
+                backgroundElement.style.backgroundImage = `url('${url}')`;
+            }
+        },
+        onLeaveProject() {
+            const backgroundElement = document.querySelector('.projects-div__background-color');
+            backgroundElement.style.backgroundImage = ''; // Delete inline style
         }
     }
 }
@@ -141,22 +173,53 @@ export default {
 
     visibility: visible;
     overflow: hidden;
+
 }
+
+
 
 .projects-div__background-color {
     background-color: var(--second-color);
-    padding: 10px 5px 100px 5px;
+    padding: 5px 5px 100px 5px;
     clip-path: polygon(0vh 50vh, 50vw 50vh, 50vw 100vh, 0vh 100vh);
 
     /* background-image: url("@/assets/background/cowboy-bebop-opening.jpg"); */
-    background-image: url("@/assets/background/2.jpg");
-    background-size: cover; /* all the width */
-    background-position: bottom; 
-    background-repeat: no-repeat; 
+    /* background-image: url("@/assets/background/2.jpg"); */
+    background-image: url("@/assets/background/aa.png");
+
+    /* Noir et bleu */
+    /* filter: grayscale(100%) brightness(40%) contrast(150%) sepia(100%) hue-rotate(190deg) saturate(2s00%); */
+    /* filter: invert(74%) sepia(68%) saturate(6376%) hue-rotate(161deg) brightness(94%) contrast(101%); */
+    filter: grayscale(100%) contrast(200%) brightness(150%);
+    mix-blend-mode: multiply;
+
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
 }
 
+.projects-div__background-color::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('@/assets/background/clustered_grain_effect.png');
+    background-size: cover;
+    /* Ajuste selon la taille souhaitée */
+    opacity: 0.05;
+    /* Ajuste l'opacité pour contrôler l'intensité du grain */
+    pointer-events: none;
+    /* Pour que le grain ne bloque pas les interactions */
+}
+
+
+
 p {
-    color: black;
+    color: white;
     font-family: 'the_globe';
     letter-spacing: 2px;
 

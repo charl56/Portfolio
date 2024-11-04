@@ -3,6 +3,9 @@
         <div v-if="percentage < 101" class="loading-overlay">
             <p class="loading-text">{{ percentage.toFixed(0) }}%</p>
         </div>
+        <div v-else v-gif-is-load class="window1-div__gif-scroll">
+            <img src="@/assets/gif/scroll_down2.gif" class="gif" />
+        </div>
         <p class="window1-p__top" @mouseover="onHoverTop">{{ textTop }}</p>
         <p class="window1-p__bottom" @mouseover="onHoverBottom">{{ textBottom }}</p>
         <Models3dLoader :modelPath="modelPath" :idIs="'model_spacesword'" />
@@ -16,7 +19,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Models3dLoader from "../Models3dLoader/Models3dLoader.vue";
 
 import dataFR from '../../data/appData/dataFR.json'
-
 
 export default {
     name: 'Window1',
@@ -42,24 +44,26 @@ export default {
         }
     },
     mounted() {
-        document.documentElement.style.overflow = 'hidden'; // Disable scroll
+        document.documentElement.style.overflow = 'hidden'; // Disable scroll during loading
         this.loadImages(this.appData)
 
         gsap.registerPlugin(ScrollTrigger);
 
-        // Move bottom text to the right
+
+        // Move texts and rocket during scroll
         gsap.timeline({
             scrollTrigger: {
                 trigger: ".window1-div",      // Element where trigger actions
                 start: "top top",             // Where trigger start : top of component, top of screen
-                end: "bottom 70%",            // Where trigger end : bottom of component, 70% of top of screen
+                end: "bottom top",            // Where trigger end : bottom of component, 70% of top of screen
                 pin: true,                    // Stay on component during animations
-                scrub: 1,
+                scrub: 3,
             }
         })
-            .to('.window1-p__top', { y: 200, duration: 3, stagger: 1 })
-            .to('#model_spacesword', { y: -(2 * window.innerHeight), duration: 3, stagger: 1 }, "<")
-            .to('.window1-p__bottom', { y: -200, duration: 3, stagger: 1 }, "<")
+            .to('.window1-p__top', { y: 200, duration: 1, stagger: 1 })
+            .to('#model_spacesword', { y: -(2 * window.innerHeight), duration: 1, stagger: 1 }, "<")
+            .to('.window1-p__bottom', { y: -200, duration: 1, stagger: 1 }, "<")
+
     },
     methods: {
         onHoverTop() {
@@ -129,7 +133,6 @@ export default {
                             img.onload = () => {
                                 progress++;
                                 this.percentage = (progress / totalImages) * 100;
-                                console.log(this.percentage)
                                 resolve();
                             };
                             img.onerror = reject;
@@ -143,12 +146,27 @@ export default {
                     setTimeout(() => {
                         this.percentage = 101
                         document.documentElement.style.overflow = ''; // Re-enable scroll on html
+
                     }, 1000);
                 }
             }).catch(error => console.log(error))
-
         },
     },
+    directives: {
+        gifIsLoad: {    // Directive will be call when DOM will be displayed
+            mounted(el) {
+                gsap.timeline({
+                    scrollTrigger: {
+                        trigger: ".window1-div__gif-scroll",
+                        start: "end center",
+                        end: "top 25%",
+                        scrub: 3,
+                    }
+                })
+                    .to('.window1-div__gif-scroll', { opacity: 0, display: "none" });
+            }
+        }
+    }
 }
 </script>
 
@@ -182,6 +200,19 @@ p {
     font-weight: bold;
 }
 
+.window1-div__gif-scroll {
+    height: auto;
+    position: relative;
+    top: 45vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img{
+        width: 100px;
+
+    }
+}
 
 .window1-p__top {
     align-self: flex-start;
