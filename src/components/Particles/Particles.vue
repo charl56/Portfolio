@@ -1,11 +1,32 @@
 <template>
-    <Particles id="tsparticles" :options="options" :particlesInit="particlesInit" />
+    <div ref="particlesContainer" class="particles-container">
+        <Particles id="tsparticles" :options="options" :particlesInit="particlesInit" />
+    </div>
 </template>
 
 <script>
 import { loadSlim } from "tsparticles-slim"; // loads tsparticles-slim
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 export default {
+    mounted() {
+        gsap.registerPlugin(ScrollTrigger);
+
+
+        // Move texts and rocket during scroll
+        gsap.to('.particles-container', {
+            y: () => -(window.innerHeight * 0.75),
+            scrollTrigger: {
+                trigger: '.particles-container',
+                start: "top top",
+                end: "bottom bottom",
+                scrub: 2,
+            },
+        });
+
+
+    },
     data() {
         return {
             options: {
@@ -75,3 +96,15 @@ export default {
     },
 };
 </script>
+
+
+<style scoped>
+.particles-container {
+    position: fixed;
+    width: 100%;
+    height: 400dvh;
+    top: 0;
+    left: 0;
+    pointer-events: none; /* Empêche les interactions */
+}
+</style>
