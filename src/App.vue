@@ -2,15 +2,13 @@
 	<v-app id="app">
 		<div>
 			<Particles />
-			<MenuButton />
-			
-			<Window1 />
-			<Window2 />
-			<Window3 />
-			<Window4 />
-			<Window5 />
+			<Intro />
+			<Projets />
+			<Skills />
+			<End />
 
-            <div class="end-end"></div>
+
+			<!-- <MenuButton /> -->
 
 		</div>
 	</v-app>
@@ -19,12 +17,13 @@
 <script>
 
 import Particles from "./components/Particles/Particles.vue";
+import Intro from "./components/Intro/Intro.vue";
+import Projets from './components/Projets/Projets.vue';
+import Skills from "./components/Skills/Skills.vue";
+import End from "./components/End/End.vue";
+
+
 import MenuButton from "./components/MenuButton/MenuButton.vue";
-import Window1 from './components/Window1/Window1.vue';
-import Window2 from './components/Window2/Window2.vue';
-import Window3 from './components/Window3/Window3.vue';
-import Window4 from './components/Window4/Window4.vue';
-import Window5 from './components/Window5/Window5.vue';
 
 
 
@@ -32,21 +31,16 @@ export default {
 	name: 'App',
 	components: {
 		Particles,
+		Intro,
+		Projets,
+		Skills,
+		End,
+
 		MenuButton,
-		Window1,
-		Window2,
-		Window3,
-		Window4,
-		Window5,
 	},
 }
 </script>
 
 <style>
-.end-end{
-	position: relative;
-	height: 100vh;
-	background-color: rgb(255, 0, 0);
-}
 
 </style>

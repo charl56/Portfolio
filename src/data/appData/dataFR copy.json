@@ -23,6 +23,25 @@
             ]
         },
         {
+            "name": "Stage Citegestion",
+            "date": "23 mai - 12 aout 2022",
+            "intro": "Développement d'une application web de visualisation de données chez Citegestion, filiale d'EDF.",
+            "description": "Le backend de l'application récupère des données en base de données sur le nombre d'interventions par équipement, par jour, par semaine, par mois, etc. Le frontend affiche les données dans un graphique de deux manières différentes : la tendance d'une donnée ou la corrélation entre deux données. L'utilisateur glisse la/les donnée(s) dans des cases pour lancer une analyse. Il peut également choisir la fréquence d'échantillonnage et la plage de dates. Possibilité de tendance simple ou multi-tendance sur la période choisie.",                      
+            "outils": [
+                {"name": "Flask (Python)"},
+                {"name": "VueJs"},
+                {"name": "MYSQL"},
+                {"name": "Docker"},
+                {"name": "GIT"}
+            ],
+            "outil": "Liste des outils utilisés : ",
+            "photos": [
+                {"type": "img","src": "StageCitegestion/correlation-light-maquette.jpg", "desc": "Maquette de l'application finale"},
+                {"type": "img","src": "StageCitegestion/tendance-light.jpg", "desc": "Application en mode tendance"},
+                {"type": "img","src": "StageCitegestion/correlation-dark.jpg", "desc": "Application en mode corrélation"}
+            ]
+        },
+        {
             "name": "Jukebox",
             "date": "septembre 2022 - mai 2023",
             "intro": "Création d'un jukebox en deux parties : une application web pour voir les CD disponibles et en choisir un. Une deuxième partie, une \"machine\" (voir modèle ci-dessous), équipée d'un système de moteurs et d'un électroaimant, qui prend le CD voulu et le place sur le lecteur.",
@@ -35,6 +54,27 @@
                 {"type": "img","src": "Jukebox/modelisation-cote.jpg", "desc": "Modelisation de la jukebox"},
                 {"type": "img","src": "Jukebox/modelisation-face.jpg"}
             ]    
+        },
+        {
+            "name": "Stage ALC ",
+            "date": "06 mars 2023 - 30 juin 2023",
+            "intro": "Conception d'une web app de cartographie des acteurs de l'innovation sur Angers Loire Métropole, pour Angers Loire Campus",
+            "description": "Durant ce stage, j'ai été le seul développeur, de la création à la mis en ligne de l'application. J'ai tout de même eu un accompagnement sur la partie technique et la partie fonctionnel. L'application regroupe des informations sur le domaine de l'innovation, organisées en catégories contenant des sous-catégories, elles-mêmes contenant des fiches détaillées. Elle intègre une fonctionnalité de gestion de l'application, accessible aux administrateurs (gestion des données et des utilisateurs). La sécurité est assurée grâce à des comptes administrateurs. L'application est déployée en ligne sur un serveur avec Docker. Vous pouvez accéder à la <a href='https://innov-alc.angersloirecampus.fr/' target='_blank'>web app ici</a>.",
+            "outils": [
+                {"name": "VueJs"},
+                {"name": "NodeJs"},
+                {"name": "MYSQL"},
+                {"name": "Docker"},
+                {"name": "GIT"}
+            ],
+            "outil": "Liste des outils utilisés : ",
+            "photos": [
+                {"type": "img","src": "StageALC/accueil.jpg", "desc": "Page principale"},
+                {"type": "img","src": "StageALC/coworking.jpg", "desc": "Exemple de fiches disponibles"},
+                {"type": "img","src": "StageALC/gestion-data.jpg", "desc": "Gestion des données (admin)"},
+                {"type": "img","src": "StageALC/gestion-outil-users.jpg", "desc": "Gestion des utilisateurs (admin)"},
+                {"type": "img","src": "StageALC/gestion-outil-visits.jpg", "desc": "Graphique du nombre de visiteur"}
+            ]
         },
         {
             "name": "Avion RC",

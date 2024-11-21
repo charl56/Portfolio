@@ -11,12 +11,10 @@
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-import Window3 from "../Window3/Window3.vue";
 
 export default {
     name: 'Window2',
     components: {
-        Window3
     },
     mounted() {
         const innerHeight = window.innerHeight;
@@ -78,8 +76,8 @@ export default {
             .to('.window-div__second', { borderBottom: null, duration: 0 }, "<")
             .to('.window-div__third', { borderTop: null, duration: 0, height: 'auto' }, "<")
 
-            // Add animation that don't change anythings, but let the time to le ast animation, before up the div
-
+            // 
+            
 
 
 

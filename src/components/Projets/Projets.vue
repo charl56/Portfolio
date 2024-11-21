@@ -1,11 +1,13 @@
 <template>
     <div class="projects-div" id="projects-div">
         <div class="projects-div__background-color">
+            <div class="foreground-image"></div>
             <div class="projects-div__name" v-for="projet, index in appData" :key="index" :projet="projet" :id="index"
                 @mouseover="onHoverProject(projet)" @mouseleave="onLeaveProject">
                 <p class="projects-p__name" v-random-position v-scramble-text>{{ projet.name }}</p>
             </div>
             <p class="projects-p__title">PROJETS</p>
+            <div class="backround-image"></div>
         </div>
 
         <svg width="0" height="0">
@@ -26,7 +28,7 @@ import dataFR from '../../data/appData/dataFR.json'
 
 
 export default {
-    name: 'Window3',
+    name: 'Projets',
     data() {
         return {
             appData: dataFR[1]
@@ -40,24 +42,29 @@ export default {
         gsap.timeline({
             scrollTrigger: {
                 trigger: ".projects-div",      // Element where trigger actions
-                start: "top center",             // Where trigger start : top of component, top of screen
-                end: "center center",            // Where trigger end : bottom of component, 70% of top of screen
+                start: "top top",             // Where trigger start : top of component, top of screen
+                end: "bottom+=200 top",            // Where trigger end : bottom of component, 70% of top of screen
                 pin: true,
                 scrub: 1,
+                // markers: true
             }
         })
-            .to('.projects-p__title', { x: window.innerWidth / 2, duration: 3, stagger: 1 })
+            .to('.projects-p__title', { x: window.innerWidth, duration: 3, stagger: 1 })
             .to(projectNames, {
                 x: (index, target) => {
                     const initialLeft = parseFloat(target.dataset.initialLeft);
                     const centerPoint = window.innerWidth / 2;
 
                     // If right, move to the left, else mot to the right
-                    return initialLeft > centerPoint ? -400 : 400;
+                    return initialLeft > centerPoint ? -window.innerWidth : window.innerWidth;
                 },
                 duration: 3,
                 stagger: 0
             }, "<")
+            // Hide background image
+            .to('.backround-image', { opacity: 0, duration: 3 })
+            // Zoom into window
+            .to('.foreground-image', { scale: 4.5, rotateZ: 15, duration: 3, ease: "none" })
 
 
     },
@@ -65,7 +72,7 @@ export default {
         randomPosition: {
             mounted(el) {
                 const innerWidth = window.innerWidth;
-                const elWidth = el.offsetWidth;
+                const elWidth = el.offsetWidth * 1.35;
                 const diff = innerWidth - elWidth;
                 const randomLeft = Math.random() * diff;
 
@@ -73,6 +80,7 @@ export default {
                 el.style.left = `${randomLeft}px`;
                 el.style.textAlign = 'center';
                 // Save distance for gsap animation
+
                 el.dataset.initialLeft = randomLeft;
             }
         },
@@ -94,8 +102,15 @@ export default {
                     span.style.display = 'inline-block';
                     span.style.position = 'relative';
 
-                    const x = (Math.random() * 6) - 3; // -3 to 3px
-                    const y = (Math.random() * 6) - 3; // -3 to 3px
+                    var offset = 3;
+                    var offsetMultiple = 6;
+                    if(window.innerWidth < 768){
+                        offset = 1;
+                        offsetMultiple = 2;
+                    }
+
+                    const x = (Math.random() * offsetMultiple) - offset; // -3 to 3px
+                    const y = (Math.random() * offsetMultiple) - offset; // -3 to 3px
                     span.dataset.x = x;
                     span.dataset.y = y;
                     span.style.transform = `translate(${x}px, ${y}px)`;
@@ -137,7 +152,7 @@ export default {
         onHoverProject(projet) {
             var src = projet.photos[0].src;
 
-            const backgroundElement = document.querySelector('.projects-div__background-color');
+            const backgroundElement = document.querySelector('.backround-image');
             var url;
 
             if (import.meta.env.DEV) {
@@ -152,7 +167,7 @@ export default {
             }
         },
         onLeaveProject() {
-            const backgroundElement = document.querySelector('.projects-div__background-color');
+            const backgroundElement = document.querySelector('.backround-image');
             backgroundElement.style.backgroundImage = ''; // Delete inline style
         }
     }
@@ -164,9 +179,8 @@ export default {
 .projects-div {
     height: 100dvh;
     width: 100vw;
-    top: -75vh;
-    position: relative;
 
+    
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -179,43 +193,45 @@ export default {
 
 
 .projects-div__background-color {
-    background-color: var(--second-color);
-    padding: 5px 5px 100px 5px;
-    clip-path: polygon(0vh 51vh, 50vw 51vh, 50vw 100vh, 0vh 100vh);
+    position: relative;
+    overflow: hidden;
 
-    /* background-image: url("@/assets/background/cowboy-bebop-opening.jpg"); */
-    /* background-image: url("@/assets/background/2.jpg"); */
-    background-image: url("@/assets/background/aa.png");
+    width: 100%;
+    height: 100%;
 
-    /* Noir et bleu */
-    /* filter: grayscale(100%) brightness(40%) contrast(150%) sepia(100%) hue-rotate(190deg) saturate(2s00%); */
-    /* filter: invert(74%) sepia(68%) saturate(6376%) hue-rotate(161deg) brightness(94%) contrast(101%); */
-    filter: grayscale(100%) contrast(200%) brightness(150%);
-    mix-blend-mode: multiply;
+    padding: 5px;
+}
 
 
+.foreground-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background-image: url('@/assets/background/window_avec_volet.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
 
 }
 
-.projects-div__background-color::after {
-    content: '';
+.backround-image{
+    z-index: -1;
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('@/assets/background/clustered_grain_effect.png');
-    background-size: cover;
-    /* Ajuste selon la taille souhaitée */
-    opacity: 0.05;
-    /* Ajuste l'opacité pour contrôler l'intensité du grain */
-    pointer-events: none;
-    /* Pour que le grain ne bloque pas les interactions */
-}
 
+    background-image: url('@/assets/background/window.jpg');
+    /* background-image: url('@/assets/background/ciel.jpg'); */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+}
 
 
 p {
@@ -228,16 +244,28 @@ p {
 }
 
 .projects-p__title {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
     font-size: xxx-large;
 }
 
 .projects-div__name:hover {
-    background-color: rgba(240, 248, 255, 0.548);
     cursor: pointer;
 }
 
 .projects-p__name {
-    font-size: x-large;
+    font-size: large;
     padding-top: 4px;
+    height: 40px;
+    font-size: xx-large;
+
 }
+@media (max-width: 768px) {
+    .projects-p__name {
+        font-size: 1.3em;
+    }
+}
+
+
 </style>

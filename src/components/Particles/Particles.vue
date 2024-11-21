@@ -104,7 +104,7 @@ export default {
     position: fixed;
     width: 100%;
     height: 500dvh;
-    top: 0;
+    top: 40vh;
     left: 0;
     pointer-events: none; /* Block interactions */
 }
