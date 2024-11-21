@@ -26,7 +26,7 @@ import dataFR from '../../data/appData/dataFR.json'
 
 
 export default {
-    name: 'Projects',
+    name: 'Window3',
     data() {
         return {
             appData: dataFR[1]
@@ -181,7 +181,7 @@ export default {
 .projects-div__background-color {
     background-color: var(--second-color);
     padding: 5px 5px 100px 5px;
-    clip-path: polygon(0vh 50vh, 50vw 50vh, 50vw 100vh, 0vh 100vh);
+    clip-path: polygon(0vh 51vh, 50vw 51vh, 50vw 100vh, 0vh 100vh);
 
     /* background-image: url("@/assets/background/cowboy-bebop-opening.jpg"); */
     /* background-image: url("@/assets/background/2.jpg"); */

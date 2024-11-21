@@ -53,16 +53,23 @@ export default {
         // Move texts and rocket during scroll
         gsap.timeline({
             scrollTrigger: {
-                trigger: ".window1-div",      // Element where trigger actions
-                start: "top top",             // Where trigger start : top of component, top of screen
-                end: "bottom top",            // Where trigger end : bottom of component, 70% of top of screen
-                pin: true,                    // Stay on component during animations
-                scrub: 3,
+                trigger: ".window1-div",        // Element where trigger actions
+                start: "top top",               // Where trigger start : top of component, top of screen
+                end: "bottom top",              // Where trigger end : bottom of component, 70% of top of screen
+                pin: true,                      // Stay on component during animations
+                scrub: 3,                       // Sscrubbing, takes 3 second to "catch up" to the scrollbar
             }
         })
             .to('.window1-p__top', { y: 200, duration: 1, stagger: 1 })
-            .to('#model_spacesword', { y: -(2 * window.innerHeight), duration: 1, stagger: 1 }, "<")
+            .to('#model_spacesword', { x: (window.innerWidth * 0.8), y: (window.innerHeight * 2 ), duration: 1, stagger: 1 }, "<")
             .to('.window1-p__bottom', { y: -200, duration: 1, stagger: 1 }, "<")
+            
+            .to('.window1-p__top', { y: -200, duration: 1, stagger: 1 })
+            .to('#model_spacesword', { visibility: "Hidden", duration: 1, stagger: 1}, "<")
+            .to('.window1-p__bottom', { y: -400, duration: 1, stagger: 1 }, "<")
+
+
+
 
     },
     methods: {
@@ -227,10 +234,9 @@ p {
 #model_spacesword {
     width: 100vw;
     height: 100vh;
-    left: 10vw;
-    bottom: -100vh;
+    top: -100vh;
+    left: -40vw;
     position: absolute;
-    left: 0;
     z-index: 21;
 }
 

@@ -52,7 +52,7 @@ export default {
             renderer: 'svg',
             loop: true,
             autoplay: true,
-            path: new URL('../../assets/Json/scroll-down2.json', import.meta.url).href
+            path: new URL('../../assets/json/scroll-down2.json', import.meta.url).href
         })
 
         // GSAP hide/show loffie animation

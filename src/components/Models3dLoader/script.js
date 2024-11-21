@@ -29,7 +29,7 @@ export class Models3DVisualisation {
         this.scene_ = new THREE.Scene();
 
         this.camera_ = new THREE.PerspectiveCamera(65, width / height, 1, 100);
-        this.camera_.position.set(-8, 0, 0);
+        this.camera_.position.set(-15, 0, 0);
         this.camera_.lookAt(0, 0, 0);
 
 
@@ -88,7 +88,8 @@ export class Models3DVisualisation {
 
 
                 model.position.set(0, 0, 0);
-                model.rotation.set(-Math.PI/2, 0, Math.PI/3);
+                // model.rotation.set(Math.PI /2.5, 0 , Math.PI/6);
+                model.rotation.set(Math.PI/3, 0, Math.PI/4);
                 this.scene_.add(model);
 
                 resolve();

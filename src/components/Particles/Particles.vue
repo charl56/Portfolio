@@ -20,8 +20,9 @@ export default {
             scrollTrigger: {
                 trigger: '.particles-container',
                 start: "top top",
-                end: "bottom bottom",
+                end: "bottom top",
                 scrub: 2,
+                markers: true,
             },
         });
 
@@ -102,9 +103,9 @@ export default {
 .particles-container {
     position: fixed;
     width: 100%;
-    height: 400dvh;
+    height: 500dvh;
     top: 0;
     left: 0;
-    pointer-events: none; /* Empêche les interactions */
+    pointer-events: none; /* Block interactions */
 }
 </style>

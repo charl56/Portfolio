@@ -1,6 +1,6 @@
 <template>
     <img class="menuButton-img__rocket" src="@/assets/svg/rocket.svg" alt="Rocket" @click="toggleMenuFunction"
-        ref="menuButton" />
+    :class="{ 'menuButton-img__rocket--expanded': toggleMenu }" ref="menuButton" />
     <div class="menuButton-div__info">
         <p>MENU</p>
     </div>
