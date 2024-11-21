@@ -26,6 +26,7 @@ jobs:
       run: |
         ssh -p ${{ secrets.SSH_PORT }} -o StrictHostKeyChecking=no ${{ secrets.USER }}@${{ secrets.SERVER_IP }} << 'EOF'
         cd /srv/Portfolio
+        docker container prune --force
         docker compose down
         docker compose up -d --build
         EOF
