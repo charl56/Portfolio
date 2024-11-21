@@ -42,3 +42,12 @@ npm run build
 * cd /folder_name/frontend
 * docker compose build
 * docker compose up -d
+
+
+
+
+
+Sources
+font : fontsgeek.com
+3d model space ship : https://sketchfab.com/3d-models/swordfish-ii-d7b48e857c48490a8fd63f444f50e3e7
+Lottiefile pour gif scroll down
