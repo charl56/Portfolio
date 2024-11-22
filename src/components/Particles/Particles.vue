@@ -103,9 +103,10 @@ export default {
 .particles-container {
     position: fixed;
     width: 100%;
-    height: 500dvh;
-    top: 40vh;
+    height: 200dvh;
+    top: 50vh;
     left: 0;
     pointer-events: none; /* Block interactions */
+    z-index: -2;
 }
 </style>

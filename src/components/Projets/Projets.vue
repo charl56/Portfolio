@@ -4,7 +4,7 @@
             <div class="foreground-image"></div>
             <div class="projects-div__name" v-for="projet, index in appData" :key="index" :projet="projet" :id="index"
                 @mouseover="onHoverProject(projet)" @mouseleave="onLeaveProject">
-                <p class="projects-p__name" v-random-position v-scramble-text>{{ projet.name }}</p>
+                <p class="projects-p__name" v-scramble-text>{{ projet.name }}</p>
             </div>
             <p class="projects-p__title">PROJETS</p>
             <div class="backround-image"></div>
@@ -43,7 +43,7 @@ export default {
             scrollTrigger: {
                 trigger: ".projects-div",      // Element where trigger actions
                 start: "top top",             // Where trigger start : top of component, top of screen
-                end: "bottom+=200 top",            // Where trigger end : bottom of component, 70% of top of screen
+                end: "bottom+=400 top",            // Where trigger end : bottom of component, 70% of top of screen
                 pin: true,
                 scrub: 1,
                 // markers: true
@@ -51,13 +51,7 @@ export default {
         })
             .to('.projects-p__title', { x: window.innerWidth, duration: 3, stagger: 1 })
             .to(projectNames, {
-                x: (index, target) => {
-                    const initialLeft = parseFloat(target.dataset.initialLeft);
-                    const centerPoint = window.innerWidth / 2;
-
-                    // If right, move to the left, else mot to the right
-                    return initialLeft > centerPoint ? -window.innerWidth : window.innerWidth;
-                },
+                y: -window.innerHeight,
                 duration: 3,
                 stagger: 0
             }, "<")
@@ -69,21 +63,7 @@ export default {
 
     },
     directives: {
-        randomPosition: {
-            mounted(el) {
-                const innerWidth = window.innerWidth;
-                const elWidth = el.offsetWidth * 1.35;
-                const diff = innerWidth - elWidth;
-                const randomLeft = Math.random() * diff;
-
-                el.style.position = 'relative';
-                el.style.left = `${randomLeft}px`;
-                el.style.textAlign = 'center';
-                // Save distance for gsap animation
-
-                el.dataset.initialLeft = randomLeft;
-            }
-        },
+      
         scrambleText: {
             mounted(el) {
                 const parentDiv = el.closest('.projects-div__name') || el.parentElement;
@@ -198,8 +178,11 @@ export default {
 
     width: 100%;
     height: 100%;
+    padding: 50px 5px;
 
-    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 
@@ -259,6 +242,7 @@ p {
     padding-top: 4px;
     height: 40px;
     font-size: xx-large;
+    left: 0;
 
 }
 @media (max-width: 768px) {
