@@ -9,14 +9,6 @@
             <p class="projects-p__title">PROJETS</p>
             <div class="backround-image"></div>
         </div>
-
-        <svg width="0" height="0">
-            <filter id="grain-filter">
-                <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="1" stitchTiles="stitch">
-                </feTurbulence>
-                <feColorMatrix type="saturate" values="0"></feColorMatrix>
-            </filter>
-        </svg>
     </div>
 </template>
 
@@ -51,7 +43,7 @@ export default {
         })
             .to('.projects-p__title', { x: window.innerWidth, duration: 3, stagger: 1 })
             .to(projectNames, {
-                y: -window.innerHeight,
+                y: -window.innerHeight * 0.7,
                 duration: 3,
                 stagger: 0
             }, "<")
@@ -219,7 +211,6 @@ export default {
 
 p {
     color: white;
-    font-family: 'the_globe';
     letter-spacing: 2px;
 
     display: inline-block;

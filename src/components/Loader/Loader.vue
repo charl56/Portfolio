@@ -6,10 +6,7 @@
 
 <script>
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-
 import dataFR from '../../data/appData/dataFR.json'
-
 
 export default {
     name: 'AppLoader',

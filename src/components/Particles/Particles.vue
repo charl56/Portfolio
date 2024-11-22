@@ -19,7 +19,7 @@ export default {
             y: () => -(window.innerHeight * 0.75),
             scrollTrigger: {
                 trigger: '.particles-container',
-                start: "top top",
+                start: "200vh top",         // Trigger on component at 150vh of the top, and top of screen
                 end: "bottom top",
                 scrub: 2,
                 markers: true,
