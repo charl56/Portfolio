@@ -1,4 +1,5 @@
 <template>
+    <!-- Inspired by : https://www.danielspatzek.com/home/ -->
     <div class="projects-div" id="projects-div">
         <div class="projects-div__background-color">
             <div class="foreground-image"></div>
@@ -35,7 +36,7 @@ export default {
             scrollTrigger: {
                 trigger: ".projects-div",      // Element where trigger actions
                 start: "top top",             // Where trigger start : top of component, top of screen
-                end: "bottom+=400 top",            // Where trigger end : bottom of component, 70% of top of screen
+                end: "bottom+=600 top",            // Where trigger end : bottom of component, 70% of top of screen
                 pin: true,
                 scrub: 1,
                 // markers: true
