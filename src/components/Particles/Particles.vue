@@ -13,19 +13,17 @@ export default {
     mounted() {
         gsap.registerPlugin(ScrollTrigger);
 
-
         // Move texts and rocket during scroll
         gsap.to('.particles-container', {
             y: () => -(window.innerHeight * 0.75),
             scrollTrigger: {
                 trigger: '.particles-container',
-                start: "200vh top",         // Trigger on component at 150vh of the top, and top of screen
-                end: "bottom top",
+                start: "30% top",         // Trigger on component at 150vh of the top, and top of screen
+                end: "bottom+=200 top",
                 scrub: 2,
-                markers: true,
+                // markers: true,
             },
         });
-
 
     },
     data() {

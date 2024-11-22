@@ -1,6 +1,6 @@
 <template>
-    <div class="background-image">
-        <img src="@/assets/background/zoro.jpg" alt="">
+    <div class="intro-div">
+        <p>Intro</p>
     </div>
 </template>
 
@@ -11,28 +11,14 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 export default {
     name: 'Intro',
     mounted() {
-        gsap.registerPlugin(ScrollTrigger);
 
-        this.$nextTick(() => {
-            ScrollTrigger.create({
-                trigger: ".projects-div",
-                start: "top top",
-                end: "bottom bottom",
-                snap: {
-                    snapTo: 1, // snap to the start of the element
-                    duration: { min: 0.2, max: 0.3 },
-                    delay: 0.1,
-                    ease: "power1.inOut"
-                }
-            });
-        });
     }
 }
 </script>
 
 
 <style scoped>
-.background-image {
+.intro-div {
     position: relative;
     width: 100vw;
     height: 100dvh;
