@@ -4,11 +4,18 @@
         <div class="projects-div__background-color">
             <div class="foreground-image"></div>
             <div class="projects-div__name" v-for="projet, index in appData" :key="index" :projet="projet" :id="index"
-                @mouseover="onHoverProject(projet)" @mouseleave="onLeaveProject">
+                @mouseover="onHoverProject(index)" @mouseleave="onLeaveProject">
                 <p class="projects-p__name" v-scramble-text>{{ projet.name }}</p>
             </div>
             <p class="projects-p__title">PROJETS</p>
-            <div class="backround-image"></div>
+            <!-- <div class="backround-image"></div> -->
+            <div class="background-images-container">
+                <div class="backround-image default-bg"></div>
+                <div v-for="(projet, index) in appData" :key="index"
+                    :class="['project-bg', `project-bg-${index}`, { 'active': activeIndex === index }]"
+                    :style="getBackgroundStyle(projet)">
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -24,7 +31,9 @@ export default {
     name: 'Projets',
     data() {
         return {
-            appData: dataFR[1]
+            appData: dataFR[1],
+            backgroundElement: null,
+            activeIndex: null
         }
     },
     mounted() {
@@ -44,7 +53,7 @@ export default {
         })
             .to('.projects-p__title', { x: window.innerWidth, duration: 3, stagger: 1 })
             .to(projectNames, {
-                y: -window.innerHeight * 0.7,
+                y: -window.innerHeight * 0.8,
                 duration: 3,
                 stagger: 0
             }, "<")
@@ -54,9 +63,12 @@ export default {
             .to('.foreground-image', { scale: 4.5, rotateZ: 15, duration: 3, ease: "none" })
 
 
+        // Init backgroundElement, where image change onHover
+        this.backgroundElement = document.querySelector('.backround-image');
+
     },
     directives: {
-      
+
         scrambleText: {
             mounted(el) {
                 const parentDiv = el.closest('.projects-div__name') || el.parentElement;
@@ -77,7 +89,7 @@ export default {
 
                     var offset = 3;
                     var offsetMultiple = 6;
-                    if(window.innerWidth < 768){
+                    if (window.innerWidth < 768) {
                         offset = 1;
                         offsetMultiple = 2;
                     }
@@ -122,26 +134,21 @@ export default {
         },
     },
     methods: {
-        onHoverProject(projet) {
-            var src = projet.photos[0].src;
+        getBackgroundStyle(projet) {
+            const src = projet.photos[0].src;
+            const url = import.meta.env.DEV
+                ? new URL('../../../images/' + src, import.meta.url).href
+                : 'images/' + src;
 
-            const backgroundElement = document.querySelector('.backround-image');
-            var url;
-
-            if (import.meta.env.DEV) {
-                url = new URL('../../../images/' + src, import.meta.url).href
-            } else {
-                url = 'images/' + src
-            }
-
-            // Change l'URL de l'image de fond
-            if (backgroundElement) {
-                backgroundElement.style.backgroundImage = `url('${url}')`;
+            return {
+                backgroundImage: `url('${url}')`
             }
         },
+        onHoverProject(index) {
+            this.activeIndex = index;
+        },
         onLeaveProject() {
-            const backgroundElement = document.querySelector('.backround-image');
-            backgroundElement.style.backgroundImage = ''; // Delete inline style
+            this.activeIndex = null;
         }
     }
 }
@@ -153,7 +160,7 @@ export default {
     height: 100dvh;
     width: 100vw;
 
-    
+
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -193,20 +200,40 @@ export default {
 
 }
 
-.backround-image{
-    z-index: -1;
+.background-images-container {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+    z-index: -1;
+}
 
-    background-image: url('@/assets/background/window.jpg');
-    /* background-image: url('@/assets/background/ciel.jpg'); */
+.backround-image,
+.project-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 0s ease-in-out;
+}
 
+.default-bg {
+    background-image: url('@/assets/background/window.jpg');
+    opacity: 1;
+}
+
+.project-bg {
+    opacity: 0;
+}
+
+.project-bg.active {
+    opacity: 1;
 }
 
 
@@ -237,11 +264,10 @@ p {
     left: 0;
 
 }
+
 @media (max-width: 768px) {
     .projects-p__name {
         font-size: 1.3em;
     }
 }
-
-
 </style>
