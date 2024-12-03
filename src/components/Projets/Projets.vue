@@ -1,5 +1,6 @@
 <template>
-    <!-- Inspired by : https://www.danielspatzek.com/home/ -->
+    <!-- Projects display, end animation: https://www.danielspatzek.com/home/ -->
+    <!-- Popup open : https://bruut.media/case/stichting-beschermde-wieg/ -->
     <div class="projects-div" id="projects-div">
         <div class="projects-div__background-color">
             <div class="foreground-image"></div>
