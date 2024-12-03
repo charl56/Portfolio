@@ -4,11 +4,11 @@
         <div class="projects-div__background-color">
             <div class="foreground-image"></div>
             <div class="projects-div__name" v-for="projet, index in appData" :key="index" :projet="projet" :id="index"
-                @mouseover="onHoverProject(index)" @mouseleave="onLeaveProject">
+                @mouseover="onHoverProject(index)" @mouseleave="onLeaveProject" @click="onProjectClick(index)">
                 <p class="projects-p__name" v-scramble-text>{{ projet.name }}</p>
             </div>
             <p class="projects-p__title">PROJETS</p>
-            <!-- <div class="backround-image"></div> -->
+            <!-- Background image in window -->
             <div class="background-images-container">
                 <div class="backround-image default-bg"></div>
                 <div v-for="(projet, index) in appData" :key="index"
@@ -17,27 +17,34 @@
                 </div>
             </div>
         </div>
+        <div class="background__pop-up"></div>
     </div>
+    <Popup :project="selectedProject" @close="onCloseProject" />
 </template>
 
 <script>
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 
 import dataFR from '../../data/appData/dataFR.json'
 
+import Popup from "../Popup/Popup.vue";
 
 export default {
     name: 'Projets',
+    components: { Popup },
     data() {
         return {
             appData: dataFR[1],
             backgroundElement: null,
-            activeIndex: null
+            activeIndex: null,
+            selectedProject: null,
+            projectClickTimeline: null
         }
     },
     mounted() {
-        gsap.registerPlugin(ScrollTrigger);
+        gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
         const projectNames = gsap.utils.toArray('.projects-p__name');
 
@@ -48,6 +55,7 @@ export default {
                 end: "bottom+=600 top",            // Where trigger end : bottom of component, 70% of top of screen
                 pin: true,
                 scrub: 1,
+                preventOverlaps: true,
                 // markers: true
             }
         })
@@ -57,8 +65,11 @@ export default {
                 duration: 3,
                 stagger: 0
             }, "<")
+            // Hide background popup
+            .to('.background__pop-up', { opacity: 0, duration: 0 })
             // Hide background image
             .to('.backround-image', { opacity: 0, duration: 3 })
+
             // Zoom into window
             .to('.foreground-image', { scale: 4.5, rotateZ: 15, duration: 3, ease: "none" })
 
@@ -68,7 +79,6 @@ export default {
 
     },
     directives: {
-
         scrambleText: {
             mounted(el) {
                 const parentDiv = el.closest('.projects-div__name') || el.parentElement;
@@ -90,31 +100,30 @@ export default {
                     var offset = 3;
                     var offsetMultiple = 6;
                     if (window.innerWidth < 768) {
-                        offset = 1;
-                        offsetMultiple = 2;
+                        offset = 0;
+                        offsetMultiple = 0;
                     }
 
                     const x = (Math.random() * offsetMultiple) - offset; // -3 to 3px
                     const y = (Math.random() * offsetMultiple) - offset; // -3 to 3px
                     span.dataset.x = x;
                     span.dataset.y = y;
-                    span.style.transform = `translate(${x}px, ${y}px)`;
 
                     el.appendChild(span);
                 }
 
                 const handleMouseEnter = () => {
                     el.querySelectorAll('span').forEach(span => {
-                        span.style.transition = 'transform 0.3s ease';
-                        span.style.transform = 'translate(0, 0)';
+                        const x = span.dataset.x;
+                        const y = span.dataset.y;
+                        span.style.transform = `translate(${x}px, ${y}px)`;
                     });
                 };
 
                 const handleMouseLeave = () => {
                     el.querySelectorAll('span').forEach(span => {
-                        const x = span.dataset.x;
-                        const y = span.dataset.y;
-                        span.style.transform = `translate(${x}px, ${y}px)`;
+                        span.style.transition = 'transform 0.3s ease';
+                        span.style.transform = 'translate(0, 0)';
                     });
                 };
 
@@ -149,7 +158,109 @@ export default {
         },
         onLeaveProject() {
             this.activeIndex = null;
+        },
+        onProjectClick(index) {
+            this.selectedProject = this.appData[index];
+
+            // Disable window scroll
+            document.documentElement.style.overflow = 'hidden';
+
+            // Disable ScrollTrigger before animation (mounted)
+            ScrollTrigger.getAll().forEach(st => st.disable());
+
+            // Position of projects-div
+            const projectsDiv = document.querySelector('.projects-div');
+            const projectsDivRect = projectsDiv.getBoundingClientRect();
+
+
+            const tl = gsap.timeline({
+                onComplete: () => {
+                    // Enable ScrollTrigger after animation
+                    ScrollTrigger.getAll().forEach(st => st.enable());
+                }
+            });
+
+            // Scroll only if div up of viewport
+            if (projectsDivRect.top > 0) {
+                tl.to(window, {
+                    duration: 0.2,
+                    scrollTo: { y: projectsDiv, offsetY: 0 },
+                    ease: "power2.inOut"
+                }, 0);
+            }
+
+
+            tl
+                .to('.projects-div__background-color', {
+                    duration: 0.3,
+                    scale: 0.98,
+                    ease: "power4.out",
+                    borderRadius: "10px",
+                }, 0, 3)
+                .to('.popup-div', {
+                    duration: 0.3,
+                    scale: 0.98,
+                    ease: "power4.out",
+                    borderRadius: "10px",
+                }, 0, 3)
+                .to('.projects-div__background-color', {
+                    duration: 0.3,
+                    left: innerWidth,
+                    ease: "power4.out",
+                }, 0.5)
+                .to('.popup-div', {
+                    duration: 0.3,
+                    left: 0,
+                    ease: "power4.out",
+                }, 0.5)
+                .to('.popup-div', {
+                    duration: 0.3,
+                    scale: 1,
+                    ease: "power4.out",
+                    borderRadius: "0px",
+                }, 0.8)
+                .then(() => {
+                });
+        },
+        onCloseProject() {
+
+            const tl = gsap.timeline();
+            tl
+                .to(window, {
+                    duration: 0.2,
+                    scrollTo: { y: ".projects-div", offsetY: 0 },
+                    ease: "power2.inOut"
+                }, 0)
+                .to('.popup-div', {
+                    duration: 0.3,
+                    scale: 0.98,
+                    ease: "power4.out",
+                    borderRadius: "10px",
+                }, 0)
+                .to('.projects-div__background-color', {
+                    duration: 0.3,
+                    left: 0,
+                    ease: "power4.out",
+                }, 0.5)
+                .to('.popup-div', {
+                    duration: 0.3,
+                    left: -innerWidth,
+                    ease: "power4.out",
+                }, 0.5)
+                .to('.projects-div__background-color', {
+                    duration: 0.3,
+                    scale: 1,
+                    ease: "power4.out",
+                    borderRadius: "0px",
+                }, 0.8)
+                .then(() => {
+                    this.selectedProject = null;
+                    // Enable window scroll
+                    document.documentElement.style.overflow = '';
+                })
+
         }
+
     }
 }
 </script>
@@ -159,7 +270,6 @@ export default {
 .projects-div {
     height: 100dvh;
     width: 100vw;
-
 
     display: flex;
     flex-direction: column;
@@ -171,19 +281,35 @@ export default {
 }
 
 
-
 .projects-div__background-color {
-    position: relative;
-    overflow: hidden;
-
     width: 100%;
     height: 100%;
-    padding: 50px 5px;
+    z-index: 1;
+
+    /* Usefull to move with GSAP */
+    position: relative;
+    overflow: hidden;
 
     display: flex;
     flex-direction: column;
     justify-content: center;
+
+    padding: 50px 5px;
 }
+
+
+
+.background__pop-up {
+    height: 100dvh;
+    width: 100vw;
+    top: 0;
+    position: fixed;
+
+    z-index: 0;
+    background-color: red;
+}
+
+
 
 
 .foreground-image {
@@ -193,7 +319,7 @@ export default {
     width: 100%;
     height: 100%;
 
-    background-image: url('@/assets/background/window_avec_volet.png');
+    background-image: url('@/assets/background/window.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -258,7 +384,7 @@ p {
 
 .projects-p__name {
     font-size: large;
-    padding-top: 4px;
+    padding: 4px 0px;
     height: 40px;
     font-size: xx-large;
     left: 0;

@@ -41,9 +41,18 @@ export default {
 
 		MenuButton,
 	},
+	mounted() {
+		document.addEventListener('contextmenu', this.disableClick);
+	},
+	beforeUnmount() {
+		document.removeEventListener('contextmenu', this.disableClick);
+	},
+	methods: {
+		disableClick(event) {
+			event.preventDefault();
+		}
+	}
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

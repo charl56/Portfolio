@@ -8,6 +8,10 @@
         <p>Ouai me menu ic</p>
         <a href="#projects-div">Projets</a>
 
+        <!-- https://gsap.com/docs/v3/Plugins/ScrollToPlugin/ -->
+        <!-- https://gsap.com/docs/v3/Plugins/ScrollToPlugin/ -->
+        <!-- https://gsap.com/docs/v3/Plugins/ScrollToPlugin/ -->
+        <!-- https://gsap.com/docs/v3/Plugins/ScrollToPlugin/ -->
     </div>
 </template>
 
