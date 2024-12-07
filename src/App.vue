@@ -3,7 +3,7 @@
 		<div>
 			<Particles />
 			<Loader />
-			<Intro />
+			<!-- <Intro /> -->
 			<Projets />
 			<Skills />
 			<End />

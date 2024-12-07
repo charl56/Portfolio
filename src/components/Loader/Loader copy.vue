@@ -8,10 +8,39 @@
         </div>
         <div class="loader-div__bienvenu">
             <p>Bienvenue</p>
-            <img src="@/assets/background/zoro.jpg" width="100" alt="image">
-            <p>Bienvenue</p>
+            <!-- <img src="@/assets/background/zoro.jpg" width="100" alt="image">
+            <p>Bienvenue</p> -->
         </div>
     </div>
+
+
+
+
+    <!-- <div class="overlay">
+        <div class="overlay-content">
+            <div class="images">
+                <div class="img-holder">
+                    <img src="@/assets/background/zoro.jpg" alt="image">
+                    <img src="@/assets/background/zoro.jpg" alt="image">
+                    <img src="@/assets/background/zoro.jpg" alt="image">
+                    <img src="@/assets/background/zoro.jpg" alt="image">
+                    <img src="@/assets/background/zoro.jpg" alt="image">
+                    <img src="@/assets/background/zoro.jpg" alt="image">
+                    <img src="@/assets/background/zoro.jpg" alt="image">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text">
+        <div class="counter">
+            <p>100%</p>
+        </div>
+        <div class="logo">
+            <p>Judo</p>
+        </div>
+    </div> -->
+
 </template>
 
 <script>
@@ -134,27 +163,22 @@ export default {
                 ease: "expo.inOut",
             }).to('.loader-div__vertical', {
                 duration: 1,
-                height: '0',
+                height: '0vw',
                 top: '50vh',
                 ease: "expo.inOut",
             }, '<')
             .to('.loader-div__bienvenu', {
                 duration: 1.5,
-                height: '100vh',
-                top: '0vh',
+                scale: '1',
                 ease: "back.out(2)",
             }, 0.5)
-            .to('.loader-div__bienvenu', {
-                duration: 1,
-                height: '0',
-                top: '50vh',
-                ease: "power2.inOut",
-            }, 1.5)
-            .to('.loader-div', {
-                duration: 1,
-                y: -window.innerHeight,
-                ease: "power1.inOut",
-            }, 2.5);
+
+
+            // .to('.loader-div', {
+            //     duration: 1,
+            //     y: -window.innerHeight,
+            //     ease: "power1.inOut",
+            // });
 
             // Une fois toutes les animations terminées, réactive le scroll
             tl.then(() => {
@@ -224,18 +248,16 @@ export default {
 
 
 .loader-div__bienvenu {
-    height: 0;
+    height: 100vh;
     width: 100vw;
     position: absolute;
-    top: 50vh;
 
-    overflow: hidden;
+    transform: scale(0);
 
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    justify-content: space-evenly;
 
     p {
         width: auto;
