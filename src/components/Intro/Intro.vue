@@ -1,8 +1,9 @@
 <template>
     <div class="intro-div">
-        <!-- <p ref="text">BONJOUR</p> -->
-        <svg width="200" height="100">
-            <text  class="svg-text">Bienvenue</text>
+        <svg viewBox="0 0 1920 1080" preserveAspectRatio="none">
+            <text x="50%" y="0%" text-anchor="middle" ref="text">
+                webstoryboy
+            </text>
         </svg>
     </div>
 </template>
@@ -22,49 +23,44 @@ export default {
     methods: {
         initAnimation() {
             gsap.to(this.$refs.text, {
-                opacity: 0,
+                scaleY: 0.1,
+                ease: "none",
                 scrollTrigger: {
                     trigger: ".intro-div",
-                    start: "bottom top", // Bottom of component and top of screen
-                    toggleActions: "play none none reverse", // Animation en avant/arrière
-                },
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: true
+                }
             });
-        },
-
+        }
     }
 }
 </script>
-
 
 <style scoped>
 .intro-div {
     position: relative;
     width: 100vw;
     height: 100vh;
-    background-color: var(--second-color);
+    background-color: #e3f2fd;
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
-
-    svg {
-        position: absolute;
-        top: 43px;
-        left: 51px;
-        width: 100%;
-        height: 100%;
-        transform: scale(5, 25);
-        transform-origin: 0 0;
-    }
 }
 
-p {
-    font-size: 10vh;
+svg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+text {
+    font-family: 'Russo One', sans-serif;
     text-transform: uppercase;
-    position: fixed;
-    -webkit-text-stroke: 1px white;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
-    transform-origin: center center;
+    stroke-width: 2;
+    stroke: #365fa0;
+    font-size: 2vw;
+    fill: rgba(72, 138, 204, 1);
 }
 </style>

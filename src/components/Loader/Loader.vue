@@ -2,6 +2,31 @@
     <div class="loader-div">
         <p class="loading-percentage-text">Chargement... {{ percentage }}%</p>
     </div>
+    <!-- <div class="overlay">
+        <div class="overlay-content">
+            <div class="images">
+                <div class="img-holder">
+                    <img src="@/assets/background/zoro.jpg" alt="image">
+                    <img src="@/assets/background/zoro.jpg" alt="image">
+                    <img src="@/assets/background/zoro.jpg" alt="image">
+                    <img src="@/assets/background/zoro.jpg" alt="image">
+                    <img src="@/assets/background/zoro.jpg" alt="image">
+                    <img src="@/assets/background/zoro.jpg" alt="image">
+                    <img src="@/assets/background/zoro.jpg" alt="image">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="text">
+        <div class="counter">
+            <p>100%</p>
+        </div>
+        <div class="logo">
+            <p>Judo</p>
+        </div>
+    </div> -->
+
 </template>
 
 <script>
@@ -76,12 +101,30 @@ export default {
             });
         },
         updatePercentage(loaded, total) {
-            this.percentage = Math.round((loaded / total) * 100);
+            const targetValue = Math.round((loaded / total) * 100);
+
+            // If the target value is the same as the current value, do nothing
+            if (this.percentage === targetValue) return;
+
+            const smoothIncrement = setInterval(() => {
+                if (this.percentage === targetValue || this.percentage >= 100) {
+                    clearInterval(smoothIncrement);
+                    return;
+                }
+
+                // Update your percentage display here
+                this.percentage += 1;
+            }, 20); // Adjust the interval timing as needed
         },
         handleLoadingComplete() {
-            if (this.percentage === 100) {
-                setTimeout(this.animateLoaderOut, 1000);
-            }
+            // If the percentage is at 100, start text loader animation
+            const animateLoaderOut = setInterval(() => {
+                if (this.percentage == 100) {
+                    setTimeout(this.animateLoaderOut, 1000);
+                    clearInterval(animateLoaderOut);
+                    return;
+                }
+            }, 20); // Adjust the interval timing as needed
         },
         animateLoaderOut() {
             gsap.to('.loading-percentage-text', {
@@ -124,7 +167,71 @@ export default {
         font-size: xx-large;
         text-transform: uppercase;
     }
-
-
 }
+
+/* 
+
+img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: wheat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.overlay-content {
+    width: 40%;
+}
+
+.images {
+    position: relative;
+    width: 550px;
+}
+
+.img-holder {
+    position: relative;
+    width: 80%;
+    height: 100%;
+    margin: 0 auto;
+    z-index: 2;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.img-holder img {
+    position: absolute;
+    top: 0;
+    left: -100%;
+}
+
+.text {
+    position: relative;
+    margin: 1em 0;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.counter,
+.logo p {
+    font-size: 200px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.counter p{
+    line-height: 100%;
+}
+
+.counter p span, .logo p span {
+    position: relative;
+} */
 </style>

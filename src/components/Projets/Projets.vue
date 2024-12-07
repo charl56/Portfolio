@@ -182,13 +182,13 @@ export default {
             });
 
             // Scroll only if div up of viewport
-            if (projectsDivRect.top > 0) {
+            // if (projectsDivRect.top > 0) {
                 tl.to(window, {
-                    duration: 0.2,
+                    duration: 0.5,
                     scrollTo: { y: projectsDiv, offsetY: 0 },
                     ease: "power2.inOut"
                 }, 0);
-            }
+            // }
 
 
             tl
@@ -197,13 +197,13 @@ export default {
                     scale: 0.98,
                     ease: "power4.out",
                     borderRadius: "10px",
-                }, 0, 3)
+                }, 0,5)
                 .to('.popup-div', {
                     duration: 0.3,
                     scale: 0.98,
                     ease: "power4.out",
                     borderRadius: "10px",
-                }, 0, 3)
+                }, 0,5)
                 .to('.projects-div__background-color', {
                     duration: 0.3,
                     left: innerWidth,
@@ -307,7 +307,7 @@ export default {
     position: fixed;
 
     z-index: 0;
-    background-color: red;
+    /* background-color: red; */
 }
 
 

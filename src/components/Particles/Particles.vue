@@ -19,7 +19,7 @@ export default {
             scrollTrigger: {
                 trigger: '.particles-container',
                 start: "30% top",         // Trigger on component at 150vh of the top, and top of screen
-                end: "bottom+=200 top",
+                end: "bottom+=400 top",
                 scrub: 2,
                 // markers: true,
             },
@@ -101,8 +101,8 @@ export default {
 .particles-container {
     position: fixed;
     width: 100%;
-    height: 200dvh;
-    top: 50vh;
+    height: 250dvh;
+    top: 0;
     left: 0;
     pointer-events: none; /* Block interactions */
     z-index: -2;
