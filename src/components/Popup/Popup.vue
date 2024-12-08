@@ -4,17 +4,33 @@
             <p class="popup-div__title" v-if="project">{{ project.name }}</p>
             <button @click="$emit('close')">Fermer</button>
         </div>
-
-        <div class="modal-content">
-            <p v-if="project" v-html="project.description"></p>
+        <div v-if="project" class="modal-content">
+            <div v-if="project" class="popup-photos">
+                <Photos3d :projectName="renameProjectForId(project.name)" :photos="project.photos" />
+            </div>
+            <!-- Intro -->
+            <p class="" v-html="project.intro"></p>
+            <!-- Description -->
+            <p class="" v-html="project.description"></p>
+            <!-- Liste des outils utilisés -->
+            <p class="" v-html="project.outil"></p>
+            <ul class="">
+                <li v-for="outil, index in project.outils" :key="index">{{ outil.name }}</li>
+            </ul>
+            <!-- Dates -->
+            <p class="">{{ project.date }}</p>
         </div>
     </div>
 </template>
 
 <script>
+import Photos3d from './Photos3d/Photos3d.vue';
 
 export default {
     name: 'Popup',
+    components: {
+        Photos3d
+    },
     props: ['project'],
     mounted() {
         document.body.style.overflow = 'hidden';
@@ -27,6 +43,9 @@ export default {
             return import.meta.env.DEV
                 ? new URL(`../../images/${src}`, import.meta.url).href
                 : `images/${src}`;
+        },
+        renameProjectForId(projectName) {
+            return projectName.replace(/ /g, '-').toLowerCase()
         }
     }
 }
@@ -40,10 +59,11 @@ export default {
     top: 0;
     left: -100vw;
     position: fixed;
+    /* margin: 5px; */
 
     z-index: 5;
     background-color: var(--popup-background-color);
-
+    background-color: #525252;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -66,12 +86,25 @@ export default {
     width: 100%;
     overflow-y: scroll;
     margin-top: 10px;
-    
+
     p {
-        height: 120%;
+        height: 50%;
     }
 }
 
+.popup-photos {
+    height: 100%;
+    width: 50%;
+}
+
+
+@media (max-width: 1000px) {
+    .popup-photos {
+        width: 100% !important;
+        height: 50% !important;
+    }
+
+}
 
 .modal-content::-webkit-scrollbar {
     /* Fond de la barre de scroll */

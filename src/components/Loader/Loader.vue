@@ -169,7 +169,7 @@ export default {
                     height: '0',
                     top: '50%',
                     ease: "power2.inOut",
-                }, 2.4)
+                }, 2.5)
                 // On cache fenetre projets
                 .to('.projects-div', {
                     duration: 1,
@@ -182,7 +182,7 @@ export default {
                 .to('.projects-div__name', {
                     duration: 0,
                     visibility: 'visible'
-                }, 3.4)
+                }, 3.5)
                 // On prepare le clip path au milieu de l'ecran
                 .to('.projects-div', {
                     duration: 0,
