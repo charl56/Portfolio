@@ -1,9 +1,9 @@
 <template>
     <div class="end-div">
         <div class="end-div__contact">
-                <a href="https://github.com/charl56" target="_blank" rel="noopener noreferrer">Github</a>
-                <p @mouseover="onHoverText">{{ text }}</p>
-                <a href="https://www.linkedin.com/in/charles-pichou/" target="_blank" rel="noopener noreferrer">Linkedin</a>
+            <a href="https://github.com/charl56" target="_blank" rel="noopener noreferrer">Github</a>
+            <p @mouseover="onHoverText">{{ text }}</p>
+            <a href="https://www.linkedin.com/in/charles-pichou/" target="_blank" rel="noopener noreferrer">Linkedin</a>
         </div>
         <img src="@/assets/background/zoro.jpg" alt="">
     </div>
@@ -13,7 +13,7 @@
 
 export default {
     name: 'End',
-    data(){
+    data() {
         return {
             text: "©2024 — All rights reserved",
             originalText: "©2024 — All rights reserved",
@@ -46,7 +46,7 @@ export default {
                 }
             }, 1000 / originalText.length);
 
-            this.intervalId= intervalId;
+            this.intervalId = intervalId;
         },
         shuffleText() {
             const shuffled = this.text.split('').sort(() => 0.5 - Math.random()).join('');
@@ -77,20 +77,30 @@ export default {
         img {
             width: 100%;
         }
-        .end-div__contact{
+
+        .end-div__contact {
             width: 100%;
         }
     }
 }
 
-.end-div__contact{
+.end-div__contact {
     display: flex;
     width: 50%;
     justify-content: space-around;
     font-size: large;
 
-    p{
+    p {
         text-align: center;
+    }
+
+    a {
+        color: white;
+        transition: transform 0.3s ease-in;
+    }
+
+    a:hover{ 
+        transform: scale(1.2);
     }
 }
 </style>
