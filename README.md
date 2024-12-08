@@ -30,24 +30,10 @@ npm run build
 
 
 
-# Deployement
 
 
-* Actvate proxy http : a2enmod proxy proxy_http
-
-# Update
-
-* add zip/rar folder
-* unzip 'folder_name' / unrar x folder.rar
-* cd /folder_name/frontend
-* docker compose build
-* docker compose up -d
-
-
-
-
-
+<!-- 
 Sources
 font : fontsgeek.com
 3d model space ship : https://sketchfab.com/3d-models/swordfish-ii-d7b48e857c48490a8fd63f444f50e3e7
-Lottiefile pour gif scroll down
+Lottiefile pour gif scroll down -->
