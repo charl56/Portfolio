@@ -182,11 +182,11 @@ export default {
             });
 
             // Scroll only if div down of viewport
-                tl.to(window, {
-                    duration: 0.5,
-                    scrollTo: { y: projectsDiv, offsetY: 0 },
-                    ease: "power2.inOut"
-                }, 0);
+            tl.to(window, {
+                duration: 0.5,
+                scrollTo: { y: projectsDiv, offsetY: 0 },
+                ease: "power2.inOut"
+            }, 0);
 
 
             tl
@@ -195,13 +195,13 @@ export default {
                     scale: 0.96,
                     ease: "power4.out",
                     borderRadius: "10px",
-                }, 0,5)
+                }, 0, 5)
                 .to('.popup-div', {
                     duration: 0.3,
                     scale: 0.96,
                     ease: "power4.out",
                     borderRadius: "10px",
-                }, 0,5)
+                }, 0, 5)
                 .to('.projects-div__background-color', {
                     duration: 0.3,
                     left: innerWidth,
@@ -374,10 +374,11 @@ p {
     font-size: xxx-large;
 }
 
-.projects-div__name{
+.projects-div__name {
     /* Permet de cacher les titres pednant animation loader sur tel */
     visibility: hidden;
 }
+
 .projects-div__name:hover {
     cursor: pointer;
 }

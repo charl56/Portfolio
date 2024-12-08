@@ -147,6 +147,8 @@ export default {
                     duration: 0,
                     clipPath: "inset(50% round 10px)",
                 }, "<")
+
+
                 // On affiche bienvenu
                 .to('.loader-div__bienvenu', {
                     duration: 1.8,
@@ -160,6 +162,7 @@ export default {
                     clipPath: "inset(37% round 10px)",
                     ease: "power3.out",
                 }, "<")
+
                 // on cache bienvenu
                 .to('.loader-div__bienvenu', {
                     duration: 1,
@@ -173,6 +176,8 @@ export default {
                     clipPath: "inset(50% round 10px)",
                     ease: "power2.inOut",
                 }, "<")
+
+
                 // On affiche le titre des projets, caché
                 .to('.projects-div__name', {
                     duration: 0,
@@ -184,11 +189,21 @@ export default {
                     clipPath: "inset(50% round 10px)",
                     ease: "power2.inOut",
                 }, "<")
+                // On remet le filtre du ciel
+                .to('.background-images-container', {
+                    duration: 0,
+                    filter: "invert(1)",
+                }, "<")
                 // On agrandi sur tout l'ecran
                 .to('.projects-div', {
                     duration: 1,
                     clipPath: "inset(0% round 10px)",
                     ease: "power2.inOut",
+                }, "<")
+                // On enlève totalement le filtre
+                .to('.background-images-container', {
+                    duration: 1.8,
+                    filter: "invert(0)",
                 }, "<")
             // Une fois toutes les animations terminées, réactive le scroll
             tl.then(() => {
