@@ -181,14 +181,12 @@ export default {
                 }
             });
 
-            // Scroll only if div up of viewport
-            // if (projectsDivRect.top > 0) {
+            // Scroll only if div down of viewport
                 tl.to(window, {
                     duration: 0.5,
                     scrollTo: { y: projectsDiv, offsetY: 0 },
                     ease: "power2.inOut"
                 }, 0);
-            // }
 
 
             tl
@@ -277,7 +275,6 @@ export default {
     flex-direction: column;
     justify-content: flex-start;
 
-    /* clip-path: inset(50% round 10px); */
     clip-path: polygon(50vw 50vh, 50vw 50vh, 50vw 50vh, 50vw 50vh);
 
 }
@@ -308,7 +305,6 @@ export default {
     position: fixed;
 
     z-index: 0;
-    /* background-color: red; */
 }
 
 
@@ -321,7 +317,7 @@ export default {
     width: 100%;
     height: 100%;
 
-    background-image: url('@/assets/background/window.png');
+    background-image: url('@/assets/background/window_open.webp');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -352,7 +348,7 @@ export default {
 }
 
 .default-bg {
-    background-image: url('@/assets/background/window.jpg');
+    background-image: url('@/assets/background/window_sky.webp');
     opacity: 1;
 }
 

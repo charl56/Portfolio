@@ -8,7 +8,6 @@
         </div>
         <div class="loader-div__bienvenu">
             <p>Bienvenue</p>
-            <!-- <img src="@/assets/background/zoro.jpg" width="100" alt="image"> -->
             <p>Bienvenue</p>
         </div>
     </div>

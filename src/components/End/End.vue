@@ -5,7 +5,7 @@
             <p @mouseover="onHoverText">{{ text }}</p>
             <a href="https://www.linkedin.com/in/charles-pichou/" target="_blank" rel="noopener noreferrer">Linkedin</a>
         </div>
-        <img src="@/assets/background/zoro.jpg" alt="">
+        <img src="@/assets/background/zoro.webp" alt="">
     </div>
 </template>
 

@@ -3,7 +3,6 @@
 		<div>
 			<Particles />
 			<Loader />
-			<!-- <Intro /> -->
 			<Projets />
 			<Skills />
 			<End />
@@ -19,7 +18,6 @@
 
 import Particles from "./components/Particles/Particles.vue";
 import Loader from "./components/Loader/Loader.vue";
-import Intro from "./components/Intro/Intro.vue";
 import Projets from './components/Projets/Projets.vue';
 import Skills from "./components/Skills/Skills.vue";
 import End from "./components/End/End.vue";
@@ -34,7 +32,6 @@ export default {
 	components: {
 		Particles,
 		Loader,
-		Intro,
 		Projets,
 		Skills,
 		End,
