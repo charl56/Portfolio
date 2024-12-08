@@ -41,15 +41,15 @@ export default {
             tl.to('.loader-div__horizontal', {
                 duration: 0.4,
                 stagger: 0.2,
-                width: this.percentage + 'vw',
-                left: 50 - this.percentage / 2 + 'vw',
+                width: this.percentage + '%',
+                left: 50 - this.percentage / 2 + '%',
                 ease: "circ.out",
             }, 0)
                 .to('.loader-div__vertical', {
                     duration: 0.4,
                     stagger: 0.2,
-                    height: this.percentage + 'vh',
-                    top: 50 - this.percentage / 2 + 'vh',
+                    height: this.percentage + '%',
+                    top: 50 - this.percentage / 2 + '%',
                     ease: "circ.out",
                 }, 0);
         },
@@ -130,14 +130,14 @@ export default {
             tl
                 .to('.loader-div__horizontal', {
                     duration: 1,
-                    width: '0vw',
-                    left: '50vw',
+                    width: '0',
+                    left: '50%',
                     ease: "expo.inOut",
                 })
                 .to('.loader-div__vertical', {
                     duration: 1,
                     height: '0',
-                    top: '50vh',
+                    top: '50%',
                     ease: "expo.inOut",
                 }, '<')
                 // On prepare affiche fenetre projet
@@ -148,8 +148,8 @@ export default {
                 // On affiche bienvenu
                 .to('.loader-div__bienvenu', {
                     duration: 1.8,
-                    height: '100vh',
-                    top: '0vh',
+                    height: '100%',
+                    top: '0',
                     ease: "power3.out",
                 }, 0.7)
                 // On affiche fenetre projet
@@ -162,7 +162,7 @@ export default {
                 .to('.loader-div__bienvenu', {
                     duration: 1,
                     height: '0',
-                    top: '50vh',
+                    top: '50%',
                     ease: "power2.inOut",
                 }, 2)
                 // On cache fenetre projets
@@ -218,11 +218,11 @@ export default {
 }
 
 .loader-div__horizontal {
-    height: 100vh;
+    height: 100%;
     width: 0;
     position: absolute;
     top: 0;
-    left: 50vw;
+    left: 50%;
 
     overflow: hidden;
 
@@ -233,9 +233,9 @@ export default {
 
 .loader-div__vertical {
     height: 0;
-    width: 100vw;
+    width: 100%;
     position: absolute;
-    top: 50vh;
+    top: 50%;
     left: 0;
 
     overflow: hidden;
@@ -249,9 +249,9 @@ export default {
 
 .loader-div__bienvenu {
     height: 0;
-    width: 100vw;
+    width: 100%;
     position: absolute;
-    top: 50vh;
+    top: 50%;
 
     overflow: hidden;
 
