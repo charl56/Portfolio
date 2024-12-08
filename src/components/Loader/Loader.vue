@@ -201,7 +201,7 @@ export default {
 <style scoped>
 .loader-div {
     position: absolute;
-    height: 100dvh;
+    height: 100svh;
     width: 100vw;
     z-index: 0;
 
