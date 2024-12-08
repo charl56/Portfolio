@@ -28,8 +28,7 @@ export default {
     },
     mounted() {
         this.initLoader();
-        this.loadImages(this.appData)
-
+        setTimeout(this.loadImages(this.appData), 1000);
     },
     onMounted() {
     },
@@ -114,7 +113,7 @@ export default {
                 // Animation to move text with percentage
                 this.animateLoaderText();
 
-            }, 20); // Adjust the interval timing as needed
+            }, 50); // Adjust the interval timing as needed
         },
         handleLoadingComplete() {
             // If the percentage is at 100, start text loader animation
