@@ -271,13 +271,14 @@ export default {
 .projects-div {
     height: 100dvh;
     width: 100vw;
+    z-index: 1;
 
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
 
-    visibility: visible;
-    overflow: hidden;
+    /* clip-path: inset(50% round 10px); */
+    clip-path: polygon(50vw 50vh, 50vw 50vh, 50vw 50vh, 50vw 50vh);
 
 }
 
@@ -379,6 +380,10 @@ p {
     font-size: xxx-large;
 }
 
+.projects-div__name{
+    /* Permet de cacher les titres pednant animation loader sur tel */
+    visibility: hidden;
+}
 .projects-div__name:hover {
     cursor: pointer;
 }

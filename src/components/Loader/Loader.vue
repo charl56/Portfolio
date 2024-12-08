@@ -8,7 +8,7 @@
         </div>
         <div class="loader-div__bienvenu">
             <p>Bienvenue</p>
-            <img src="@/assets/background/zoro.jpg" width="100" alt="image">
+            <!-- <img src="@/assets/background/zoro.jpg" width="100" alt="image"> -->
             <p>Bienvenue</p>
         </div>
     </div>
@@ -127,35 +127,69 @@ export default {
         animateLoaderOut() {
             const tl = gsap.timeline();
 
-            tl.to('.loader-div__horizontal', {
-                duration: 1,
-                width: '0vw',
-                left: '50vw',
-                ease: "expo.inOut",
-            }).to('.loader-div__vertical', {
-                duration: 1,
-                height: '0',
-                top: '50vh',
-                ease: "expo.inOut",
-            }, '<')
-            .to('.loader-div__bienvenu', {
-                duration: 1.5,
-                height: '100vh',
-                top: '0vh',
-                ease: "back.out(2)",
-            }, 0.5)
-            .to('.loader-div__bienvenu', {
-                duration: 1,
-                height: '0',
-                top: '50vh',
-                ease: "power2.inOut",
-            }, 1.5)
-            .to('.loader-div', {
-                duration: 1,
-                y: -window.innerHeight,
-                ease: "power1.inOut",
-            }, 2.5);
-
+            // On ferme la croix
+            tl
+                .to('.loader-div__horizontal', {
+                    duration: 1,
+                    width: '0vw',
+                    left: '50vw',
+                    ease: "expo.inOut",
+                })
+                .to('.loader-div__vertical', {
+                    duration: 1,
+                    height: '0',
+                    top: '50vh',
+                    ease: "expo.inOut",
+                }, '<')
+                // On prepare affiche fenetre projet
+                .to('.projects-div', {
+                    duration: 0,
+                    clipPath: "inset(50% round 10px)",
+                }, "<")
+                // On affiche bienvenu
+                .to('.loader-div__bienvenu', {
+                    duration: 1.5,
+                    height: '100vh',
+                    top: '0vh',
+                    ease: "back.out(2)",
+                }, 0.7)
+                // On affiche fenetre projet
+                .to('.projects-div', {
+                    duration: 1.5,
+                    clipPath: "inset(40% round 10px)",
+                    ease: "back.out(2)",
+                }, "<")
+                // on cache bienvenu
+                .to('.loader-div__bienvenu', {
+                    duration: 1,
+                    height: '0',
+                    top: '50vh',
+                    ease: "power2.inOut",
+                }, 1.5)
+                // On cache fenetre projets
+                .to('.projects-div', {
+                    duration: 1,
+                    clipPath: "inset(50% round 10px)",
+                    ease: "power2.inOut",
+                }, "<")
+                // On affiche le titre des projets, caché
+                .to('.projects-div__name', {
+                    duration: 0,
+                    visibility: 'visible'
+                }, 2.4)
+                // On prepare le clip path au milieu de l'ecran
+                .to('.projects-div', {
+                    duration: 0,
+                    clipPath: "inset(50% round 10px)",
+                    ease: "power2.inOut",
+                }, "<")
+       
+                // On agrandi sur tout l'ecran
+                .to('.projects-div', {
+                    duration: 1,
+                    clipPath: "inset(0% round 10px)",
+                    ease: "power2.inOut",
+                }, 2.4)
             // Une fois toutes les animations terminées, réactive le scroll
             tl.then(() => {
                 document.documentElement.style.overflow = '';
@@ -171,17 +205,11 @@ export default {
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 1;
+    z-index: 0;
 
     height: 100dvh;
     width: 100vw;
     background-color: #020202;
-
-    /* display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    flex-wrap: wrap; */
 
     p {
         font-size: xx-large;
@@ -239,6 +267,10 @@ export default {
 
     p {
         width: auto;
+    }
+
+    img {
+        border-radius: 4px;
     }
 }
 
