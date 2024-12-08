@@ -89,7 +89,7 @@ export default {
 <style scoped>
 .window2-div {
     position: relative;
-    height: 100dvh;
+    height: 100lvh;
     /* margin-bottom: 20vh; */
     --border-color: #ad8f2d;
 }

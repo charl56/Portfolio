@@ -27,7 +27,7 @@ export default {
 .window4-div {
     position: relative;
     width: 100%;
-    height: 100dvh;
+    height: 100lvh;
     display: flex;
 
     margin-bottom: 50vh;

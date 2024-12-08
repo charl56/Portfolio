@@ -206,7 +206,7 @@ export default {
 /* Media query for smaller screens */
 @media (max-width: 1000px) {
     .popup-div {
-        height: 100dvh;
+        height: 100lvh;
         top: 0vh;
         flex-direction: column !important;
     }

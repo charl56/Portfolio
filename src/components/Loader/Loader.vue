@@ -207,7 +207,7 @@ export default {
     left: 0;
     z-index: 0;
 
-    height: 100dvh;
+    height: 100lvh;
     width: 100vw;
     background-color: #020202;
 
