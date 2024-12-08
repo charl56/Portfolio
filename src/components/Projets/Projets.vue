@@ -62,7 +62,7 @@ export default {
         })
             .to('.projects-p__title', { x: window.innerWidth, duration: 3, stagger: 1 })
             .to(projectNames, {
-                y: -window.innerHeight * 0.8,
+                y: -window.innerHeight,
                 duration: 3,
                 stagger: 0
             }, "<")

@@ -1,9 +1,12 @@
 <template>
     <div class="popup-div">
-        <div class="modal-content">
-            <h2 v-if="project">{{ project.name }}</h2>
-            <p v-if="project" v-html="project.description"></p>
+        <div class="popup-div__header">
+            <p class="popup-div__title" v-if="project">{{ project.name }}</p>
             <button @click="$emit('close')">Fermer</button>
+        </div>
+
+        <div class="modal-content">
+            <p v-if="project" v-html="project.description"></p>
         </div>
     </div>
 </template>
@@ -39,20 +42,32 @@ export default {
     position: fixed;
 
     z-index: 5;
-    background-color: var(--second-color);
+    background-color: var(--popup-background-color);
 
     display: flex;
     justify-content: center;
     align-items: center;
-
+    flex-direction: column;
 }
 
-.modal-content{
+.popup-div__header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.popup-div__title {
+    font-size: xxx-large;
+    text-align: left;
+}
+
+.modal-content {
     height: 100%;
     width: 100%;
     overflow-y: scroll;
-
-    p{
+    margin-top: 10px;
+    
+    p {
         height: 120%;
     }
 }
@@ -61,7 +76,9 @@ export default {
 .modal-content::-webkit-scrollbar {
     /* Fond de la barre de scroll */
     width: 12px;
-    background-color: var(--second-color);
+    padding: 5px;
+    margin: 5px;
+    background-color: var(--popup-background-color);
     border-radius: 10px;
 }
 
@@ -75,7 +92,4 @@ export default {
     background-color: var(--first-color);
     border-radius: 10px;
 }
-
-
-
 </style>
