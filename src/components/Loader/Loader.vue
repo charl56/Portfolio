@@ -205,7 +205,7 @@ export default {
     left: 0;
     z-index: 0;
 
-    height: 100%;
+    height: 100dvh;
     width: 100vw;
     background-color: #020202;
 
@@ -271,70 +271,4 @@ export default {
         border-radius: 4px;
     }
 }
-
-/* 
-
-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: wheat;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-.overlay-content {
-    width: 40%;
-}
-
-.images {
-    position: relative;
-    width: 550px;
-}
-
-.img-holder {
-    position: relative;
-    width: 80%;
-    height: 100%;
-    margin: 0 auto;
-    z-index: 2;
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-}
-
-.img-holder img {
-    position: absolute;
-    top: 0;
-    left: -100%;
-}
-
-.text {
-    position: relative;
-    margin: 1em 0;
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-}
-
-.counter,
-.logo p {
-    font-size: 200px;
-    text-align: center;
-    text-transform: uppercase;
-}
-
-.counter p{
-    line-height: 100%;
-}
-
-.counter p span, .logo p span {
-    position: relative;
-} */
 </style>

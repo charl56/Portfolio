@@ -32,7 +32,7 @@ export default {
 
 <style scoped>
 .popup-div {
-    height: 100%;
+    height: 100dvh;
     width: 100vw;
     top: 0;
     left: -100vw;

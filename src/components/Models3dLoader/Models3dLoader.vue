@@ -36,7 +36,7 @@ export default {
 
 <style scoped>
 .scene {
-    height: 100%;
+    height: 100dvh;
     width: 100vw !important;
 }
 </style>

@@ -280,7 +280,7 @@ export default {
 
 .projects-div__background-color {
     width: 100%;
-    height: 100%;
+    height: 100dvh;
     z-index: 1;
 
     /* Usefull to move with GSAP */
