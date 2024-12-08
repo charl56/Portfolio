@@ -147,16 +147,16 @@ export default {
                 }, "<")
                 // On affiche bienvenu
                 .to('.loader-div__bienvenu', {
-                    duration: 1.5,
+                    duration: 1.8,
                     height: '100vh',
                     top: '0vh',
-                    ease: "back.out(2)",
+                    ease: "power3.out",
                 }, 0.7)
                 // On affiche fenetre projet
                 .to('.projects-div', {
-                    duration: 1.5,
-                    clipPath: "inset(40% round 10px)",
-                    ease: "back.out(2)",
+                    duration: 1.8,
+                    clipPath: "inset(37% round 10px)",
+                    ease: "power3.out",
                 }, "<")
                 // on cache bienvenu
                 .to('.loader-div__bienvenu', {
@@ -164,7 +164,7 @@ export default {
                     height: '0',
                     top: '50vh',
                     ease: "power2.inOut",
-                }, 1.5)
+                }, 2)
                 // On cache fenetre projets
                 .to('.projects-div', {
                     duration: 1,
@@ -175,20 +175,19 @@ export default {
                 .to('.projects-div__name', {
                     duration: 0,
                     visibility: 'visible'
-                }, 2.5)
+                }, 3)
                 // On prepare le clip path au milieu de l'ecran
                 .to('.projects-div', {
                     duration: 0,
                     clipPath: "inset(50% round 10px)",
                     ease: "power2.inOut",
                 }, "<")
-       
                 // On agrandi sur tout l'ecran
                 .to('.projects-div', {
                     duration: 1,
                     clipPath: "inset(0% round 10px)",
                     ease: "power2.inOut",
-                }, 2.5)
+                }, "<")
             // Une fois toutes les animations terminées, réactive le scroll
             tl.then(() => {
                 document.documentElement.style.overflow = '';
