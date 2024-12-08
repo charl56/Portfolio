@@ -1,9 +1,9 @@
 <template>
 	<v-app id="app">
 		<div>
-			<Particles />
 			<Loader />
 			<Projets />
+			<Particles />
 			<Skills />
 			<End />
 
