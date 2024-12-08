@@ -1,10 +1,10 @@
 <template>
-    <div v-if="!showPhotos" class="photos3d-loader">
+    <!-- <div v-if="!showPhotos" class="photos3d-loader">
         <p class="photos3d-description">Utiliser le clique gauche pour pivoter, clique droit pour déplacer l'objet et la
             molette pour zommer/dezoomer</p>
         <p class="photos3d-loader-text">Chargement des photos {{ loadingProgress }}%</p>
         <button class="photos3d-loader-btn" @click="this.showPhotos = true">Voir les photos</button>
-    </div>
+    </div> -->
     <div :id="projectName" class="photos3d-scene d-flex justify-center align-center">
     </div>
 </template>
