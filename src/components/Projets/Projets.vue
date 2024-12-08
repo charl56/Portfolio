@@ -192,13 +192,13 @@ export default {
             tl
                 .to('.projects-div__background-color', {
                     duration: 0.3,
-                    scale: 0.98,
+                    scale: 0.96,
                     ease: "power4.out",
                     borderRadius: "10px",
                 }, 0,5)
                 .to('.popup-div', {
                     duration: 0.3,
-                    scale: 0.98,
+                    scale: 0.96,
                     ease: "power4.out",
                     borderRadius: "10px",
                 }, 0,5)
@@ -214,9 +214,8 @@ export default {
                 }, 0.5)
                 .to('.popup-div', {
                     duration: 0.3,
-                    scale: 1,
+                    scale: 0.98,
                     ease: "power4.out",
-                    borderRadius: "0px",
                 }, 0.8)
                 .then(() => {
                 });
@@ -232,9 +231,8 @@ export default {
                 }, 0)
                 .to('.popup-div', {
                     duration: 0.3,
-                    scale: 0.98,
+                    scale: 0.96,
                     ease: "power4.out",
-                    borderRadius: "10px",
                 }, 0)
                 .to('.projects-div__background-color', {
                     duration: 0.3,

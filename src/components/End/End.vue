@@ -96,11 +96,13 @@ export default {
 
     a {
         color: white;
-        transition: transform 0.3s ease-in;
+        transition: transform 0.1s ease-in;
+        text-decoration: none;
     }
 
     a:hover{ 
-        transform: scale(1.2);
+        transform: scale(1.1);
+        text-decoration: underline;
     }
 }
 </style>
