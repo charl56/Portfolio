@@ -16,6 +16,7 @@
 <script>
 import { gsap } from "gsap";
 import dataFR from '../../data/appData/dataFR.json'
+import { onMounted } from "vue";
 
 export default {
     name: 'AppLoader',
@@ -28,8 +29,10 @@ export default {
     mounted() {
         this.initLoader();
         this.loadImages(this.appData)
-    },
 
+    },
+    onMounted() {
+    },
     methods: {
         initLoader() {
             document.documentElement.style.overflow = 'hidden';

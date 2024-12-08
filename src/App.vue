@@ -16,14 +16,23 @@
 
 <script>
 
-import Particles from "./components/Particles/Particles.vue";
+
+import { defineAsyncComponent } from 'vue';
+
 import Loader from "./components/Loader/Loader.vue";
-import Projets from './components/Projets/Projets.vue';
-import Skills from "./components/Skills/Skills.vue";
-import End from "./components/End/End.vue";
+import Projets from "./components/Projets/Projets.vue";
 
+const Particles = defineAsyncComponent(() => 
+  import('./components/Particles/Particles.vue')
+)
+const Skills = defineAsyncComponent(() => 
+  import('./components/Skills/Skills.vue')
+)
+const End = defineAsyncComponent(() => 
+  import('./components/End/End.vue')
+)
 
-import MenuButton from "./components/MenuButton/MenuButton.vue";
+// import MenuButton from "./components/MenuButton/MenuButton.vue";
 
 
 
@@ -35,8 +44,6 @@ export default {
 		Projets,
 		Skills,
 		End,
-
-		MenuButton,
 	},
 	mounted() {
 		document.addEventListener('contextmenu', this.disableClick);
