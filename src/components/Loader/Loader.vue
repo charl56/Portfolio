@@ -176,7 +176,7 @@ export default {
                 .to('.projects-div__name', {
                     duration: 0,
                     visibility: 'visible'
-                }, 2.4)
+                }, 2.5)
                 // On prepare le clip path au milieu de l'ecran
                 .to('.projects-div', {
                     duration: 0,
@@ -189,7 +189,7 @@ export default {
                     duration: 1,
                     clipPath: "inset(0% round 10px)",
                     ease: "power2.inOut",
-                }, 2.4)
+                }, 2.5)
             // Une fois toutes les animations terminées, réactive le scroll
             tl.then(() => {
                 document.documentElement.style.overflow = '';
