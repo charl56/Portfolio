@@ -201,12 +201,10 @@ export default {
 <style scoped>
 .loader-div {
     position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 0;
-
     height: 100dvh;
     width: 100vw;
+    z-index: 0;
+
     background-color: #020202;
 
     p {
