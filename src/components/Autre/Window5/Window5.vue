@@ -71,12 +71,12 @@ export default {
 .window5-div {
     position: relative;
     width: 100%;
-    height: 100lvh;
+    height: 100dvh;
     overflow: hidden;
 
     .video {
         width: 100vw;
-        height: 100lvh;
+        height: 100dvh;
         object-fit: cover;
     }
 }

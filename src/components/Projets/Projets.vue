@@ -265,7 +265,7 @@ export default {
 
 <style scoped>
 .projects-div {
-    height: 100lvh;
+    height: 100dvh;
     width: 100vw;
     z-index: 1;
 
@@ -297,7 +297,7 @@ export default {
 
 
 .background__pop-up {
-    height: 100lvh;
+    height: 100dvh;
     width: 100vw;
     top: 0;
     position: fixed;

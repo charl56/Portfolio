@@ -35,7 +35,7 @@ export default {
 
 <style scoped>
 .div-circle{
-    height: 100lvh;
+    height: 100%;
     width: 100lvw;
     top: 0;
     left: 0;

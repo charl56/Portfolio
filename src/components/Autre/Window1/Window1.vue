@@ -186,7 +186,7 @@ p {
 }
 
 .window1-div {
-    height: 100lvh;
+    height: 100dvh;
 }
 
 .loading-overlay {
