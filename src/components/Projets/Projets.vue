@@ -331,8 +331,7 @@ export default {
     z-index: -1;
 }
 
-.backround-image,
-.project-bg {
+.backround-image {
     position: absolute;
     top: 0;
     left: 0;
@@ -345,14 +344,26 @@ export default {
     transition: opacity 0s ease-in-out;
 }
 
+
+.project-bg {
+    position: absolute;
+    top: 17%;
+    left: 25%;
+    width: 50%;
+    height: 72%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transition: opacity 0s ease-in-out;
+}
+
+
 .default-bg {
     background-image: url('@/assets/background/window_sky.webp');
     opacity: 1;
 }
 
-.project-bg {
-    opacity: 0;
-}
 
 .project-bg.active {
     opacity: 1;
