@@ -151,16 +151,16 @@ export default {
 
                 // On affiche bienvenu
                 .to('.loader-div__bienvenu', {
-                    duration: 1.8,
+                    duration: 1.4,
                     height: '100%',
                     top: '0',
-                    ease: "power3.out",
-                }, 0.7)
+                    ease: "expo.inOut",
+                }, 1)
                 // On affiche fenetre projet
                 .to('.projects-div', {
-                    duration: 1.8,
+                    duration: 1.4,
                     clipPath: "inset(37% round 10px)",
-                    ease: "power3.out",
+                    ease: "expo.inOut",
                 }, "<")
 
                 // on cache bienvenu
@@ -169,7 +169,7 @@ export default {
                     height: '0',
                     top: '50%',
                     ease: "power2.inOut",
-                }, 2)
+                }, 2.4)
                 // On cache fenetre projets
                 .to('.projects-div', {
                     duration: 1,
@@ -182,12 +182,11 @@ export default {
                 .to('.projects-div__name', {
                     duration: 0,
                     visibility: 'visible'
-                }, 3)
+                }, 3.4)
                 // On prepare le clip path au milieu de l'ecran
                 .to('.projects-div', {
                     duration: 0,
                     clipPath: "inset(50% round 10px)",
-                    ease: "power2.inOut",
                 }, "<")
                 // On remet le filtre du ciel
                 .to('.background-images-container', {
