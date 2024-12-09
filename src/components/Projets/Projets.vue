@@ -1,6 +1,6 @@
 <template>
-    <!-- Projects display, end animation: https://www.danielspatzek.com/home/ -->
-    <!-- Popup open : https://bruut.media/case/stichting-beschermde-wieg/ -->
+    <!-- Inspiration => Display and animation, projets and window effect : https://www.danielspatzek.com/home/ -->
+    <!-- Inspiration => Popup open : https://bruut.media/case/stichting-beschermde-wieg/ -->
     <div class="projects-div" id="projects-div">
         <div class="projects-div__background-color">
             <div class="foreground-image"></div>
@@ -347,10 +347,10 @@ export default {
 
 .project-bg {
     position: absolute;
-    top: 17%;
+    top: 10%;
     left: 25%;
     width: 50%;
-    height: 72%;
+    height: 80%;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

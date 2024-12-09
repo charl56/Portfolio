@@ -1,4 +1,5 @@
 <template>
+    <!-- Inspiration => Loader effects : https://www.opendue.com/ -->
     <div class="loader-div">
         <div class="loader-div__horizontal">
             <p v-for="n in 10" :key="n" class="loading-percentage-text">{{ percentage }}</p>
@@ -16,7 +17,6 @@
 <script>
 import { gsap } from "gsap";
 import dataFR from '../../data/appData/dataFR.json'
-import { onMounted } from "vue";
 
 export default {
     name: 'AppLoader',
@@ -145,7 +145,7 @@ export default {
                 // On prepare affiche fenetre projet
                 .to('.projects-div', {
                     duration: 0,
-                    clipPath: "inset(50% round 10px)",
+                    clipPath: "inset(50% round 20px)",
                 }, "<")
 
 
@@ -159,7 +159,7 @@ export default {
                 // On affiche fenetre projet
                 .to('.projects-div', {
                     duration: 1.4,
-                    clipPath: "inset(37% round 10px)",
+                    clipPath: "inset(37% round 20px)",
                     ease: "expo.inOut",
                 }, "<")
 
@@ -173,7 +173,7 @@ export default {
                 // On cache fenetre projets
                 .to('.projects-div', {
                     duration: 1,
-                    clipPath: "inset(50% round 10px)",
+                    clipPath: "inset(50% round 20px)",
                     ease: "power2.inOut",
                 }, "<")
 
@@ -186,7 +186,7 @@ export default {
                 // On prepare le clip path au milieu de l'ecran
                 .to('.projects-div', {
                     duration: 0,
-                    clipPath: "inset(50% round 10px)",
+                    clipPath: "inset(50% round 20px)",
                 }, "<")
                 // On remet le filtre du ciel
                 .to('.background-images-container', {
