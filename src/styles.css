@@ -10,6 +10,12 @@
 
 	--popup-background-color: black;
 
+	/* Cursor */
+	/* --cursor-first: #52A3B6;
+	--cursor-second:#52a4b68f; */
+	--cursor-first: #7a7b7b;
+	--cursor-second:#dadadad5;
+
 }
 
 
@@ -42,6 +48,8 @@ html {
 	/* Utilisées pour améliorer la lisibilité des polices à l'écran */
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+
+	cursor: none;
 }
 
 body {
@@ -62,4 +70,8 @@ body {
 
 p {
 	margin: 0;
+}
+
+button:hover{
+	cursor: none;
 }

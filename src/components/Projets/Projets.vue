@@ -4,8 +4,9 @@
     <div class="projects-div" id="projects-div">
         <div class="projects-div__background-color">
             <div class="foreground-image"></div>
-            <div class="projects-div__name" v-for="projet, index in appData" :key="index" :projet="projet" :id="index"
-                @mouseover="onHoverProject(index)" @mouseleave="onLeaveProject" @click="onProjectClick(index)">
+            <div class="projects-div__name cursor-hover" v-for="projet, index in appData" :key="index" :projet="projet"
+                :id="index" @mouseover="onHoverProject(index)" @mouseleave="onLeaveProject"
+                @click="onProjectClick(index)">
                 <p class="projects-p__name" v-scramble-text>{{ projet.name }}</p>
             </div>
             <p class="projects-p__title">PROJETS</p>
@@ -117,14 +118,14 @@ export default {
                     el.querySelectorAll('span').forEach(span => {
                         const x = span.dataset.x;
                         const y = span.dataset.y;
-                        span.style.transform = `translate(${x}px, ${y}px)`;
+                        span.style.transform = `scale(1.2)`;
                     });
                 };
 
                 const handleMouseLeave = () => {
                     el.querySelectorAll('span').forEach(span => {
                         span.style.transition = 'transform 0.3s ease';
-                        span.style.transform = 'translate(0, 0)';
+                        span.style.transform = 'scale(1)';
                     });
                 };
 
@@ -390,9 +391,7 @@ p {
     visibility: hidden;
 }
 
-.projects-div__name:hover {
-    cursor: pointer;
-}
+
 
 .projects-p__name {
     font-size: large;
@@ -400,8 +399,9 @@ p {
     height: 40px;
     font-size: xx-large;
     left: 0;
-
 }
+
+
 
 @media (max-width: 768px) {
     .projects-p__name {

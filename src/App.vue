@@ -3,6 +3,7 @@
 		<div>
 			<Loader />
 			<Projets />
+			<Cursor />
 			<Particles />
 			<Skills />
 			<End />
@@ -21,6 +22,7 @@ import { defineAsyncComponent } from 'vue';
 
 import Loader from "./components/Loader/Loader.vue";
 import Projets from "./components/Projets/Projets.vue";
+import Cursor from './components/Cursor/Cursor.vue';
 
 const Particles = defineAsyncComponent(() => 
   import('./components/Particles/Particles.vue')
@@ -39,9 +41,10 @@ const End = defineAsyncComponent(() =>
 export default {
 	name: 'App',
 	components: {
-		Particles,
 		Loader,
 		Projets,
+		Cursor,
+		Particles,
 		Skills,
 		End,
 	},
