@@ -346,10 +346,10 @@ export default {
 
 .project-bg {
     position: absolute;
-    top: 10%;
+    top: 0%;
     left: 25%;
     width: 50%;
-    height: 80%;
+    height: 100%;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
