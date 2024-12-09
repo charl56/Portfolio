@@ -5,9 +5,9 @@
             <button @click="$emit('close')">Fermer</button>
         </div>
         <div v-if="project" class="modal-content">
-            <div v-if="project" class="popup-photos">
+            <!-- <div v-if="project" class="popup-photos">
                 <Photos3d :projectName="renameProjectForId(project.name)" :photos="project.photos" />
-            </div>
+            </div> -->
             <!-- Intro -->
             <p class="" v-html="project.intro"></p>
             <!-- Description -->
@@ -24,12 +24,12 @@
 </template>
 
 <script>
-import Photos3d from './Photos3d/Photos3d.vue';
+// import Photos3d from './Photos3d/Photos3d.vue';
 
 export default {
     name: 'Popup',
     components: {
-        Photos3d
+        // Photos3d
     },
     props: ['project'],
     mounted() {
@@ -59,11 +59,11 @@ export default {
     top: 0;
     left: -100vw;
     position: fixed;
-    /* margin: 5px; */
 
     z-index: 5;
-    background-color: var(--popup-background-color);
-    background-color: #525252;
+    background-color: var(--popup-first-color);
+ 
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -111,7 +111,7 @@ export default {
     width: 12px;
     padding: 5px;
     margin: 5px;
-    background-color: var(--popup-background-color);
+    background-color: var(--popup-second-color);
     border-radius: 10px;
 }
 
@@ -122,7 +122,7 @@ export default {
 
 .modal-content::-webkit-scrollbar-thumb {
     /* Bouton de la barre de scroll */
-    background-color: var(--first-color);
+    background-color: var(--popup-first-color);
     border-radius: 10px;
 }
 </style>

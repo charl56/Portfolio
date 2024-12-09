@@ -116,8 +116,6 @@ export default {
 
                 const handleMouseEnter = () => {
                     el.querySelectorAll('span').forEach(span => {
-                        const x = span.dataset.x;
-                        const y = span.dataset.y;
                         span.style.transform = `scale(1.2)`;
                     });
                 };
