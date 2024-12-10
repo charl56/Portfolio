@@ -130,6 +130,8 @@ export default {
 
             // On ferme la croix
             tl
+
+            // TODO couleur background curor 
                 .to('.loader-div__horizontal', {
                     duration: 1,
                     width: '0',
@@ -204,6 +206,15 @@ export default {
                     duration: 1.8,
                     filter: "invert(0)",
                 }, "<")
+                .to('.cursor-dot-outline', {
+                    duration: 1.8,
+                    backgroundColor: "var(--cursor-third)",
+                    ease: "power2.inOut",
+                }, "<")
+                
+            // TODO couleur background curor 
+
+
             // Une fois toutes les animations terminées, réactive le scroll
             tl.then(() => {
                 document.documentElement.style.overflow = '';

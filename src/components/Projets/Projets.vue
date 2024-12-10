@@ -71,6 +71,11 @@ export default {
             .to('.background__pop-up', { opacity: 0, duration: 0 })
             // Hide background image
             .to('.backround-image', { opacity: 0, duration: 3 })
+            .to('.cursor-dot-outline', {
+                    duration: 1.8,
+                    backgroundColor: "var(--cursor-second)",
+                    ease: "power2.inOut",
+                }, "<")
 
             // Zoom into window
             .to('.foreground-image', { scale: 4.5, rotateZ: 15, duration: 3, ease: "none" })
@@ -116,7 +121,7 @@ export default {
 
                 const handleMouseEnter = () => {
                     el.querySelectorAll('span').forEach(span => {
-                        span.style.transform = `scale(1.2)`;
+                        span.style.transform = `scale(1.3)`;
                     });
                 };
 

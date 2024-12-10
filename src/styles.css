@@ -12,10 +12,9 @@
 	--popup-second-color: black;
 
 	/* Cursor */
-	/* --cursor-first: #52A3B6;
-	--cursor-second:#52a4b68f; */
-	--cursor-first: #7a7b7b;
-	--cursor-second:#dadadad5;
+	--cursor-first: #d5c4be;
+	--cursor-second: #829dc1b5;
+	--cursor-third: #4573b1ad;
 
 }
 
