@@ -8,6 +8,7 @@
 
 
 <script>
+
 export default {
     name: 'Cursor',
     data() {
@@ -25,7 +26,6 @@ export default {
     },
     mounted() {
 
-
         // Set up element sizes
         this.dot = document.querySelector('.cursor-dot');
         this.outline = document.querySelector('.cursor-dot-outline');
@@ -41,6 +41,9 @@ export default {
 
     methods: {
         toggleCursorSize() {
+            if (window.innerWidth < 769) {
+                return false;
+            }
 
             if (this.cursorEnlarged) {
                 this.dot.style.transform = 'translate(-50%, -50%) scale(0.75)';
@@ -51,6 +54,9 @@ export default {
             }
         },
         animateDotOutline() {
+            if (window.innerWidth < 769) {
+                return;
+            }
 
             this._x += (this.endX - this._x) / this.delay;
             this._y += (this.endY - this._y) / this.delay;
@@ -60,8 +66,7 @@ export default {
             requestAnimationFrame(this.animateDotOutline.bind(this));
         },
         toggleCursorVisibility() {
-
-            if (this.cursorVisible) {
+            if (this.cursorVisible && window.innerWidth > 769) {
                 this.dot.style.opacity = 1;
                 this.outline.style.opacity = 1;
             } else {
@@ -99,6 +104,10 @@ export default {
                 this.cursorVisible = true;
                 this.toggleCursorSize();
 
+                if (window.innerWidth < 769) {
+                    return;
+                }
+
                 // Position the dot
                 this.endX = e.pageX;
                 this.endY = e.pageY;
@@ -115,8 +124,6 @@ export default {
             document.addEventListener('mouseenter', (e) => {
                 this.cursorVisible = true;
                 this.toggleCursorVisibility();
-                this.dot.style.opacity = 1;
-                this.outline.style.opacity = 1;
             });
 
             document.addEventListener('mouseleave', (e) => {

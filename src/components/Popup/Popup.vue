@@ -2,29 +2,38 @@
     <div class="popup-div">
         <div class="popup-div__header">
             <p class="popup-div__title" v-if="project">{{ project.name }}</p>
-            <button @click="$emit('close')">Fermer</button>
+            <div class="popup-div__button">
+                <button @click="$emit('close')">Fermer</button>
+            </div>
         </div>
         <div v-if="project" class="modal-content">
-            <!-- <div v-if="project" class="popup-photos">
-                <Photos3d :projectName="renameProjectForId(project.name)" :photos="project.photos" />
-            </div> -->
-            <!-- Intro -->
-            <p class="" v-html="project.intro"></p>
-            <!-- Description -->
-            <p class="" v-html="project.description"></p>
-            <!-- Liste des outils utilisés -->
-            <p class="" v-html="project.outil"></p>
-            <ul class="">
-                <li v-for="outil, index in project.outils" :key="index">{{ outil.name }}</li>
-            </ul>
-            <!-- Dates -->
-            <p class="">{{ project.date }}</p>
+            <div class="modal-content__text">
+                <!-- Intro -->
+                <p class="" v-html="project.intro"></p>
+                <!-- Description -->
+                <p class="" v-html="project.description"></p>
+                <!-- Liste des outils utilisés -->
+                <p class="" v-html="project.outil"></p>
+                <ul class="">
+                    <li v-for="outil, index in project.outils" :key="index">{{ outil.name }}</li>
+                </ul>
+                <!-- Dates -->
+                <p class="">{{ project.date }}</p>
+            </div>
+            <div class="modal-content__galery">
+                <img v-for="image in project.photos" class="modal-content__image" :src="getImageUrl(image.src)"
+                    alt="image" />
+            </div>
+
         </div>
     </div>
 </template>
 
 <script>
 // import Photos3d from './Photos3d/Photos3d.vue';
+// <div v-if="project" class="popup-photos">
+//    <Photos3d :projectName="renameProjectForId(project.name)" :photos="project.photos" />
+// </div> 
 
 export default {
     name: 'Popup',
@@ -41,7 +50,7 @@ export default {
     methods: {
         getImageUrl(src) {
             return import.meta.env.DEV
-                ? new URL(`../../images/${src}`, import.meta.url).href
+                ? new URL(`../../../images/${src}`, import.meta.url).href
                 : `images/${src}`;
         },
         renameProjectForId(projectName) {
@@ -62,7 +71,7 @@ export default {
 
     z-index: 5;
     background-color: var(--popup-first-color);
- 
+
 
     display: flex;
     justify-content: center;
@@ -73,24 +82,74 @@ export default {
 .popup-div__header {
     width: 100%;
     display: flex;
-    justify-content: space-between;
+
+    position: relative;
 }
 
 .popup-div__title {
+    width: 80%;
     font-size: xxx-large;
     text-align: left;
+    margin-left: 10px;
+}
+
+.popup-div__button {
+    width: 20%;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .modal-content {
-    height: 100%;
+    height: auto;
     width: 100%;
-    overflow-y: scroll;
+    overflow-y: auto;
     margin-top: 10px;
 
+    display: flex;
+    flex-direction: row;
+
     p {
-        height: 50%;
+        height: auto;
+        padding: 20px 20px 200px;
     }
 }
+
+
+.modal-content__text {
+    height: auto;
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-content__galery {
+    height: 100%;
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+}
+
+@media (max-width: 768px) {
+    .modal-content {
+        flex-direction: column;
+    }
+
+    .modal-content__text {
+        height: 40%;
+        width: 100%;
+    }
+
+    .modal-content__galery {
+        height: 60%;
+        width: 100%;
+    }
+}
+
+.modal-content__image {
+    height: 100px;
+    width: fit-content;
+}
+
 
 .popup-photos {
     height: 100%;
