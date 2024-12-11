@@ -13,7 +13,7 @@ export default {
     name: 'Cursor',
     data() {
         return {
-            delay: 10,
+            delay: 4,
             _x: 0,
             _y: 0,
             endX: (window.innerWidth / 2),
@@ -25,7 +25,6 @@ export default {
         }
     },
     mounted() {
-
         // Set up element sizes
         this.dot = document.querySelector('.cursor-dot');
         this.outline = document.querySelector('.cursor-dot-outline');

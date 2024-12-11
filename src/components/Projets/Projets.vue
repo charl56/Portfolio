@@ -121,7 +121,7 @@ export default {
 
                 const handleMouseEnter = () => {
                     el.querySelectorAll('span').forEach(span => {
-                        span.style.transform = `scale(1.3)`;
+                        span.style.transform = `scale(1.2)`;
                     });
                 };
 
@@ -383,10 +383,10 @@ p {
 }
 
 .projects-p__title {
+    font-size: 4.5em;
     position: absolute;
     bottom: 10px;
     left: 10px;
-    font-size: xxx-large;
 }
 
 .projects-div__name {
@@ -397,10 +397,9 @@ p {
 
 
 .projects-p__name {
-    font-size: large;
+    font-size: 3.5em;
     padding: 4px 0px;
     height: 40px;
-    font-size: xx-large;
     left: 0;
 }
 
@@ -408,7 +407,7 @@ p {
 
 @media (max-width: 768px) {
     .projects-p__name {
-        font-size: 1.3em;
+        font-size: 1.9em;;
     }
 }
 </style>
