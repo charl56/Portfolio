@@ -78,6 +78,6 @@ p {
 	margin: 0;
 }
 
-button:hover{
+a:hover, button:hover{
 	cursor: none;
 }

@@ -293,9 +293,9 @@ export default {
 
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
 
-    padding: 50px 5px;
+    padding: 0px 5px;
 }
 
 
@@ -397,7 +397,7 @@ p {
 
 
 .projects-p__name {
-    font-size: 3.5em;
+    font-size: 3em;
     padding: 4px 0px;
     height: 40px;
     left: 0;

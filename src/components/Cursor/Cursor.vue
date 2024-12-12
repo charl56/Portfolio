@@ -76,8 +76,10 @@ export default {
         addEventListener() {
 
             // Anchor hovering
-            document.querySelectorAll(['.cursor-hover', 'button', 'a']).forEach((el) => {   // Ajouter => et enlever 'function' avant le (e) permet de conserver le contexte this
+            document.querySelectorAll(['.cursor-hover', 'a', 'button']).forEach((el) => {   // Ajouter => et enlever 'function' avant le (e) permet de conserver le contexte this
+
                 el.addEventListener('mouseover', (e) => {
+                    console.log('mouseover');
                     this.cursorEnlarged = true;
                     this.toggleCursorSize();
                 });
@@ -156,6 +158,7 @@ export default {
     position: absolute;
     top: 0;
     z-index: 1000;
+
 }
 
 .cursor-dot,
