@@ -241,7 +241,7 @@
         },
         {
             "name": "FPS multijoueur",
-            "date": "Novemmbre 2023 - Juillet 2024",
+            "date": "Novembre 2023 - Juillet 2024",
             "infos": [
                 {"value": "Jeu <a href='/webfps/' target='_blank'>navigateur</a> multijoueur"},
                 {"value": "Vue première personne et possibilité de tirer"},
@@ -260,6 +260,35 @@
                 {"name": "NodeJs"},
                 {"name": "ThreeJs"},
                 {"name": "AmmoJs"}
+            ]
+        },
+        {
+            "name": "Etoile de bagarre",
+            "date": "Octobre 2024 - Décembre 2024",
+            "infos": [
+                { "value": "Jeu android inspiré de Brawl Star"},
+                { "value": "Projet en groupe de 3"},
+                { "value": "Déplacement et attaque"},
+                { "value": "Salle d'attente pour rejoindre une partie"},
+                { "value": "Vue des autres joueurs en temps réel"},
+                { "value": "Barre de vie"}
+            ],
+            "photos": [
+                {"type": "img","src": "EtoileDeBagarre/vue-attaque-par-enemie.webp"},
+                {"type": "img","src": "EtoileDeBagarre/vue-accueil.webp"},
+                {"type": "img","src": "EtoileDeBagarre/vue-salle-attente.webp"},
+                {"type": "img","src": "EtoileDeBagarre/vue-spawn.webp"},
+                {"type": "img","src": "EtoileDeBagarre/vue-autres-joueurs.webp"},
+                {"type": "img","src": "EtoileDeBagarre/vue-attaque-autre-joueur.webp"},
+                {"type": "img","src": "EtoileDeBagarre/vue-mort.webp"},
+                {"type": "img","src": "EtoileDeBagarre/vue-tableau-des-scores.webp"}
+            ],  
+            "outil": "Liste des outils utilisés : ",
+            "outils": [
+                {"name": "Kotlin"},
+                {"name": "LibGdx"},
+                {"name": "NodeJs : Websocket"}, 
+                {"name": "Docker"}
             ]
         }
     ]
