@@ -283,11 +283,11 @@ export default {
     z-index: 0;
 
     img {
-        height: 100vh;
-        width: 60vw;
+        height: auto;
+        width: 70vw;
 
         position: relative;
-        left: 20%;
+        left: 15vw;
 
         object-fit: cover;
     }
