@@ -274,13 +274,13 @@
                 { "value": "Barre de vie"}
             ],
             "photos": [
+                {"type": "img","src": "EtoileDeBagarre/vue-mort.webp"},
                 {"type": "img","src": "EtoileDeBagarre/vue-attaque-par-enemie.webp"},
                 {"type": "img","src": "EtoileDeBagarre/vue-accueil.webp"},
                 {"type": "img","src": "EtoileDeBagarre/vue-salle-attente.webp"},
                 {"type": "img","src": "EtoileDeBagarre/vue-spawn.webp"},
                 {"type": "img","src": "EtoileDeBagarre/vue-autres-joueurs.webp"},
                 {"type": "img","src": "EtoileDeBagarre/vue-attaque-autre-joueur.webp"},
-                {"type": "img","src": "EtoileDeBagarre/vue-mort.webp"},
                 {"type": "img","src": "EtoileDeBagarre/vue-tableau-des-scores.webp"}
             ],  
             "outil": "Liste des outils utilisés : ",
