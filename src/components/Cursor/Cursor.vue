@@ -18,7 +18,7 @@ export default {
             _y: 0,
             endX: (window.innerWidth / 2),
             endY: (window.innerHeight / 2),
-            cursorVisible: true,
+            cursorVisible: false,
             cursorEnlarged: false,
             dot: null,
             outline: null,
@@ -79,7 +79,6 @@ export default {
             document.querySelectorAll(['.cursor-hover', 'a', 'button']).forEach((el) => {   // Ajouter => et enlever 'function' avant le (e) permet de conserver le contexte this
 
                 el.addEventListener('mouseover', (e) => {
-                    console.log('mouseover');
                     this.cursorEnlarged = true;
                     this.toggleCursorSize();
                 });
@@ -109,9 +108,10 @@ export default {
                     return;
                 }
 
+
                 // Position the dot
                 this.endX = e.pageX;
-                this.endY = e.pageY;
+                this.endY = e.pageY - window.scrollY;
 
                 this.dot.style.top = this.endY + 'px';
                 this.dot.style.left = this.endX + 'px';
@@ -155,7 +155,7 @@ export default {
 
 <style scoped>
 .cursor-div {
-    position: absolute;
+    position: fixed;
     top: 0;
     z-index: 1000;
 

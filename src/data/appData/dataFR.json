@@ -54,9 +54,9 @@
             ],
             "outil": "Liste des outils utilisés : ",
             "photos": [
-                {"type": "img","src": "StageCitegestion/correlation-light-maquette.jpg", "desc": "Maquette de l'application finale"},
-                {"type": "img","src": "StageCitegestion/tendance-light.jpg", "desc": "Application en mode tendance"},
-                {"type": "img","src": "StageCitegestion/correlation-dark.jpg", "desc": "Application en mode corrélation"}
+                {"type": "img","src": "StageCitegestion/correlation-light-maquette.webp", "desc": "Maquette de l'application finale"},
+                {"type": "img","src": "StageCitegestion/tendance-light.webp", "desc": "Application en mode tendance"},
+                {"type": "img","src": "StageCitegestion/correlation-dark.webp", "desc": "Application en mode corrélation"}
             ]
         },
         {
@@ -109,11 +109,11 @@
             ],
             "outil": "Liste des outils utilisés : ",
             "photos": [
-                {"type": "img","src": "StageALC/accueil.jpg", "desc": "Page principale"},
-                {"type": "img","src": "StageALC/coworking.jpg", "desc": "Exemple de fiches disponibles"},
-                {"type": "img","src": "StageALC/gestion-data.jpg", "desc": "Gestion des données (admin)"},
-                {"type": "img","src": "StageALC/gestion-outil-users.jpg", "desc": "Gestion des utilisateurs (admin)"},
-                {"type": "img","src": "StageALC/gestion-outil-visits.jpg", "desc": "Graphique du nombre de visiteur"}
+                {"type": "img","src": "StageALC/accueil.webp", "desc": "Page principale"},
+                {"type": "img","src": "StageALC/coworking.webp", "desc": "Exemple de fiches disponibles"},
+                {"type": "img","src": "StageALC/gestion-data.webp", "desc": "Gestion des données (admin)"},
+                {"type": "img","src": "StageALC/gestion-outil-users.webp", "desc": "Gestion des utilisateurs (admin)"},
+                {"type": "img","src": "StageALC/gestion-outil-visits.webp", "desc": "Graphique du nombre de visiteur"}
             ]
         },
         {

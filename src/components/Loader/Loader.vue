@@ -2,10 +2,10 @@
     <!-- Inspiration => Loader effects : https://www.opendue.com/ -->
     <div class="loader-div">
         <div class="loader-div__horizontal">
-            <p v-for="n in 10" :key="n" class="loading-percentage-text">{{ percentage }}</p>
+            <p v-for="n in 4" :key="n" class="loading-percentage-text">{{ percentage }}</p>
         </div>
         <div class="loader-div__vertical">
-            <p v-for="n in 10" :key="n" class="loading-percentage-text">{{ percentage }}</p>
+            <p v-for="n in 4" :key="n" class="loading-percentage-text">{{ percentage }}</p>
         </div>
         <div class="loader-div__bienvenu">
             <p>Bienvenue</p>
@@ -131,7 +131,7 @@ export default {
             // On ferme la croix
             tl
 
-            // TODO couleur background curor 
+                // TODO couleur background curor 
                 .to('.loader-div__horizontal', {
                     duration: 1,
                     width: '0',
@@ -211,7 +211,7 @@ export default {
                     backgroundColor: "var(--cursor-third)",
                     ease: "power2.inOut",
                 }, "<")
-                
+
             // TODO couleur background curor 
 
 
@@ -235,10 +235,10 @@ export default {
     background-color: #020202;
 
     p {
-        font-size: xx-large;
+        font-size: 3.5em;
         text-transform: uppercase;
         height: 10vh;
-        width: 10vw;
+        width: auto;
         text-align: center;
         align-content: center;
     }
@@ -256,6 +256,7 @@ export default {
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
 }
 
 .loader-div__vertical {
@@ -270,7 +271,7 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
 }
 
 
@@ -288,12 +289,17 @@ export default {
     justify-content: center;
     justify-content: space-evenly;
 
-    p {
-        width: auto;
-    }
 
     img {
         border-radius: 4px;
+    }
+}
+
+@media (max-width: 768px) {
+    .loader-div {
+        p {
+            font-size: 1.8em;
+        }
     }
 }
 </style>
