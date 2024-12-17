@@ -1,9 +1,9 @@
 <template>
     <div class="end-div">
         <div class="end-div__contact">
-            <a href="https://github.com/charl56" target="_blank" rel="noopener noreferrer">Github</a>
+            <a href="https://github.com/charl56" target="_blank" rel="noopener noreferrer" class="cursor-hover">Github</a>
             <p @mouseover="onHoverText">{{ text }}</p>
-            <a href="https://www.linkedin.com/in/charles-pichou/" target="_blank" rel="noopener noreferrer">Linkedin</a>
+            <a href="https://www.linkedin.com/in/charles-pichou/" target="_blank" rel="noopener noreferrer" class="cursor-hover">Linkedin</a>
         </div>
         <img src="@/assets/background/zoro.webp" alt="">
     </div>

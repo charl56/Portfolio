@@ -382,10 +382,9 @@ p {
 }
 
 .projects-p__title {
-    font-size: 4.5em;
+    font-size: 4.1em;
     position: absolute;
-    bottom: 10px;
-    left: 10px;
+    bottom: 0px;
 }
 
 .projects-div__name {

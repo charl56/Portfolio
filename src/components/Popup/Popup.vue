@@ -22,7 +22,7 @@
             </div>
             <div v-if="project" v-for="(info, index) in project.infos" class="modal-content text-infos">
                 <p v-html="info.value"></p>
-                <img class="popup-div__projetcs-img" :src="getImageUrlWithIndex(index)" alt="">
+                <img class="cursor-hover" :src="getImageUrlWithIndex(index)" alt="">
             </div>
             <div v-if="project" class="modal-content text-outil">
                 <p v-html="project.outil"></p>
@@ -462,7 +462,7 @@ export default {
 
 .popup-div__content::-webkit-scrollbar-button {
     /* Boutons haut/bas */
-    display: none;
+    /* display: none; */
 }
 
 .popup-div__content::-webkit-scrollbar-thumb {

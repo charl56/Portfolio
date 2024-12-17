@@ -76,9 +76,11 @@ export default {
         addEventListener() {
 
             // Anchor hovering
-            document.querySelectorAll(['.cursor-hover', 'a', 'button', '.popup-div__projetcs-img']).forEach((el) => {   // Ajouter => et enlever 'function' avant le (e) permet de conserver le contexte this
+            document.querySelectorAll(['.cursor-hover']).forEach((el) => {   // Ajouter => et enlever 'function' avant le (e) permet de conserver le contexte this
+            console.log("el ", el);
 
                 el.addEventListener('mouseover', (e) => {
+                    console.log("onhover ", el);
                     this.cursorEnlarged = true;
                     this.toggleCursorSize();
                 });
@@ -136,8 +138,8 @@ export default {
         },
     },
     beforeDestroy() {
-        // Retirer les écouteurs sur .cursor-hover et les boutons
-        document.querySelectorAll('.cursor-hover, button, a, .popup-div__projetcs-img').forEach((el) => {
+        // Retirer les écouteurs sur .cursor-hover
+        document.querySelectorAll('.cursor-hover').forEach((el) => {
             el.removeEventListener('mouseover');
             el.removeEventListener('mouseout');
         });

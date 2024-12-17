@@ -3,14 +3,10 @@
 		<div>
 			<Loader />
 			<Projets />
-			<Cursor />
 			<Particles />
 			<Skills />
 			<End />
-
-
-			<!-- <MenuButton /> -->
-
+			<Cursor />
 		</div>
 	</v-app>
 </template>
@@ -22,7 +18,6 @@ import { defineAsyncComponent } from 'vue';
 
 import Loader from "./components/Loader/Loader.vue";
 import Projets from "./components/Projets/Projets.vue";
-import Cursor from './components/Cursor/Cursor.vue';
 
 const Particles = defineAsyncComponent(() => 
   import('./components/Particles/Particles.vue')
@@ -33,8 +28,9 @@ const Skills = defineAsyncComponent(() =>
 const End = defineAsyncComponent(() => 
   import('./components/End/End.vue')
 )
-
-// import MenuButton from "./components/MenuButton/MenuButton.vue";
+const Cursor = defineAsyncComponent(() => 
+  import('./components/Cursor/Cursor.vue')
+)
 
 
 
