@@ -22,6 +22,7 @@ ARG VITE_FRONT_URL=$VITE_FRONT_URL
 
 # build app for production with minification
 RUN npm run build
+RUN cat /app/dist/index.html
 
 COPY images/ /app/dist/images
 

@@ -77,8 +77,6 @@ export default {
 
             // Anchor hovering
             document.querySelectorAll(['.cursor-hover']).forEach((el) => {   // Ajouter => et enlever 'function' avant le (e) permet de conserver le contexte this
-            console.log("el ", el);
-
                 el.addEventListener('mouseover', (e) => {
                     console.log("onhover ", el);
                     this.cursorEnlarged = true;
