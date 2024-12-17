@@ -2,10 +2,10 @@
     <!-- Inspiration => Loader effects : https://www.opendue.com/ -->
     <div class="loader-div">
         <div class="loader-div__horizontal">
-            <p v-for="n in 4" :key="n" class="loading-percentage-text">{{ percentage }}</p>
+            <p v-for="n in 2" :key="n" class="loading-percentage-text">{{ percentage }}</p>
         </div>
         <div class="loader-div__vertical">
-            <p v-for="n in 4" :key="n" class="loading-percentage-text">{{ percentage }}</p>
+            <p v-for="n in 2" :key="n" class="loading-percentage-text">{{ percentage }}</p>
         </div>
         <div class="loader-div__bienvenu">
             <p>Bienvenue</p>

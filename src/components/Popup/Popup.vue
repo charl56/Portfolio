@@ -4,7 +4,7 @@
         <div class="popup-div__header">
             <!-- <p class="popup-div__title" v-if="project">{{ project.name }}</p> -->
             <div class="popup-div__button">
-                <button @click="$emit('close')">Fermer</button>
+                <button @click="closePopup()">Fermer</button>
             </div>
         </div>
 
@@ -13,17 +13,14 @@
         </div>
         <div class="gallery"></div>
 
-
         <div class="popup-div__content">
 
             <div v-if="project" class="modal-content text-title">
                 <p v-html="project.name"></p>
             </div>
-            <div v-if="project" class="modal-content text-intro">
-                <p v-html="project.intro"></p>
-            </div>
-            <div v-if="project" class="modal-content text-description">
-                <p v-html="project.description"></p>
+            <div v-if="project" v-for="(info, index) in project.infos" class="modal-content text-infos">
+                <p v-html="info.value"></p>
+                <img :src="getImageUrlWithIndex(index)" alt="">
             </div>
             <div v-if="project" class="modal-content text-outil">
                 <p v-html="project.outil"></p>
@@ -65,19 +62,21 @@ export default {
         return {
             rotationInterval: null,
             progress: 0,
+            imagesWithIndex: null,
         }
     },
     mounted() {
         document.body.style.overflow = 'hidden';
-
-        this.initGallery();
-        this.initRotationInterval();
     },
     beforeUnmount() {
         document.body.style.overflow = 'auto';
     },
     methods: {
         initGallery() {
+
+            if(this.project == null) {
+                return;
+            }
 
             const gallery = document.querySelector('.gallery');
             const previewImage = document.querySelector('.preview-img img');
@@ -109,11 +108,13 @@ export default {
                 });
             });
 
-            var imagesSrcs = null;
+
+            this.imagesWithIndex = null;
 
             if (this.project != null) {
-                imagesSrcs = this.project.photos.map(photo => this.getImageUrl(photo.src));
+                this.imagesWithIndex = this.project.photos.map(photo => this.getImageUrl(photo.src));
             }
+
 
 
             for (let i = 0; i < 80; i++) {
@@ -136,8 +137,8 @@ export default {
                 img.style.height = '100%';
                 img.style.objectFit = 'cover';
 
-                if (imagesSrcs && imagesSrcs.length > 0) {
-                    img.src = imagesSrcs[i % imagesSrcs.length]
+                if (this.imagesWithIndex && this.imagesWithIndex.length > 0) {
+                    img.src = this.imagesWithIndex[i % this.imagesWithIndex.length]
                 }
 
 
@@ -188,6 +189,7 @@ export default {
 
                 });
             });
+            this.initRotationInterval();
         },
         initRotationInterval() {
             this.rotationInterval = setInterval(() => {
@@ -217,8 +219,29 @@ export default {
                 ? new URL(`../../../images/${src}`, import.meta.url).href
                 : `images/${src}`;
         },
+        getImageUrlWithIndex(index) {
+            if (this.imagesWithIndex && this.imagesWithIndex.length > 0) {
+                return this.imagesWithIndex[index % this.imagesWithIndex.length]
+            }
+
+            return null;
+        },
         renameProjectForId(projectName) {
             return projectName.replace(/ /g, '-').toLowerCase()
+        },
+        closePopup() {
+            this.$emit('close');
+
+            const gallery = document.querySelector('.gallery');
+            const previewImage = document.querySelector('.preview-img img');
+
+            gallery.innerHTML = "";
+            previewImage.innerHTML = "";
+            previewImage.style.visibility = "hidden";
+
+            // Clear rotation vars
+            clearInterval(this.rotationInterval);
+            this.progress = 0;
         }
     }
 }
@@ -271,7 +294,8 @@ export default {
     perspective: 1500px;
 
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    justify-content: flex-start;
 }
 
 .preview-img {
@@ -293,14 +317,12 @@ export default {
     }
 }
 
+/* ************************************* */
 .modal-content {
-    position: absolute;
-
     p {
-        font-size: 4em;
-        color: white;
+        color: #001446;
         text-align: justify;
-        padding: 20px 5px;
+        padding: 2px 5px;
     }
 }
 
@@ -308,23 +330,34 @@ export default {
     top: 1vh;
     left: 0vw;
     right: 35vw;
-}
-
-.text-intro {
-    top: 80vh;
-    left: 35vw;
-    right: 0vw;
-}
-
-.text-description {
-    top: 120vh;
-    left: 0vw;
-    right: 35vw;
 
     p {
-        font-size: 2em;
+        font-size: 4em;
     }
 }
+
+.text-infos {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    height: 20vh;
+    align-items: center;
+
+    p {
+        font-size: 3em;
+    }
+
+    img {
+        height: 100%;
+        width: auto;
+    }
+}
+
+.text-infos:nth-child(even) {
+    flex-direction: row;
+
+}
+
 
 .text-outil {
     top: 180vh;
@@ -346,6 +379,7 @@ export default {
     }
 }
 
+/* ******************************* */
 
 @media (max-width: 768px) {
     .popup-div__content {
@@ -407,7 +441,7 @@ export default {
     width: 12px;
     padding: 5px;
     margin: 5px;
-    background-color: var(--popup-third-color);
+    background-color: var(--popup-background-color);
     border-radius: 10px;
 }
 

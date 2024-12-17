@@ -305,7 +305,6 @@ export default {
     width: 100vw;
     top: 0;
     position: fixed;
-
     z-index: 0;
 }
 

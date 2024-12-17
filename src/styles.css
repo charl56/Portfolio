@@ -11,11 +11,14 @@
 	/* --popup-first-color: #565665; */
 	/* --popup-first-color: #060630; */
 	/* --popup-first-color: #0e0e30; */
-	--popup-first-color: #7e8bb8;
+	/* --popup-first-color: #7e8bb8; */
+	--popup-first-color: #dbd6c9;
 	/* --popup-first-color: #fff; */
 	
-	--popup-second-color: #758c98;
+	/* --popup-second-color: #758c98; */
+	--popup-second-color: black;
 	--popup-third-color: black;
+	--popup-background-color: #001446;
 
 	/* Cursor */
 	--cursor-first: #d5c4be;
@@ -80,4 +83,16 @@ p {
 
 a:hover, button:hover{
 	cursor: none;
+}
+
+
+a {
+	color: white;
+	transition: transform 0.1s ease-in;
+	text-decoration: none;
+}
+
+a:hover{ 
+	transform: scale(1.1);
+	text-decoration: underline;
 }

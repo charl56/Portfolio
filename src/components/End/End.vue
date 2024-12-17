@@ -93,16 +93,5 @@ export default {
     p {
         text-align: center;
     }
-
-    a {
-        color: white;
-        transition: transform 0.1s ease-in;
-        text-decoration: none;
-    }
-
-    a:hover{ 
-        transform: scale(1.1);
-        text-decoration: underline;
-    }
 }
 </style>
