@@ -4,7 +4,7 @@
         <div class="popup-div__header">
             <!-- <p class="popup-div__title" v-if="project">{{ project.name }}</p> -->
             <div class="popup-div__button">
-                <button @click="closePopup()">Fermer</button>
+                <p @click="closePopup()">X</p>
             </div>
         </div>
 
@@ -74,7 +74,7 @@ export default {
     methods: {
         initGallery() {
 
-            if(this.project == null) {
+            if (this.project == null) {
                 return;
             }
 
@@ -271,6 +271,7 @@ export default {
     display: flex;
     top: 0;
     height: 5vh;
+    z-index: 1;
 
     position: absolute;
 
@@ -278,6 +279,10 @@ export default {
         width: 100%;
         display: flex;
         justify-content: flex-end;
+
+        p{
+            font-size: 4em;
+        }
     }
 
 }
@@ -285,8 +290,7 @@ export default {
 
 .popup-div__content {
     position: absolute;
-    top: 5vh;
-    height: 94vh;
+    height: 100vh;
     width: 100%;
 
     overflow-x: hidden;
@@ -391,6 +395,13 @@ export default {
         right: 0vw;
     }
 
+    .text-infos {
+        height: 14vh;
+
+        p {
+            font-size: 1.8em;
+        }
+    }
 
 }
 
