@@ -28,6 +28,7 @@ jobs:
         cd /srv
         docker compose stop charles
         docker container prune --force
+        docker image prune --force
         docker compose build charles
         docker compose up -d charles
         EOF

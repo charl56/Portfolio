@@ -22,6 +22,7 @@ export default {
             cursorEnlarged: false,
             dot: null,
             outline: null,
+            observer: null
         }
     },
     mounted() {
@@ -34,11 +35,98 @@ export default {
 
         this.animateDotOutline();
         this.toggleCursorVisibility();
-        this.addEventListener();
+        this.setupEventListeners();
+        this.setupMutationObserver();
 
     },
 
     methods: {
+        setupMutationObserver() {
+            // Create a MutationObserver to watch for new elements with cursor-hover class
+            this.observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (mutation.type === 'childList') {
+                        // Reattach event listeners to all cursor-hover elements
+                        this.attachCursorHoverListeners();
+                    }
+                });
+            });
+            // Start observing the entire document with the configured parameters
+            this.observer.observe(document.body, {
+                childList: true,
+                subtree: true
+            });
+        },
+        attachCursorHoverListeners() {
+            // Remove existing listeners first to prevent duplicates
+            document.querySelectorAll('.cursor-hover').forEach((el) => {
+                el.removeEventListener('mouseover', this.handleCursorHoverIn);
+                el.removeEventListener('mouseout', this.handleCursorHoverOut);
+            });
+
+            // Add new listeners
+            document.querySelectorAll('.cursor-hover').forEach((el) => {
+                el.addEventListener('mouseover', this.handleCursorHoverIn);
+                el.addEventListener('mouseout', this.handleCursorHoverOut);
+            });
+        },
+        handleCursorHoverIn() {
+            this.cursorEnlarged = true;
+            this.toggleCursorSize();
+        },
+        handleCursorHoverOut() {
+            this.cursorEnlarged = false;
+            this.toggleCursorSize();
+        },
+        setupEventListeners() {
+            // Attach initial hover listeners
+            this.attachCursorHoverListeners();
+
+            // Click events
+            document.addEventListener('mousedown', (e) => {
+                this.cursorEnlarged = true;
+                this.toggleCursorSize();
+            });
+            document.addEventListener('mouseup', (e) => {
+                this.cursorEnlarged = false;
+                this.toggleCursorSize();
+            });
+            // Move cursor
+            document.addEventListener('mousemove', (e) => {
+                // Show the cursor
+                this.cursorVisible = true;
+                this.toggleCursorVisibility();
+
+                if (window.innerWidth < 769) {
+                    return;
+                }
+
+                // Position the dot
+                this.endX = e.pageX;
+                this.endY = e.pageY - window.scrollY;
+
+                this.dot.style.top = this.endY + 'px';
+                this.dot.style.left = this.endX + 'px';
+
+                this.outline.style.top = this.endY + 'px';
+                this.outline.style.left = this.endX + 'px';
+            });
+
+            // Hide/show cursor
+            document.addEventListener('mouseenter', (e) => {
+                this.cursorVisible = true;
+                this.toggleCursorVisibility();
+            });
+
+            document.addEventListener('mouseleave', (e) => {
+                this.cursorVisible = false;
+                this.toggleCursorVisibility();
+                this.dot.style.opacity = 0;
+                this.outline.style.opacity = 0;
+            });
+        },
+
+
         toggleCursorSize() {
             if (window.innerWidth < 769) {
                 return false;
@@ -73,81 +161,23 @@ export default {
                 this.outline.style.opacity = 0;
             }
         },
-        addEventListener() {
-
-            // Anchor hovering
-            document.querySelectorAll(['.cursor-hover']).forEach((el) => {   // Ajouter => et enlever 'function' avant le (e) permet de conserver le contexte this
-                el.addEventListener('mouseover', (e) => {
-                    console.log("onhover ", el);
-                    this.cursorEnlarged = true;
-                    this.toggleCursorSize();
-                });
-                el.addEventListener('mouseout', (e) => {
-                    this.cursorEnlarged = false;
-                    this.toggleCursorSize();
-                });
-            });
-
-            // Click events
-            document.addEventListener('mousedown', (e) => {
-                this.cursorEnlarged = true;
-                this.toggleCursorSize();
-            });
-            document.addEventListener('mouseup', (e) => {
-                this.cursorEnlarged = false;
-                this.toggleCursorSize();
-            });
-
-            // Move cursor
-            document.addEventListener('mousemove', (e) => {
-                // Show the cursor
-                this.cursorVisible = true;
-                this.toggleCursorSize();
-
-                if (window.innerWidth < 769) {
-                    return;
-                }
-
-
-                // Position the dot
-                this.endX = e.pageX;
-                this.endY = e.pageY - window.scrollY;
-
-                this.dot.style.top = this.endY + 'px';
-                this.dot.style.left = this.endX + 'px';
-
-                this.outline.style.top = this.endY + 'px';
-                this.outline.style.left = this.endX + 'px';
-            });
-
-
-            // Hide/show cursor
-            document.addEventListener('mouseenter', (e) => {
-                this.cursorVisible = true;
-                this.toggleCursorVisibility();
-            });
-
-            document.addEventListener('mouseleave', (e) => {
-                this.cursorVisible = false;
-                this.toggleCursorVisibility();
-                this.dot.style.opacity = 0;
-                this.outline.style.opacity = 0;
-            });
-        },
     },
     beforeDestroy() {
-        // Retirer les écouteurs sur .cursor-hover
+        if (this.observer) {
+            this.observer.disconnect();
+        }
+
+        // Remove all event listeners
         document.querySelectorAll('.cursor-hover').forEach((el) => {
-            el.removeEventListener('mouseover');
-            el.removeEventListener('mouseout');
+            el.removeEventListener('mouseover', this.handleCursorHoverIn);
+            el.removeEventListener('mouseout', this.handleCursorHoverOut);
         });
 
-        // Retirer les écouteurs de document
-        document.removeEventListener('mousedown', document.handleMouseDown);
-        document.removeEventListener('mouseup', document.handleMouseUp);
-        document.removeEventListener('mousemove', document.handleMouseMove);
-        document.removeEventListener('mouseenter', document.handleMouseEnter);
-        document.removeEventListener('mouseleave', document.handleMouseLeave);
+        document.removeEventListener('mousedown');
+        document.removeEventListener('mouseup');
+        document.removeEventListener('mousemove');
+        document.removeEventListener('mouseenter');
+        document.removeEventListener('mouseleave');
     },
 };
 </script>

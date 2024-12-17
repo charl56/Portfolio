@@ -1,3 +1,6 @@
+# docker build -t studi0426/charles:frontend .
+# docker run -p 127.0.0.1:8081:80 -d studi0426/charles:frontend
+
 #####
 ##### Docker multi-stage build : Node.js build image
 #####
@@ -22,7 +25,6 @@ ARG VITE_FRONT_URL=$VITE_FRONT_URL
 
 # build app for production with minification
 RUN npm run build
-RUN cat /app/dist/index.html
 
 COPY images/ /app/dist/images
 

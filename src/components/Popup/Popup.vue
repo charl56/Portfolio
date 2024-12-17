@@ -4,9 +4,10 @@
 
     <div class="popup-div">
         <div class="popup-div__header">
-            <!-- <p class="popup-div__title" v-if="project">{{ project.name }}</p> -->
             <div class="popup-div__button">
-                <p @click="closePopup()">X</p>
+                    <svg @click="closePopup()" class="cursor-hover" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="48" height="48" viewBox="0,0,256,256">
+<g fill-opacity="0" fill="#ffffff" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,256v-256h256v256z" id="bgRectangle"></path></g><g fill="#ffffff" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><g transform="scale(4,4)"><path d="M16,14c-0.512,0 -1.02306,0.19494 -1.41406,0.58594c-0.781,0.781 -0.781,2.04712 0,2.82812l14.58594,14.58594l-14.58594,14.58594c-0.781,0.781 -0.781,2.04713 0,2.82812c0.391,0.391 0.90206,0.58594 1.41406,0.58594c0.512,0 1.02306,-0.19494 1.41406,-0.58594l14.58594,-14.58594l14.58594,14.58594c0.781,0.781 2.04713,0.781 2.82812,0c0.781,-0.781 0.781,-2.04713 0,-2.82812l-14.58594,-14.58594l14.58594,-14.58594c0.781,-0.781 0.781,-2.04712 0,-2.82812c-0.781,-0.781 -2.04713,-0.781 -2.82812,0l-14.58594,14.58594l-14.58594,-14.58594c-0.391,-0.391 -0.90206,-0.58594 -1.41406,-0.58594z"></path></g></g>
+</svg>
             </div>
         </div>
 
@@ -264,7 +265,7 @@ export default {
     width: 100%;
     display: flex;
     top: 0;
-    height: 5vh;
+    height: auto;
     z-index: 1;
 
     position: absolute;
@@ -273,12 +274,16 @@ export default {
         width: 100%;
         display: flex;
         justify-content: flex-end;
+        padding: 0px 10px;
 
-        p {
-            font-size: 4em;
+        svg {
+            transition: transform 0.2s ease-in;
+        }
+
+        svg:hover {
+            transform: scale(1.15);
         }
     }
-
 }
 
 
@@ -325,9 +330,6 @@ export default {
 }
 
 .text-title {
-    top: 1vh;
-    left: 0vw;
-    right: 35vw;
 
     p {
         font-size: 4em;
@@ -363,22 +365,15 @@ export default {
 
 
 .text-outil {
-    top: 180vh;
-    left: 35vw;
-    right: 0vw;
-
     p {
         font-size: 2em;
     }
 }
 
 .text-date {
-    top: 200vh;
-    left: 0vw;
-    right: 35vw;
-
     p {
         font-size: 3em;
+        text-align: right;
     }
 }
 
@@ -387,11 +382,6 @@ export default {
 @media (max-width: 768px) {
     .popup-div__content {
         flex-direction: column;
-    }
-
-    .text-title {
-        left: 0vw;
-        right: 0vw;
     }
 
     .text-infos {
@@ -432,42 +422,23 @@ export default {
 }
 
 
-
-
-
-
-
-.popup-photos {
-    height: 100%;
-    width: 50%;
-}
-
-
-@media (max-width: 1000px) {
-    .popup-photos {
-        width: 100% !important;
-        height: 50% !important;
-    }
-
-}
-
 .popup-div__content::-webkit-scrollbar {
     /* Fond de la barre de scroll */
-    width: 12px;
-    padding: 5px;
-    margin: 5px;
-    background-color: var(--popup-background-color);
-    border-radius: 10px;
-}
+    width: 10px;
+    background-color: var(--popup-first-color);
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;}
 
 .popup-div__content::-webkit-scrollbar-button {
     /* Boutons haut/bas */
-    /* display: none; */
+    display: none;
 }
 
 .popup-div__content::-webkit-scrollbar-thumb {
     /* Bouton de la barre de scroll */
     background-color: var(--popup-second-color);
     border-radius: 10px;
+    /* border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px; */
 }
 </style>
