@@ -76,7 +76,7 @@ export default {
         addEventListener() {
 
             // Anchor hovering
-            document.querySelectorAll(['.cursor-hover', 'a', 'button']).forEach((el) => {   // Ajouter => et enlever 'function' avant le (e) permet de conserver le contexte this
+            document.querySelectorAll(['.cursor-hover', 'a', 'button', '.popup-div__projetcs-img']).forEach((el) => {   // Ajouter => et enlever 'function' avant le (e) permet de conserver le contexte this
 
                 el.addEventListener('mouseover', (e) => {
                     this.cursorEnlarged = true;
@@ -137,7 +137,7 @@ export default {
     },
     beforeDestroy() {
         // Retirer les écouteurs sur .cursor-hover et les boutons
-        document.querySelectorAll('.cursor-hover, button, a').forEach((el) => {
+        document.querySelectorAll('.cursor-hover, button, a, .popup-div__projetcs-img').forEach((el) => {
             el.removeEventListener('mouseover');
             el.removeEventListener('mouseout');
         });

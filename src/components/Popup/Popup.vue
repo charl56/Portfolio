@@ -1,5 +1,7 @@
 <template>
     <!-- Inspiration => gallery : https://www.youtube.com/watch?v=v0UoqZJRP5M -->
+    <!-- Inspiration => colors : https://victor.work/ -->
+
     <div class="popup-div">
         <div class="popup-div__header">
             <!-- <p class="popup-div__title" v-if="project">{{ project.name }}</p> -->
@@ -20,7 +22,7 @@
             </div>
             <div v-if="project" v-for="(info, index) in project.infos" class="modal-content text-infos">
                 <p v-html="info.value"></p>
-                <img :src="getImageUrlWithIndex(index)" alt="">
+                <img class="popup-div__projetcs-img" :src="getImageUrlWithIndex(index)" alt="">
             </div>
             <div v-if="project" class="modal-content text-outil">
                 <p v-html="project.outil"></p>
@@ -37,22 +39,14 @@
 </template>
 
 <script>
-// import Photos3d from './Photos3d/Photos3d.vue';
-// <div v-if="project" class="popup-photos">
-//    <Photos3d :projectName="renameProjectForId(project.name)" :photos="project.photos" />
-// </div> 
 import { gsap } from "gsap";
-
 
 export default {
     name: 'Popup',
-    components: {
-        // Photos3d
-    },
     props: {
         project: {
-            type: String,
-            required: true,
+            type: Object,
+            required: false,
         },
     },
     watch: {
@@ -280,7 +274,7 @@ export default {
         display: flex;
         justify-content: flex-end;
 
-        p{
+        p {
             font-size: 4em;
         }
     }
@@ -345,7 +339,7 @@ export default {
     flex-direction: row-reverse;
     justify-content: space-between;
     height: 20vh;
-    align-items: center;
+    align-items: flex-start;
 
     p {
         font-size: 3em;
@@ -354,6 +348,11 @@ export default {
     img {
         height: 100%;
         width: auto;
+        transition: transform 0.1s ease-in;
+    }
+
+    img:hover {
+        transform: scale(1, 1.07);
     }
 }
 
@@ -403,6 +402,11 @@ export default {
         }
     }
 
+    .text-title {
+        p {
+            font-size: 3em;
+        }
+    }
 }
 
 .gallery {
