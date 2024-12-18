@@ -340,11 +340,21 @@ export default {
         right: auto;
 
         p {
-            font-size: 1.8em;
+            font-size: 1.4em;
+        }
+
+        img {
+            width: 50vw;
+            padding: 0px 5px;
         }
     }
 
-    .text-title, .text-date {
+    .text-infos:nth-child(even){
+        flex-direction: row;
+    }
+    
+    .text-title,
+    .text-date {
         p {
             font-size: 2.2em;
         }
