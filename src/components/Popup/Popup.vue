@@ -104,7 +104,7 @@ export default {
             const textInfos = document.querySelectorAll('.text-infos');
 
             textInfos.forEach((element, index) => {
-                const direction = index % 2 === 0 ? 'right' : 'left';   
+                const direction = index % 2 === 0 ? 'right' : 'left';
 
                 element.addEventListener('mouseenter', () => {
                     gsap.to(element, {
@@ -123,6 +123,16 @@ export default {
                     });
                 });
             });
+
+            // Change color. It don't take css class because elements aren't set when window is loaded
+            textInfos.forEach(textInfo => {
+                const links = textInfo.querySelectorAll('a');
+                links.forEach(link => {
+                    link.style.color = '#001446';
+                });
+            });
+
+
         },
         initGallery() {
 
@@ -436,7 +446,6 @@ export default {
         font-size: 3em;
         text-align: end;
     }
-
 
     img {
         height: auto;
