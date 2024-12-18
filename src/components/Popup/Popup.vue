@@ -79,7 +79,10 @@ export default {
                 if (this.project != null) {
                     this.imagesWithIndex = this.project.photos.map(photo => this.getImageUrl(photo.src));
                 }
-                this.initImagesAnimation();
+
+                if (window.innerWidth > 768) {
+                    this.initImagesAnimation();
+                }
             });
         }
     },
@@ -286,22 +289,25 @@ export default {
     }
 }
 
-.text-infos:nth-child(even) {
-    flex-direction: row;
-    left: auto;
-    right: 20vw;
+@media (min-width: 768px) {
+
+    .text-infos:nth-child(even) {
+        flex-direction: row;
+        left: auto;
+        right: 20vw;
 
 
-    .modal-content__infos {
-        align-items: flex-start;
+        .modal-content__infos {
+            align-items: flex-start;
 
-        p {
-            text-align: start;
+            p {
+                text-align: start;
+            }
         }
-    }
 
-    .modal-content__image {
-        justify-content: flex-start;
+        .modal-content__image {
+            justify-content: flex-start;
+        }
     }
 }
 
@@ -327,16 +333,20 @@ export default {
     }
 
     .text-infos {
-        height: 14vh;
+        display: flex;
+
+        height: 40vh;
+        left: auto;
+        right: auto;
 
         p {
             font-size: 1.8em;
         }
     }
 
-    .text-title {
+    .text-title, .text-date {
         p {
-            font-size: 3em;
+            font-size: 2.2em;
         }
     }
 }
@@ -374,7 +384,5 @@ export default {
     /* Bouton de la barre de scroll */
     background-color: var(--popup-second-color);
     border-radius: 10px;
-    /* border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px; */
 }
 </style>

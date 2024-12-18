@@ -298,7 +298,7 @@ export default {
 @media (max-width: 768px) {
     .loader-div {
         p {
-            font-size: 1.8em;
+            font-size: 2.7em;
         }
     }
 }
