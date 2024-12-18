@@ -430,7 +430,7 @@ export default {
     left: 20vw;
     right: auto;
 
-    margin-left: 20px;
+    margin-bottom: 20px;
 
     p {
         font-size: 3em;
