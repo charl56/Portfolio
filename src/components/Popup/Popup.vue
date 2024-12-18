@@ -128,7 +128,7 @@ export default {
             textInfos.forEach(textInfo => {
                 const links = textInfo.querySelectorAll('a');
                 links.forEach(link => {
-                    link.style.color = '#001446';
+                    link.style.color = 'black';
                 });
             });
 
