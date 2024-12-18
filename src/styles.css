@@ -8,14 +8,7 @@
 	--fourth-color: #ab0106;
 	--five-color: #cfcf39;
 
-	/* --popup-first-color: #565665; */
-	/* --popup-first-color: #060630; */
-	/* --popup-first-color: #0e0e30; */
-	/* --popup-first-color: #7e8bb8; */
-	--popup-first-color: #dbd6c9;
-	/* --popup-first-color: #fff; */
-	
-	/* --popup-second-color: #758c98; */
+	--popup-first-color: white;
 	--popup-second-color: black;
 	--popup-third-color: black;
 	--popup-background-color: #001446;
@@ -88,6 +81,7 @@ a:hover, button:hover{
 
 a {
 	color: white;
+	/* color: rgb(0, 0, 0); */
 	transition: transform 0.1s ease-in;
 	text-decoration: none;
 }

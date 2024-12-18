@@ -5,9 +5,25 @@
     <div class="popup-div">
         <div class="popup-div__header">
             <div class="popup-div__button">
-                    <svg @click="closePopup()" class="cursor-hover" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="48" height="48" viewBox="0,0,256,256">
-<g fill-opacity="0" fill="#ffffff" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><path d="M0,256v-256h256v256z" id="bgRectangle"></path></g><g fill="#ffffff" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal"><g transform="scale(4,4)"><path d="M16,14c-0.512,0 -1.02306,0.19494 -1.41406,0.58594c-0.781,0.781 -0.781,2.04712 0,2.82812l14.58594,14.58594l-14.58594,14.58594c-0.781,0.781 -0.781,2.04713 0,2.82812c0.391,0.391 0.90206,0.58594 1.41406,0.58594c0.512,0 1.02306,-0.19494 1.41406,-0.58594l14.58594,-14.58594l14.58594,14.58594c0.781,0.781 2.04713,0.781 2.82812,0c0.781,-0.781 0.781,-2.04713 0,-2.82812l-14.58594,-14.58594l14.58594,-14.58594c0.781,-0.781 0.781,-2.04712 0,-2.82812c-0.781,-0.781 -2.04713,-0.781 -2.82812,0l-14.58594,14.58594l-14.58594,-14.58594c-0.391,-0.391 -0.90206,-0.58594 -1.41406,-0.58594z"></path></g></g>
-</svg>
+                <svg @click="closePopup()" class="cursor-hover" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
+                    width="48" height="48" viewBox="0,0,256,256">
+                    <g fill-opacity="0" fill="#ffffff" fill-rule="nonzero" stroke="none" stroke-width="1"
+                        stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray=""
+                        stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none"
+                        style="mix-blend-mode: normal">
+                        <path d="M0,256v-256h256v256z" id="bgRectangle"></path>
+                    </g>
+                    <g fill="#ffffff" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt"
+                        stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0"
+                        font-family="none" font-weight="none" font-size="none" text-anchor="none"
+                        style="mix-blend-mode: normal">
+                        <g transform="scale(4,4)">
+                            <path
+                                d="M16,14c-0.512,0 -1.02306,0.19494 -1.41406,0.58594c-0.781,0.781 -0.781,2.04712 0,2.82812l14.58594,14.58594l-14.58594,14.58594c-0.781,0.781 -0.781,2.04713 0,2.82812c0.391,0.391 0.90206,0.58594 1.41406,0.58594c0.512,0 1.02306,-0.19494 1.41406,-0.58594l14.58594,-14.58594l14.58594,14.58594c0.781,0.781 2.04713,0.781 2.82812,0c0.781,-0.781 0.781,-2.04713 0,-2.82812l-14.58594,-14.58594l14.58594,-14.58594c0.781,-0.781 0.781,-2.04712 0,-2.82812c-0.781,-0.781 -2.04713,-0.781 -2.82812,0l-14.58594,14.58594l-14.58594,-14.58594c-0.391,-0.391 -0.90206,-0.58594 -1.41406,-0.58594z">
+                            </path>
+                        </g>
+                    </g>
+                </svg>
             </div>
         </div>
 
@@ -22,8 +38,14 @@
                 <p v-html="project.name"></p>
             </div>
             <div v-if="project" v-for="(info, index) in project.infos" class="modal-content text-infos">
-                <p v-html="info.value"></p>
-                <img class="cursor-hover" :src="getImageUrlWithIndex(index)" alt="">
+                <div class="modal-content__infos">
+                    <div class="modal-content__animation">
+                        <p v-if="info" v-html="info.value"></p>
+                    </div>
+                </div>
+                <div class="modal-content__image">
+                    <img class="cursor-hover" :src="getImageUrlWithIndex(index)" alt="">
+                </div>
             </div>
             <div v-if="project" class="modal-content text-outil">
                 <p v-html="project.outil"></p>
@@ -41,6 +63,7 @@
 
 <script>
 import { gsap } from "gsap";
+import { nextTick } from "vue";
 
 export default {
     name: 'Popup',
@@ -51,7 +74,14 @@ export default {
         },
     },
     watch: {
-        project: 'initGallery',
+        project() {
+            this.initGallery();
+
+            // Wait DOM update
+            nextTick(() => {
+                this.initImagesAnimation();
+            });
+        }
     },
     data() {
         return {
@@ -62,11 +92,38 @@ export default {
     },
     mounted() {
         document.body.style.overflow = 'hidden';
+
+
+
     },
     beforeUnmount() {
         document.body.style.overflow = 'auto';
     },
     methods: {
+        initImagesAnimation() {
+            const textInfos = document.querySelectorAll('.text-infos');
+
+            textInfos.forEach((element, index) => {
+                const direction = index % 2 === 0 ? 'right' : 'left';   
+
+                element.addEventListener('mouseenter', () => {
+                    gsap.to(element, {
+                        [direction]: 'auto',
+                        duration: 0.5,
+                        ease: 'power2.inOut'
+                    });
+                });
+
+
+                element.addEventListener('mouseleave', () => {
+                    gsap.to(element, {
+                        [direction]: '20vw',
+                        duration: 0.5,
+                        ease: 'power2.inOut'
+                    });
+                });
+            });
+        },
         initGallery() {
 
             if (this.project == null) {
@@ -329,6 +386,33 @@ export default {
     }
 }
 
+.modal-content__infos {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    p {
+        text-align: end;
+    }
+
+}
+
+
+
+
+.modal-content__image {
+    height: 100%;
+    width: 100%;
+
+    display: flex;
+    justify-content: flex-end;
+}
+
+
+
+
 .text-title {
 
     p {
@@ -339,28 +423,46 @@ export default {
 .text-infos {
     display: flex;
     flex-direction: row-reverse;
-    justify-content: space-between;
-    height: 20vh;
-    align-items: flex-start;
+    height: 100%;
+    align-items: flex-end;
+
+    position: relative;
+    left: 20vw;
+    right: auto;
+
+    margin-left: 20px;
 
     p {
         font-size: 3em;
+        text-align: end;
     }
+
 
     img {
-        height: 100%;
-        width: auto;
+        height: auto;
+        width: 40vw;
         transition: transform 0.1s ease-in;
-    }
-
-    img:hover {
-        transform: scale(1, 1.07);
+        border-radius: 20px;
     }
 }
 
 .text-infos:nth-child(even) {
     flex-direction: row;
+    left: auto;
+    right: 20vw;
 
+
+    .modal-content__infos {
+        align-items: flex-start;
+
+        p {
+            text-align: start;
+        }
+    }
+
+    .modal-content__image {
+        justify-content: flex-start;
+    }
 }
 
 
@@ -427,7 +529,8 @@ export default {
     width: 10px;
     background-color: var(--popup-first-color);
     border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;}
+    border-bottom-right-radius: 10px;
+}
 
 .popup-div__content::-webkit-scrollbar-button {
     /* Boutons haut/bas */
