@@ -1,6 +1,5 @@
 <template>
-    <!-- Inspiration => colors : https://victor.work/ -->
-
+    <!-- Inspiration => image animation scroll : https://codepen.io/GreenSock/pen/QWjjYEw -->
     <div class="popup-div">
         <div class="popup-div__header">
             <div class="popup-div__button">
@@ -39,9 +38,12 @@
                         <p v-if="info" v-html="info.value"></p>
                     </div>
                 </div>
-                <div class="modal-content__image">
-                    <img class="cursor-hover" :src="getImageUrlWithIndex(index)" alt="">
+                <div class="modal-content__image" :style="{ backgroundImage: `url(${getImageUrlWithIndex(index)})` }">
                 </div>
+
+                <!-- <div class="modal-content__image">
+                    <img class="cursor-hover" :src="getImageUrlWithIndex(index)" alt="">
+                </div> -->
             </div>
             <div v-if="project" class="modal-content text-outil">
                 <p v-html="project.outil"></p>
@@ -59,6 +61,7 @@
 
 <script>
 import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { nextTick } from "vue";
 
 export default {
@@ -80,9 +83,7 @@ export default {
                     this.imagesWithIndex = this.project.photos.map(photo => this.getImageUrl(photo.src));
                 }
 
-                if (window.innerWidth > 768) {
-                    this.initImagesAnimation();
-                }
+                this.initImagesAnimation();
             });
         }
     },
@@ -94,6 +95,7 @@ export default {
     },
     mounted() {
         document.body.style.overflow = 'hidden';
+        gsap.registerPlugin(ScrollTrigger);
 
 
 
@@ -103,6 +105,44 @@ export default {
     },
     methods: {
         initImagesAnimation() {
+            ////// Scroll animation
+
+            // Get the scrollable container
+            const scroller = document.querySelector('.popup-div__content');
+
+            // Configure default ScrollTrigger settings for this scroller
+            ScrollTrigger.defaults({
+                scroller: scroller
+            });
+
+
+            const images = document.querySelectorAll('.modal-content__image');
+
+            images.forEach((img, i) => {
+
+                gsap.fromTo(img, {
+                    backgroundPosition: () => `50% 0px`
+                }, {
+                    backgroundPosition: () => `50% -70px`,
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: img,
+                        start: `top bottom`,     // Trigger at the top of component, and bottom of screen
+                        end: `bottom top`,          // Trigger at the bottom of component, and top of screen
+                        scrub: true,
+                        markers: true,
+                    }
+                });
+            })
+
+            // Refresh ScrollTrigger to ensure proper positioning
+            ScrollTrigger.refresh();
+
+
+            if (window.innerWidth < 768) {
+                return
+            }
+            ////// Hover animation 
             const textInfos = document.querySelectorAll('.text-infos');
 
             textInfos.forEach((element, index) => {
@@ -111,7 +151,7 @@ export default {
                 element.addEventListener('mouseenter', () => {
                     gsap.to(element, {
                         [direction]: 'auto',
-                        duration: 0.5,
+                        duration: 0.6,
                         ease: 'power2.inOut'
                     });
                 });
@@ -120,7 +160,7 @@ export default {
                 element.addEventListener('mouseleave', () => {
                     gsap.to(element, {
                         [direction]: '20vw',
-                        duration: 0.5,
+                        duration: 0.6,
                         ease: 'power2.inOut'
                     });
                 });
@@ -222,41 +262,6 @@ export default {
 
 
 /* ************************************* */
-.modal-content {
-    p {
-        color: #001446;
-        text-align: justify;
-        padding: 2px 5px;
-    }
-}
-
-.modal-content__infos {
-    width: 100%;
-
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-
-    p {
-        text-align: end;
-    }
-
-}
-
-
-
-
-.modal-content__image {
-    height: 100%;
-    width: 100%;
-
-    display: flex;
-    justify-content: flex-end;
-}
-
-
-
-
 .text-title {
 
     p {
@@ -281,12 +286,7 @@ export default {
         text-align: end;
     }
 
-    img {
-        height: auto;
-        width: 40vw;
-        transition: transform 0.1s ease-in;
-        border-radius: 20px;
-    }
+
 }
 
 @media (min-width: 768px) {
@@ -304,14 +304,52 @@ export default {
                 text-align: start;
             }
         }
-
-        .modal-content__image {
-            justify-content: flex-start;
-        }
     }
 }
 
+/* modal */
+.modal-content {
+    p {
+        color: #001446;
+        text-align: justify;
+        padding: 2px 5px;
+    }
+}
 
+.modal-content__infos {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    p {
+        text-align: end;
+    }
+
+}
+
+.modal-content__image {
+    height: 30vh;
+    width: 40vw;
+
+    /* display: flex;
+    justify-content: flex-end; */
+
+    background-size: 115%;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 20px;
+
+    /* img {
+        height: auto;
+        width: 100%;
+        transition: transform 0.1s ease-in;
+        border-radius: 20px;
+    } */
+}
+
+/* text */
 .text-outil {
     p {
         font-size: 2em;
@@ -322,6 +360,13 @@ export default {
     p {
         font-size: 3em;
         text-align: right;
+    }
+}
+
+
+@media (max-width: 768px) {
+    .modal-content__image {
+        width: 110vw;
     }
 }
 
@@ -344,15 +389,16 @@ export default {
         }
 
         img {
+            max-height: 15vh;
             width: 50vw;
             padding: 0px 5px;
         }
     }
 
-    .text-infos:nth-child(even){
+    .text-infos:nth-child(even) {
         flex-direction: row;
     }
-    
+
     .text-title,
     .text-date {
         p {

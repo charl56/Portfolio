@@ -4,7 +4,7 @@
             <p>Compétences</p>
         </div>
         <div class="div-skills__content">
-            <p>Déso j'ai pas eu le temps de finir, je fais de l'argent</p>
+            <p>J'ai pas eu le temps de finir, je fais de l'argent</p>
             <Models3dLoader modelPath="../../../../images/models/swordfish2/scene.gltf" :idIs="'model_spacesword'" />
         </div>
     </div>
