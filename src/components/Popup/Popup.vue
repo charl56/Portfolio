@@ -118,12 +118,18 @@ export default {
 
             const images = document.querySelectorAll('.modal-content__image');
 
+
+            var backgroundTranslateY = '-60px';
+            if (window.innerWidth < 768) {
+                backgroundTranslateY = '-30px';
+            }
+
             images.forEach((img, i) => {
 
                 gsap.fromTo(img, {
                     backgroundPosition: () => `50% 0px`
                 }, {
-                    backgroundPosition: () => `50% -70px`,
+                    backgroundPosition: () => `50% ${backgroundTranslateY}`,
                     ease: "none",
                     scrollTrigger: {
                         trigger: img,
@@ -201,7 +207,7 @@ export default {
 
 <style scoped>
 .popup-div {
-    height: 100vh;
+    height: 100dvh;
     width: 100vw;
     top: 0;
     left: -100vw;
@@ -209,7 +215,6 @@ export default {
 
     z-index: 5;
     background-color: var(--popup-first-color);
-    /* background: linear-gradient(232deg, #9d9dad 0, #d1d1d2);; */
 
     display: flex;
     justify-content: center;
@@ -245,7 +250,7 @@ export default {
 
 .popup-div__content {
     position: absolute;
-    height: 100vh;
+    height: 100%;
     width: 100%;
 
     overflow-x: hidden;
@@ -333,21 +338,22 @@ export default {
     height: 30vh;
     width: 40vw;
 
-    /* display: flex;
-    justify-content: flex-end; */
 
     background-size: 115%;
     background-position: center;
     background-repeat: no-repeat;
     border-radius: 20px;
 
-    /* img {
-        height: auto;
-        width: 100%;
-        transition: transform 0.1s ease-in;
-        border-radius: 20px;
-    } */
 }
+
+
+@media (max-width: 768px) {
+    .modal-content__image {
+        height: 19vh;
+        width: 150vw;
+    }
+}
+
 
 /* text */
 .text-outil {
@@ -363,12 +369,6 @@ export default {
     }
 }
 
-
-@media (max-width: 768px) {
-    .modal-content__image {
-        width: 110vw;
-    }
-}
 
 /* ******************************* */
 

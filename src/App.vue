@@ -5,6 +5,7 @@
 			<Projets />
 			<Particles />
 			<Skills />
+			<Gallery />
 			<End />
 			<Cursor />
 		</div>
@@ -31,7 +32,9 @@ const End = defineAsyncComponent(() =>
 const Cursor = defineAsyncComponent(() => 
   import('./components/Cursor/Cursor.vue')
 )
-
+const Gallery = defineAsyncComponent(() => 
+  import('./components/Gallery/Gallery.vue')
+)
 
 
 export default {
@@ -43,6 +46,7 @@ export default {
 		Particles,
 		Skills,
 		End,
+		Gallery,
 	},
 	mounted() {
 		document.addEventListener('contextmenu', this.disableClick);
