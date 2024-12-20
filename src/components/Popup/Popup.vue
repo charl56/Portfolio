@@ -136,7 +136,6 @@ export default {
                         start: `top bottom`,     // Trigger at the top of component, and bottom of screen
                         end: `bottom top`,          // Trigger at the bottom of component, and top of screen
                         scrub: true,
-                        markers: true,
                     }
                 });
             })
