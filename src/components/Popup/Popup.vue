@@ -1,6 +1,6 @@
 <template>
     <!-- Inspiration => image animation scroll : https://codepen.io/GreenSock/pen/QWjjYEw -->
-    <div class="popup-div">
+    <div class="popup-div" v-observe-visibility="handleVisibility">
         <div class="popup-div__header">
             <div class="popup-div__button">
                 <svg @click="closePopup()" class="cursor-hover" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"
@@ -96,12 +96,28 @@ export default {
     mounted() {
         document.body.style.overflow = 'hidden';
         gsap.registerPlugin(ScrollTrigger);
-
-
-
     },
     beforeUnmount() {
         document.body.style.overflow = 'auto';
+    },
+    directives: {
+        observeVisibility: {
+            mounted(el, binding) {
+                const observer = new IntersectionObserver((entries) => {
+                    const isVisible = entries[0].isIntersecting;
+                    if (binding.value) binding.value(isVisible);
+                }, {
+                    threshold: 0.1 // Déclenche quand 10% de l'élément est visible
+                });
+                observer.observe(el);
+            },
+            unmounted(el) {
+                // Nettoyer l'observer
+                if (el._observer) {
+                    el._observer.disconnect();
+                }
+            }
+        }
     },
     methods: {
         initImagesAnimation() {

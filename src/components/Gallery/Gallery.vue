@@ -1,6 +1,6 @@
 <template>
     <!-- Inspiration => gallery : https://www.youtube.com/watch?v=v0UoqZJRP5M -->
-    <div class="gallery-div">
+    <div class="gallery-div" v-observe-visibility="handleVisibility">
         <div class="preview-img">
             <img src="" alt=""> <!-- Preview image when hover img -->
         </div>
@@ -24,6 +24,25 @@ export default {
     },
     mounted() {
         this.initGallery();
+    },
+    directives: {
+        observeVisibility: {
+            mounted(el, binding) {
+                const observer = new IntersectionObserver((entries) => {
+                    const isVisible = entries[0].isIntersecting;
+                    if (binding.value) binding.value(isVisible);
+                }, {
+                    threshold: 0.1 // Déclenche quand 10% de l'élément est visible
+                });
+                observer.observe(el);
+            },
+            unmounted(el) {
+                // Nettoyer l'observer
+                if (el._observer) {
+                    el._observer.disconnect();
+                }
+            }
+        }
     },
     methods: {
         initGallery() {
@@ -138,6 +157,25 @@ export default {
             });
             this.initRotationInterval();
         },
+        handleVisibility(isVisible) {
+            this.isVisible = isVisible;
+            if (isVisible) {
+                this.resumeAnimation();
+            } else {
+                this.pauseAnimation();
+            }
+        },
+        pauseAnimation() {
+            if (this.rotationInterval) {
+                clearInterval(this.rotationInterval);
+                this.rotationInterval = null;
+            }
+        },
+        resumeAnimation() {
+            if (!this.rotationInterval) {
+                this.initRotationInterval();
+            }
+        },
         initRotationInterval() {
             this.rotationInterval = setInterval(() => {
                 const items = document.querySelectorAll('.item');
@@ -166,32 +204,9 @@ export default {
                 ? new URL(`../../../images/${src}`, import.meta.url).href
                 : `images/${src}`;
         },
-        getImageUrlWithIndex(index) {
-            if (this.imagesWithIndex && this.imagesWithIndex.length > 0) {
-                return this.imagesWithIndex[index % this.imagesWithIndex.length]
-            }
-
-            return null;
-        },
-        renameProjectForId(projectName) {
-            return projectName.replace(/ /g, '-').toLowerCase()
-        },
-        closePopup() {
-            this.$emit('close');
-
-            const gallery = document.querySelector('.gallery');
-            const previewImage = document.querySelector('.preview-img img');
-
-            gallery.innerHTML = "";
-            previewImage.innerHTML = "";
-            previewImage.style.visibility = "hidden";
-            previewImage.style.height = "50vh";
-
-
-            // Clear rotation vars
-            clearInterval(this.rotationInterval);
-            this.progress = 0;
-        }
+    },
+    beforeDestroy() {
+        this.pauseAnimation();
     }
 }
 </script>
