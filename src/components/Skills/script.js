@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { gsap } from "gsap";
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 const clock = new THREE.Clock();
 
@@ -43,6 +44,12 @@ export class Models3DVisualisation {
         const light = new THREE.DirectionalLight(0xffffff, 1);
         light.position.set(-15, 0, -15);
         this.scene_.add(light);
+
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.3); // Intensité 0.5
+        this.scene_.add(ambientLight);
+
+        this.controls_ = new OrbitControls(this.camera_, this.renderer_.domElement);
+        this.controls_.enableZoom = false; // Désactive le zoom avec la molette
 
 
         window.addEventListener('resize', this.onWindowResize);

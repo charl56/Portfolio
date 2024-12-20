@@ -29,10 +29,8 @@ export default {
         initGallery() {
 
             const projects = this.appData;
-            console.log(projects);
 
             const imgs = projects[0].photos.map(photo => this.getImageUrl(photo.src));
-            console.log(imgs)
 
             const gallery = document.querySelector('.gallery');
             const previewImage = document.querySelector('.preview-img img');
@@ -78,20 +76,16 @@ export default {
                 item.classList.add('item');
                 item.className = 'item';
                 item.style.position = 'absolute';
-                // item.style.top = '50%';
-                // item.style.left = '50%';
-             //   item.style.transform = 'translate(-50%, -50%)';
                 item.style.width = '45px';
                 item.style.height = '60px';
                 item.style.margin = '10px';
                 item.style.transformStyle = 'preserve-3d';
-                item.style.background = '#b0b0b0';
-                // item.style.boxShadow = 'rgb(255 255 255) 15px -10px 25px -5px';
 
                 const img = document.createElement('img');
                 img.style.width = '100%';
                 img.style.height = '100%';
                 img.style.objectFit = 'cover';
+                img.style.borderRadius = '5px';
                 img.src = imgs[i % imgs.length]
 
 
