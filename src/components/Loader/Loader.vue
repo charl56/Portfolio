@@ -57,13 +57,13 @@ export default {
                 duration: 0.2,
                 width: this.percentage + '%',
                 left: 50 - this.percentage / 2 + '%',
-                ease: "power2.out",
+                ease: "power2.in",
             }, 0)
                 .to('.loader-div__vertical', {
                     duration: 0.2,
                     height: this.percentage + '%',
                     top: 50 - this.percentage / 2 + '%',
-                    ease: "power2.out",
+                    ease: "power2.in",
                 }, 0);
         },
         loadImages() {
