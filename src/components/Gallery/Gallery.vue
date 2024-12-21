@@ -268,10 +268,12 @@ export default {
 
 @media (max-width: 768px) {
 
+    .preview-img {
 
-    img {
-        height: auto;
-        width: 80%;
+        img {
+            height: auto;
+            width: 80%;
+        }
     }
 }
 
