@@ -19,7 +19,7 @@ export default {
             rotationInterval: null,
             progress: 0,
             imagesWithIndex: null,
-            appData: dataFR[1],
+            imgsPath: dataFR[2],
         }
     },
     mounted() {
@@ -47,9 +47,12 @@ export default {
     methods: {
         initGallery() {
 
-            const projects = this.appData;
 
-            const imgs = projects[0].photos.map(photo => this.getImageUrl(photo.src));
+            var imgs = []
+
+            this.imgsPath.forEach(photo => {
+                imgs.push(this.getImageUrl("Gallery" + photo.src))
+            });
 
             const gallery = document.querySelector('.gallery');
             const previewImage = document.querySelector('.preview-img img');
@@ -81,6 +84,16 @@ export default {
                 });
             });
 
+            // Permet d'enlever la photo selectionnée, en cliquant a cote sur un smartphone
+            document.addEventListener("ontouchmove", function (e) {
+                // previewImage.style.visibility = "hidden";
+                console.log("eds")
+            });
+
+            document.addEventListener("ontouchstart", function (e) {
+                // previewImage.style.visibility = "hidden";
+                console.log("efeefzs")
+            });
 
             this.imagesWithIndex = null;
 
@@ -200,6 +213,7 @@ export default {
             }, 50);
         },
         getImageUrl(src) {
+            console.log("Gallery" + src)
             return import.meta.env.DEV
                 ? new URL(`../../../images/${src}`, import.meta.url).href
                 : `images/${src}`;
@@ -241,7 +255,7 @@ export default {
 
     img {
         height: 60vh;
-        width: 60vw;
+        width: 8²0vw;
 
         position: relative;
         border-radius: 20px;
