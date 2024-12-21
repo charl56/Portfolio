@@ -23,12 +23,25 @@ export default {
     data() {
         return {
             percentage: 0,
-            appData: dataFR[1],
+            projetcs: dataFR[1],
+            gallery: dataFR[2],
+            images: []
         }
     },
     mounted() {
         this.initLoader();
-        setTimeout(this.loadImages(this.appData), 1000);
+
+        this.projetcs.forEach(project => {
+            project.photos.forEach(photo => {
+                this.images.push(photo.src);
+            })
+        });
+
+        this.gallery.forEach(img => {
+            this.images.push("Gallery" + img.src);
+        });
+
+        setTimeout(this.loadImages(), 1000);
     },
     onMounted() {
     },
@@ -64,15 +77,15 @@ export default {
                 .catch(error => console.error('Image loading error:', error));
         },
         calculateTotalImages() {
-            return this.appData.reduce((total, projet) =>
-                total + (projet.photos ? 1 : 0), 0);
+            return this.images.reduce((total, img) =>
+                total + (img ? 1 : 0), 0);
         },
         createImagePromises(totalImages) {
             let loadedImages = 0;
-            return this.appData.reduce((promises, projet) => {
-                if (projet.photos) {
+            return this.images.reduce((promises, i) => {
+                if (i) {
                     const img = new Image();
-                    img.src = this.getImageSrc(projet.photos[0].src);
+                    img.src = this.getImageSrc(i);
                     promises.push(this.createImageLoadPromise(img, () => {
                         loadedImages++;
                         this.updatePercentage(loadedImages, totalImages);
