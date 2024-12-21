@@ -84,16 +84,6 @@ export default {
                 });
             });
 
-            // Permet d'enlever la photo selectionnée, en cliquant a cote sur un smartphone
-            document.addEventListener("ontouchmove", function (e) {
-                // previewImage.style.visibility = "hidden";
-                console.log("eds")
-            });
-
-            document.addEventListener("ontouchstart", function (e) {
-                // previewImage.style.visibility = "hidden";
-                console.log("efeefzs")
-            });
 
             this.imagesWithIndex = null;
 
@@ -102,14 +92,21 @@ export default {
             }
 
 
+            var divWidth = "100px"
+            var divheight = "80px"
+            if (window.innerWidth < 768) {
+                divWidth = "45px"
+                divheight = "60px"
+            }
+
 
             for (let i = 0; i < 80; i++) {
                 const item = document.createElement('div');
                 item.classList.add('item');
                 item.className = 'item';
                 item.style.position = 'absolute';
-                item.style.width = '45px';
-                item.style.height = '60px';
+                item.style.width = divWidth;
+                item.style.height = divheight;
                 item.style.margin = '10px';
                 item.style.transformStyle = 'preserve-3d';
 
@@ -130,11 +127,16 @@ export default {
             const angleIncrement = 360 / numberOfItems;
 
 
+            var tranformY = "600px"
+            if (window.innerWidth < 768) {
+                tranformY = "200px"
+            }
+
             items.forEach((item, index) => {
                 gsap.set(item, {
                     rotationY: 90,
                     rotationZ: index * angleIncrement - 90,
-                    transformOrigin: "50% 300px"
+                    transformOrigin: `50% ${tranformY}`
                 });
 
                 item.addEventListener("mouseover", () => {
@@ -213,7 +215,6 @@ export default {
             }, 50);
         },
         getImageUrl(src) {
-            console.log("Gallery" + src)
             return import.meta.env.DEV
                 ? new URL(`../../../images/${src}`, import.meta.url).href
                 : `images/${src}`;
@@ -248,19 +249,29 @@ export default {
     height: 100vh;
     width: 100vw;
     position: absolute;
+    top: 20vh;
 
     display: flex;
     justify-content: center;
     align-items: flex-end;
 
     img {
-        height: 60vh;
-        width: 8²0vw;
+        height: 80%;
+        width: auto;
 
         position: relative;
         border-radius: 20px;
 
         object-fit: cover;
+    }
+}
+
+@media (max-width: 768px) {
+
+
+    img {
+        height: auto;
+        width: 80%;
     }
 }
 

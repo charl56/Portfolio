@@ -30,6 +30,8 @@ fs.readdir(inputFolder, (err, files) => {
             const outputPath = path.join(outputFolder, path.parse(file).name + '.webp');
 
             sharp(inputPath)
+                .rotate()
+                .withMetadata()
                 .toFormat('webp', { quality: 85 }) // Ajustez la qualité si nécessaire
                 .toFile(outputPath, (err) => {
                     if (err) {
