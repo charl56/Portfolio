@@ -54,18 +54,16 @@ export default {
             const tl = gsap.timeline({});
 
             tl.to('.loader-div__horizontal', {
-                duration: 0.4,
-                stagger: 0.2,
+                duration: 0.2,
                 width: this.percentage + '%',
                 left: 50 - this.percentage / 2 + '%',
-                ease: "circ.out",
+                ease: "power2.out",
             }, 0)
                 .to('.loader-div__vertical', {
-                    duration: 0.4,
-                    stagger: 0.2,
+                    duration: 0.2,
                     height: this.percentage + '%',
                     top: 50 - this.percentage / 2 + '%',
-                    ease: "circ.out",
+                    ease: "power2.out",
                 }, 0);
         },
         loadImages() {
@@ -111,11 +109,13 @@ export default {
         updatePercentage(loaded, total) {
             const targetValue = Math.round((loaded / total) * 100);
 
+            
             // If the target value is the same as the current value, do nothing
             if (this.percentage === targetValue) return;
 
             const smoothIncrement = setInterval(() => {
-                if (this.percentage === targetValue || this.percentage >= 100) {
+
+                if (this.percentage >= targetValue || this.percentage >= 100) {
                     clearInterval(smoothIncrement);
                     return;
                 }
