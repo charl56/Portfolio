@@ -220,7 +220,7 @@ export default {
 </script>
 
 
-<style scoped>
+<style>
 .popup-div {
     height: 100dvh;
     width: 100vw;
@@ -235,6 +235,12 @@ export default {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+
+    a {
+        text-decoration: underline;
+        text-decoration-style: dotted;
+    }
+
 }
 
 .popup-div__header {
