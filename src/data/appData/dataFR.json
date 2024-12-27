@@ -6,289 +6,703 @@
             "loading1": "Chargement des photos",
             "loading2": "Entrer"
         }
-    ],[
+    ],
+    [
         {
             "name": "4L Trophy",
             "date": "05 - 15 mai 2022",
             "infos": [
-                {"value": "Raid humanitaire en 4L"},
-                {"value": "Maroc"},
-                {"value": "Désert"},
-                {"value": "Course d'orientation"},
-                {"value": "Aventure"},
-                {"value": "Mécanique"},
-                {"value": "Découverte"},
-                {"value": "6 000 km parcourus"},
-                {"value": "900 équipages de 2"}
+                {
+                    "value": "Raid humanitaire en 4L"
+                },
+                {
+                    "value": "Maroc"
+                },
+                {
+                    "value": "Désert"
+                },
+                {
+                    "value": "Course d'orientation"
+                },
+                {
+                    "value": "Aventure"
+                },
+                {
+                    "value": "Mécanique"
+                },
+                {
+                    "value": "Découverte"
+                },
+                {
+                    "value": "6 000 km parcourus"
+                },
+                {
+                    "value": "900 équipages de 2"
+                }
             ],
             "photos": [
-                {"type": "img","src": "Trophy/voiture-drapeau.webp"},
-                {"type": "img","src": "Trophy/voiture-moteur.webp", "desc": "Voiture avant préparation"},
-                {"type": "img","src": "Trophy/village-depart.webp", "desc": "Toutes les voitures au village départ"},
-                {"type": "img","src": "Trophy/voiture-desert.webp"},
-                {"type": "img","src": "Trophy/voiture-palmier.webp"},
-                {"type": "img","src": "Trophy/voiture-sable.webp"},
-                {"type": "img","src": "Trophy/circuit.webp", "desc": "Trajet réalisé, de Angers à Marrakech"}
+                {
+                    "type": "img",
+                    "src": "Trophy/voiture-drapeau.webp"
+                },
+                {
+                    "type": "img",
+                    "src": "Trophy/voiture-moteur.webp",
+                    "desc": "Voiture avant préparation"
+                },
+                {
+                    "type": "img",
+                    "src": "Trophy/village-depart.webp",
+                    "desc": "Toutes les voitures au village départ"
+                },
+                {
+                    "type": "img",
+                    "src": "Trophy/voiture-desert.webp"
+                },
+                {
+                    "type": "img",
+                    "src": "Trophy/voiture-palmier.webp"
+                },
+                {
+                    "type": "img",
+                    "src": "Trophy/voiture-sable.webp"
+                },
+                {
+                    "type": "img",
+                    "src": "Trophy/circuit.webp",
+                    "desc": "Trajet réalisé, de Angers à Marrakech"
+                }
             ]
         },
         {
             "name": "Stage B2 : Citegestion",
             "date": "23 mai - 12 aout 2022",
             "infos": [
-                {"value": "Application web visualisation de données"},
-                {"value": "Découverte de VueJs"},
-                {"value": "Découverte de Flask, Python"},
-                {"value": "Analyse de données"},
-                {"value": "Choix des données à afficher"},
-                {"value": "Docker"},
-                {"value": "Graphique"},
-                {"value": "Base de données"},
-                {"value": "Docker"}
+                {
+                    "value": "Application web visualisation de données"
+                },
+                {
+                    "value": "Découverte de VueJs"
+                },
+                {
+                    "value": "Découverte de Flask, Python"
+                },
+                {
+                    "value": "Analyse de données"
+                },
+                {
+                    "value": "Choix des données à afficher"
+                },
+                {
+                    "value": "Docker"
+                },
+                {
+                    "value": "Graphique"
+                },
+                {
+                    "value": "Base de données"
+                },
+                {
+                    "value": "Docker"
+                }
             ],
             "outils": [
-                {"name": "Flask (Python)"},
-                {"name": "VueJs"},
-                {"name": "MYSQL"},
-                {"name": "Docker"},
-                {"name": "GIT"}
+                {
+                    "name": "Flask (Python)"
+                },
+                {
+                    "name": "VueJs"
+                },
+                {
+                    "name": "MYSQL"
+                },
+                {
+                    "name": "Docker"
+                },
+                {
+                    "name": "GIT"
+                }
             ],
             "outil": "Liste des outils utilisés : ",
             "photos": [
-                {"type": "img","src": "StageCitegestion/correlation-dark.webp", "desc": "Application en mode corrélation"},
-                {"type": "img","src": "StageCitegestion/correlation-light-maquette.webp", "desc": "Maquette de l'application finale"},
-                {"type": "img","src": "StageCitegestion/tendance-light.webp", "desc": "Application en mode tendance"}
+                {
+                    "type": "img",
+                    "src": "StageCitegestion/correlation-dark.webp",
+                    "desc": "Application en mode corrélation"
+                },
+                {
+                    "type": "img",
+                    "src": "StageCitegestion/correlation-light-maquette.webp",
+                    "desc": "Maquette de l'application finale"
+                },
+                {
+                    "type": "img",
+                    "src": "StageCitegestion/tendance-light.webp",
+                    "desc": "Application en mode tendance"
+                }
             ]
         },
         {
             "name": "Jukebox",
             "date": "septembre 2022 - mai 2023",
             "infos": [
-                {"value": "Lecteur de CD"},
-                {"value": "Application Web"},
-                {"value": "Système embarqué, permet la prise de CD"},
-                {"value": "Raspberry"},
-                {"value": "Modélisation 3D"},
-                {"value": "Mécanique"},
-                {"value": "Projet en pause"},
-                {"value": "Contrôle de moteurs pas à pas"}
+                {
+                    "value": "Lecteur de CD"
+                },
+                {
+                    "value": "Application Web"
+                },
+                {
+                    "value": "Système embarqué, permet la prise de CD"
+                },
+                {
+                    "value": "Raspberry"
+                },
+                {
+                    "value": "Modélisation 3D"
+                },
+                {
+                    "value": "Mécanique"
+                },
+                {
+                    "value": "Projet en pause"
+                },
+                {
+                    "value": "Contrôle de moteurs pas à pas"
+                }
             ],
             "outils": [
-                {"name": "VueJs"},
-                {"name": "Python"},
-                {"name": "Solidworks"}
+                {
+                    "name": "VueJs"
+                },
+                {
+                    "name": "Python"
+                },
+                {
+                    "name": "Solidworks"
+                }
             ],
             "photos": [
-                {"type": "img","src": "Jukebox/application-frontend.webp", "desc": "Page principale"},
-                {"type": "img","src": "Jukebox/application-frontend-play.webp", "desc": "Pour lancer un CD"},
-                {"type": "img","src": "Jukebox/edit-cd.webp", "desc": "Editer un CD"},
-                {"type": "img","src": "Jukebox/lecteur.webp", "desc": "Lorsqu'un CD est dans le lecteur"},
-                {"type": "img","src": "Jukebox/modelisation-cote.webp", "desc": "Modelisation de la jukebox"},
-                {"type": "img","src": "Jukebox/modelisation-face.webp"}
-            ]    
+                {
+                    "type": "img",
+                    "src": "Jukebox/application-frontend.webp",
+                    "desc": "Page principale"
+                },
+                {
+                    "type": "img",
+                    "src": "Jukebox/application-frontend-play.webp",
+                    "desc": "Pour lancer un CD"
+                },
+                {
+                    "type": "img",
+                    "src": "Jukebox/edit-cd.webp",
+                    "desc": "Editer un CD"
+                },
+                {
+                    "type": "img",
+                    "src": "Jukebox/lecteur.webp",
+                    "desc": "Lorsqu'un CD est dans le lecteur"
+                },
+                {
+                    "type": "img",
+                    "src": "Jukebox/modelisation-cote.webp",
+                    "desc": "Modelisation de la jukebox"
+                },
+                {
+                    "type": "img",
+                    "src": "Jukebox/modelisation-face.webp"
+                }
+            ]
         },
-         {
+        {
             "name": "Stage B3 : ALC",
             "date": "06 mars 2023 - 30 juin 2023",
             "infos": [
-                {"value": "Application web de cartographie des acteurs de l'innovation sur Angers Loire Métropole"},
-                {"value": "Découverte de NodeJs"},
-                {"value": "Stage DevOps"},
-                {"value": "Accompagnement technique et fonctionnel"},
-                {"value": "Docker"},
-                {"value": "Gestion de données"},
-                {"value": "Gestion des utilisateurs"},
-                {"value": "Comptes utilisateur ou admin"}
+                {
+                    "value": "Application web de cartographie des acteurs de l'innovation sur Angers Loire Métropole"
+                },
+                {
+                    "value": "Découverte de NodeJs"
+                },
+                {
+                    "value": "Stage DevOps"
+                },
+                {
+                    "value": "Accompagnement technique et fonctionnel"
+                },
+                {
+                    "value": "Docker"
+                },
+                {
+                    "value": "Gestion de données"
+                },
+                {
+                    "value": "Gestion des utilisateurs"
+                },
+                {
+                    "value": "Comptes utilisateur ou admin"
+                }
             ],
             "description": "L'application regroupe des informations sur le domaine de l'innovation, organisées en catégories contenant des sous-catégories, elles-mêmes contenant des fiches détaillées. Elle intègre une fonctionnalité de gestion de l'application, accessible aux administrateurs (gestion des données et des utilisateurs). La sécurité est assurée grâce à des comptes administrateurs. L'application est déployée en ligne sur un serveur avec Docker. Vous pouvez accéder à la <a href='https://innov-alc.angersloirecampus.fr/' target='_blank'>web app ici</a>.",
             "outils": [
-                {"name": "VueJs"},
-                {"name": "NodeJs"},
-                {"name": "MYSQL"},
-                {"name": "Docker"},
-                {"name": "GIT"}
+                {
+                    "name": "VueJs"
+                },
+                {
+                    "name": "NodeJs"
+                },
+                {
+                    "name": "MYSQL"
+                },
+                {
+                    "name": "Docker"
+                },
+                {
+                    "name": "GIT"
+                }
             ],
             "outil": "Liste des outils utilisés : ",
             "photos": [
-                {"type": "img","src": "StageALC/coworking.webp", "desc": "Exemple de fiches disponibles"},
-                {"type": "img","src": "StageALC/accueil.webp", "desc": "Page principale"},
-                {"type": "img","src": "StageALC/gestion-data.webp", "desc": "Gestion des données (admin)"},
-                {"type": "img","src": "StageALC/gestion-outil-users.webp", "desc": "Gestion des utilisateurs (admin)"},
-                {"type": "img","src": "StageALC/gestion-outil-visits.webp", "desc": "Graphique du nombre de visiteur"}
+                {
+                    "type": "img",
+                    "src": "StageALC/coworking.webp",
+                    "desc": "Exemple de fiches disponibles"
+                },
+                {
+                    "type": "img",
+                    "src": "StageALC/accueil.webp",
+                    "desc": "Page principale"
+                },
+                {
+                    "type": "img",
+                    "src": "StageALC/gestion-data.webp",
+                    "desc": "Gestion des données (admin)"
+                },
+                {
+                    "type": "img",
+                    "src": "StageALC/gestion-outil-users.webp",
+                    "desc": "Gestion des utilisateurs (admin)"
+                },
+                {
+                    "type": "img",
+                    "src": "StageALC/gestion-outil-visits.webp",
+                    "desc": "Graphique du nombre de visiteur"
+                }
             ]
         },
         {
             "name": "Avion RC",
             "date": "Mars - Avril 2023",
             "infos": [
-                {"value": "Planeur motorisé"},
-                {"value": "Radio-commandé"},
-                {"value": "Expérimentation"},
-                {"value": "Réalisé via une <a href='https://www.youtube.com/watch?v=cA379JRswz8' target='_blank'>vidéo</a>"},
-                {"value": "Télécommande et récepteur radio"},
-                {"value": "Plusieurs essais"},
-                {"value": "Pas assez d'équilibrage"},
-                {"value": "Trop lourd"},
-                {"value": "Durée de vol maximale : 15 secondes"}
+                {
+                    "value": "Planeur motorisé"
+                },
+                {
+                    "value": "Radio-commandé"
+                },
+                {
+                    "value": "Expérimentation"
+                },
+                {
+                    "value": "Réalisé via une <a href='https://www.youtube.com/watch?v=cA379JRswz8' target='_blank'>vidéo</a>"
+                },
+                {
+                    "value": "Télécommande et récepteur radio"
+                },
+                {
+                    "value": "Plusieurs essais"
+                },
+                {
+                    "value": "Pas assez d'équilibrage"
+                },
+                {
+                    "value": "Trop lourd"
+                },
+                {
+                    "value": "Durée de vol maximale : 15 secondes"
+                }
             ],
             "photos": [
-                {"src": "AvionRC1/avion-monoplan.webp"},
-                {"type": "img","src": "AvionRC1/avion-biplan.webp"}
-            ]    
+                {
+                    "src": "AvionRC1/avion-monoplan.webp"
+                },
+                {
+                    "type": "img",
+                    "src": "AvionRC1/avion-biplan.webp"
+                }
+            ]
         },
         {
             "name": "Avion RC V2",
             "date": "Mai 2023 - Juin 2023",
             "infos": [
-                {"value": "Avion en carton"},
-                {"value": "Réalisé via des <a href='https://www.flitetest.com/' target='_blank'>plans</a>"},
-                {"value": "Expérimentation"},
-                {"value": "Télécommande et récepteur radio"},
-                {"value": "Plusieurs essais"},
-                {"value": "Bon équilibrage"},
-                {"value": "Meilleur maniabilité"},
-                {"value": "Trop lourd"},
-                {"value": "Durée de vol maximale : 5 secondes"}
+                {
+                    "value": "Avion en carton"
+                },
+                {
+                    "value": "Réalisé via des <a href='https://www.flitetest.com/' target='_blank'>plans</a>"
+                },
+                {
+                    "value": "Expérimentation"
+                },
+                {
+                    "value": "Télécommande et récepteur radio"
+                },
+                {
+                    "value": "Plusieurs essais"
+                },
+                {
+                    "value": "Bon équilibrage"
+                },
+                {
+                    "value": "Meilleur maniabilité"
+                },
+                {
+                    "value": "Trop lourd"
+                },
+                {
+                    "value": "Durée de vol maximale : 5 secondes"
+                }
             ],
             "photos": [
-                {"type": "img", "src": "AvionRC2/avion-carton.webp"},
-                {"type": "img", "src": "AvionRC2/plan-carton.webp", "desc": "Plans de l'avion"}
+                {
+                    "type": "img",
+                    "src": "AvionRC2/avion-carton.webp"
+                },
+                {
+                    "type": "img",
+                    "src": "AvionRC2/plan-carton.webp",
+                    "desc": "Plans de l'avion"
+                }
             ],
             "video": [
-                {"type": "video","src": "AvionRC2/vol-1.mp4"},
-                {"type": "video","src": "AvionRC2/vol-2.mp4"}                
+                {
+                    "type": "video",
+                    "src": "AvionRC2/vol-1.mp4"
+                },
+                {
+                    "type": "video",
+                    "src": "AvionRC2/vol-2.mp4"
+                }
             ]
         },
         {
             "name": "Jeu web 3D",
             "date": "Juin 2023 - Juillet 2023",
             "infos": [
-                {"value": "<a href='/zombie/' target='_blank'>Jeu navigateur</a> mode zombie"},
-                {"value": "Carte inspiré de BO2"},
-                {"value": "Vue première personne et possibilité de tirer"},
-                {"value": "Expérimentation"},
-                {"value": "Spawns de zombies"},
-                {"value": "Achat d'armes"},
-                {"value": "Chargeur limité"},
-                {"value": "Changement de manche automatique"},
-                {"value": "Première version fonctionelle"}
+                {
+                    "value": "<a href='/zombie/' target='_blank'>Jeu navigateur</a> mode zombie"
+                },
+                {
+                    "value": "Carte inspiré de BO2"
+                },
+                {
+                    "value": "Vue première personne et possibilité de tirer"
+                },
+                {
+                    "value": "Expérimentation"
+                },
+                {
+                    "value": "Spawns de zombies"
+                },
+                {
+                    "value": "Achat d'armes"
+                },
+                {
+                    "value": "Chargeur limité"
+                },
+                {
+                    "value": "Changement de manche automatique"
+                },
+                {
+                    "value": "Première version fonctionelle"
+                }
             ],
             "photos": [
-                {"type": "img","src": "Zombie3D/gameplay-1.webp"},
-                {"type": "img","src": "Zombie3D/buy-weapon.webp", "desc": "Possibilité d'acheter des armes en jeu"},
-                {"type": "img","src": "Zombie3D/death-screen.webp"}
+                {
+                    "type": "img",
+                    "src": "Zombie3D/gameplay-1.webp"
+                },
+                {
+                    "type": "img",
+                    "src": "Zombie3D/buy-weapon.webp",
+                    "desc": "Possibilité d'acheter des armes en jeu"
+                },
+                {
+                    "type": "img",
+                    "src": "Zombie3D/death-screen.webp"
+                }
             ],
             "outil": "Liste des outils utilisés : ",
             "outils": [
-                {"name": "VueJs"},
-                {"name": "ThreeJs"},
-                {"name": "AmmoJs"}
+                {
+                    "name": "VueJs"
+                },
+                {
+                    "name": "ThreeJs"
+                },
+                {
+                    "name": "AmmoJs"
+                }
             ]
         },
         {
             "name": "Stage E2 : Nimbus Center",
             "date": "Juillet 2023 - Novembre 2023",
             "infos": [
-                {"value": "Combinaison de capture de movement"},
-                {"value": "Adapté pour chevaux"},
-                {"value": "Travail en binome"},
-                {"value": "Système embarqué"},
-                {"value": "ESP32, accéléromètre, gyroscope"},
-                {"value": "Raspberry"},
-                {"value": "Sauvegarde de données sur clé USB"},
-                {"value": "Visualisation donneés en temps réel"},
-                {"value": "Communication Wi-Fi"},
-                {"value": "Fonctionnelle sur humain, mais peut être amélioré"},
-                {"value": "Manque de temps pour tester sur un cheval"}
+                {
+                    "value": "Combinaison de capture de movement"
+                },
+                {
+                    "value": "Adapté pour chevaux"
+                },
+                {
+                    "value": "Travail en binome"
+                },
+                {
+                    "value": "Système embarqué"
+                },
+                {
+                    "value": "ESP32, accéléromètre, gyroscope"
+                },
+                {
+                    "value": "Raspberry"
+                },
+                {
+                    "value": "Sauvegarde de données sur clé USB"
+                },
+                {
+                    "value": "Visualisation donneés en temps réel"
+                },
+                {
+                    "value": "Communication Wi-Fi"
+                },
+                {
+                    "value": "Fonctionnelle sur humain, mais peut être amélioré"
+                },
+                {
+                    "value": "Manque de temps pour tester sur un cheval"
+                }
             ],
             "photos": [
-                {"type": "img","src": "StageNimbus/bat-horse.webp", "desc": "Cheval avec la combinaison, pour les capteurs"},
-                {"type": "img","src": "StageNimbus/esp32-seeed.webp", "desc": "ESP32 utilisé"},
-                {"type": "img","src": "StageNimbus/assemblage.webp", "desc": "Boite 3D pour accueillir l'ESP, le capteur et la batterie"},
-                {"type": "img","src": "StageNimbus/esp32.webp", "desc": "ESP, soudé avec le capteur et la batterie"}
-            ],    
+                {
+                    "type": "img",
+                    "src": "StageNimbus/bat-horse.webp",
+                    "desc": "Cheval avec la combinaison, pour les capteurs"
+                },
+                {
+                    "type": "img",
+                    "src": "StageNimbus/esp32-seeed.webp",
+                    "desc": "ESP32 utilisé"
+                },
+                {
+                    "type": "img",
+                    "src": "StageNimbus/assemblage.webp",
+                    "desc": "Boite 3D pour accueillir l'ESP, le capteur et la batterie"
+                },
+                {
+                    "type": "img",
+                    "src": "StageNimbus/esp32.webp",
+                    "desc": "ESP, soudé avec le capteur et la batterie"
+                }
+            ],
             "outil": "Liste des outils utilisés : ",
             "outils": [
-                {"name": "C++"},
-                {"name": "ESP32"},
-                {"name": "Solidworks"},
-                {"name": "Raspberry"}
+                {
+                    "name": "C++"
+                },
+                {
+                    "name": "ESP32"
+                },
+                {
+                    "name": "Solidworks"
+                },
+                {
+                    "name": "Raspberry"
+                }
             ]
         },
         {
             "name": "Récepteur musique bluetooth",
             "date": "Janvier 2024 - Février 2024",
             "infos": [
-                {"value": "Système embarqué"},
-                {"value": "ESP32"},
-                {"value": "Récupération du code sur <a href='https://github.com/pschatzmann/ESP32-A2DP' target='_blank'>Github</a>"},
-                {"value": "Ecouter de la musique sur plusieurs enceintes en même temps"},
-                {"value": "2 connecteurs jack femelles"},
-                {"value": "Modélisation 3D de la boite"},
-                {"value": "Soudures entre l'ESP et les connecteurs jack"}
+                {
+                    "value": "Système embarqué"
+                },
+                {
+                    "value": "ESP32"
+                },
+                {
+                    "value": "Récupération du code sur <a href='https://github.com/pschatzmann/ESP32-A2DP' target='_blank'>Github</a>"
+                },
+                {
+                    "value": "Ecouter de la musique sur plusieurs enceintes en même temps"
+                },
+                {
+                    "value": "2 connecteurs jack femelles"
+                },
+                {
+                    "value": "Modélisation 3D de la boite"
+                },
+                {
+                    "value": "Soudures entre l'ESP et les connecteurs jack"
+                }
             ],
             "photos": [
-                {"type": "img","src": "Esp32Musique/jack_and_usb.webp", "desc": "Côté droite ESP32 : prise jack et cable d'alimentation"},
-                {"type": "img","src": "Esp32Musique/jack.webp", "desc": "Côté gauche : prise jack"},
-                {"type": "img","src": "Esp32Musique/model.webp", "desc": "Modélisation 3D de la boite"},
-                {"type": "img","src": "Esp32Musique/inside.webp", "desc": "Soudures entre l'ESP et les connecteurs jack"}
-            ],    
+                {
+                    "type": "img",
+                    "src": "Esp32Musique/jack_and_usb.webp",
+                    "desc": "Côté droite ESP32 : prise jack et cable d'alimentation"
+                },
+                {
+                    "type": "img",
+                    "src": "Esp32Musique/jack.webp",
+                    "desc": "Côté gauche : prise jack"
+                },
+                {
+                    "type": "img",
+                    "src": "Esp32Musique/model.webp",
+                    "desc": "Modélisation 3D de la boite"
+                },
+                {
+                    "type": "img",
+                    "src": "Esp32Musique/inside.webp",
+                    "desc": "Soudures entre l'ESP et les connecteurs jack"
+                }
+            ],
             "outil": "Liste des outils utilisés : ",
             "outils": [
-                {"name": "C++"},
-                {"name": "ESP32"},
-                {"name": "Solidworks"}
+                {
+                    "name": "C++"
+                },
+                {
+                    "name": "ESP32"
+                },
+                {
+                    "name": "Solidworks"
+                }
             ]
         },
         {
             "name": "FPS multijoueur",
             "date": "Novembre 2023 - Juillet 2024",
             "infos": [
-                {"value": "Jeu <a href='/webfps/' target='_blank'>navigateur</a> multijoueur"},
-                {"value": "Vue première personne et possibilité de tirer"},
-                {"value": "Expérimentation"},
-                {"value": "Base du jeu de zombie"},
-                {"value": "Websocket pour le multijoueur"},
-                { "value": "Choix du skin"},
-                { "value": "Première version fonctionelle"}
+                {
+                    "value": "Jeu <a href='/webfps/' target='_blank'>navigateur</a> multijoueur"
+                },
+                {
+                    "value": "Vue première personne et possibilité de tirer"
+                },
+                {
+                    "value": "Expérimentation"
+                },
+                {
+                    "value": "Base du jeu de zombie"
+                },
+                {
+                    "value": "Websocket pour le multijoueur"
+                },
+                {
+                    "value": "Choix du skin"
+                },
+                {
+                    "value": "Première version fonctionelle"
+                }
             ],
             "photos": [
-                {"type": "img","src": "FpsMulti/view_spawn.webp", "desc": "Vue depuis le spawn"}
-            ],  
+                {
+                    "type": "img",
+                    "src": "FpsMulti/view_spawn.webp",
+                    "desc": "Vue depuis le spawn"
+                }
+            ],
             "outil": "Liste des outils utilisés : ",
             "outils": [
-                {"name": "VueJs"},
-                {"name": "NodeJs"},
-                {"name": "ThreeJs"},
-                {"name": "AmmoJs"}
+                {
+                    "name": "VueJs"
+                },
+                {
+                    "name": "NodeJs"
+                },
+                {
+                    "name": "ThreeJs"
+                },
+                {
+                    "name": "AmmoJs"
+                }
             ]
         },
         {
             "name": "Etoile de bagarre",
             "date": "Octobre 2024 - Décembre 2024",
             "infos": [
-                { "value": "<a href='https://github.com/charl56/Etoile-de-Bagarre' target='_blank'>Jeu android</a> inspiré de Brawl Star"},
-                { "value": "Projet en groupe de 3"},
-                { "value": "Déplacement et attaque"},
-                { "value": "Salle d'attente pour rejoindre une partie"},
-                { "value": "Vue des autres joueurs en temps réel"},
-                { "value": "Barre de vie"}
+                {
+                    "value": "<a href='https://github.com/charl56/Etoile-de-Bagarre' target='_blank'>Jeu android</a> inspiré de Brawl Star"
+                },
+                {
+                    "value": "Projet en groupe de 3"
+                },
+                {
+                    "value": "Déplacement et attaque"
+                },
+                {
+                    "value": "Salle d'attente pour rejoindre une partie"
+                },
+                {
+                    "value": "Vue des autres joueurs en temps réel"
+                },
+                {
+                    "value": "Barre de vie"
+                }
             ],
             "photos": [
-                {"type": "img","src": "EtoileDeBagarre/vue-mort.webp"},
-                {"type": "img","src": "EtoileDeBagarre/vue-attaque-par-enemie.webp"},
-                {"type": "img","src": "EtoileDeBagarre/vue-accueil.webp"},
-                {"type": "img","src": "EtoileDeBagarre/vue-salle-attente.webp"},
-                {"type": "img","src": "EtoileDeBagarre/vue-spawn.webp"},
-                {"type": "img","src": "EtoileDeBagarre/vue-autres-joueurs.webp"},
-                {"type": "img","src": "EtoileDeBagarre/vue-attaque-autre-joueur.webp"},
-                {"type": "img","src": "EtoileDeBagarre/vue-tableau-des-scores.webp"}
-            ],  
+                {
+                    "type": "img",
+                    "src": "EtoileDeBagarre/vue-mort.webp"
+                },
+                {
+                    "type": "img",
+                    "src": "EtoileDeBagarre/vue-attaque-par-enemie.webp"
+                },
+                {
+                    "type": "img",
+                    "src": "EtoileDeBagarre/vue-accueil.webp"
+                },
+                {
+                    "type": "img",
+                    "src": "EtoileDeBagarre/vue-salle-attente.webp"
+                },
+                {
+                    "type": "img",
+                    "src": "EtoileDeBagarre/vue-spawn.webp"
+                },
+                {
+                    "type": "img",
+                    "src": "EtoileDeBagarre/vue-autres-joueurs.webp"
+                },
+                {
+                    "type": "img",
+                    "src": "EtoileDeBagarre/vue-attaque-autre-joueur.webp"
+                },
+                {
+                    "type": "img",
+                    "src": "EtoileDeBagarre/vue-tableau-des-scores.webp"
+                }
+            ],
             "outil": "Liste des outils utilisés : ",
             "outils": [
-                {"name": "Kotlin"},
-                {"name": "LibGdx"},
-                {"name": "NodeJs : Websocket"}, 
-                {"name": "Docker"}
+                {
+                    "name": "Kotlin"
+                },
+                {
+                    "name": "LibGdx"
+                },
+                {
+                    "name": "NodeJs : Websocket"
+                },
+                {
+                    "name": "Docker"
+                }
             ]
         }
     ],
@@ -324,9 +738,6 @@
             "src": "/IMG_20230707_155518.webp"
         },
         {
-            "src": "/IMG_20230921_140208.webp"
-        },
-        {
             "src": "/IMG_20231112_160416.webp"
         },
         {
@@ -339,40 +750,16 @@
             "src": "/IMG_20240224_182929.webp"
         },
         {
-            "src": "/IMG_20240304_152554.webp"
-        },
-        {
             "src": "/IMG_20240305_173512.webp"
         },
         {
             "src": "/IMG_20240305_174251.webp"
         },
         {
-            "src": "/IMG_20240306_131418.webp"
-        },
-        {
             "src": "/IMG_20240308_104014.webp"
         },
         {
-            "src": "/IMG_20240309_151946.webp"
-        },
-        {
-            "src": "/IMG_20240316_152404.webp"
-        },
-        {
-            "src": "/IMG_20240321_155300.webp"
-        },
-        {
-            "src": "/IMG_20240323_144558.webp"
-        },
-        {
             "src": "/IMG_20240403_125808.webp"
-        },
-        {
-            "src": "/IMG_20240410_121327.webp"
-        },
-        {
-            "src": "/IMG_20240425_152441.webp"
         },
         {
             "src": "/IMG_20240427_164937.webp"
@@ -408,12 +795,6 @@
             "src": "/IMG_20240710_214040.webp"
         },
         {
-            "src": "/IMG_20240715_003052.webp"
-        },
-        {
-            "src": "/IMG_20240718_223400.webp"
-        },
-        {
             "src": "/IMG_20240724_170126.webp"
         },
         {
@@ -426,9 +807,6 @@
             "src": "/IMG_20240817_122902.webp"
         },
         {
-            "src": "/IMG_20240824_202958.webp"
-        },
-        {
             "src": "/IMG_20240827_042055.webp"
         },
         {
@@ -438,9 +816,6 @@
             "src": "/IMG_20241016_033921_1.webp"
         },
         {
-            "src": "/IMG_20241016_033927.webp"
-        },
-        {
             "src": "/IMG_20241109_164416.webp"
         },
         {
@@ -448,9 +823,6 @@
         },
         {
             "src": "/IMG_20241109_220333.webp"
-        },
-        {
-            "src": "/IMG_20241110_104757.webp"
         },
         {
             "src": "/IMG_20241123_013351.webp"

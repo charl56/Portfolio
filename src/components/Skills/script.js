@@ -15,6 +15,12 @@ export class Models3DVisualisation {
         this.renderer_ = null;
         this.model_ = null;
 
+        this.width_ = 0;
+        this.height_ = 0;
+        this.rotationModelX_ = 0;
+        this.rotationModelY_ = 0;
+        this.rotationModelZ_ = 0;
+
         this.animate = this.animate.bind(this);
         this.onWindowResize = this.onWindowResize.bind(this);
         this.onScroll = this.onScroll.bind(this);
@@ -24,19 +30,31 @@ export class Models3DVisualisation {
 
 
     init_() {
-        const width = this.container_.clientWidth;
-        const height = this.container_.clientHeight;
+        this.width_ = this.container_.clientWidth;
+        this.height_ = this.container_.clientHeight;
+
+        this.rotationModelX_ = Math.PI / 8;
+        this.rotationModelY_ = 0;
+        this.rotationModelZ_ = Math.PI;
+
+        if (this.container_.clientWidth < 768) {
+            this.width_ = this.container_.clientWidth * 0.6;
+            this.height_ = this.container_.clientHeight * 0.6;
+
+            this.rotationModelX_ = Math.PI / 6;
+
+        }
 
         this.scene_ = new THREE.Scene();
 
-        this.camera_ = new THREE.PerspectiveCamera(65, width / height, 1, 100);
+        this.camera_ = new THREE.PerspectiveCamera(65, this.width_ / this.height_, 1, 100);
         this.camera_.position.set(-15, 0, 0);
         this.camera_.lookAt(0, 0, 0);
 
 
         this.renderer_ = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         this.renderer_.shadowMap.enabled = true;
-        this.renderer_.setSize(width, height);
+        this.renderer_.setSize(this.width_, this.height_);
         this.renderer_.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         this.renderer_.setAnimationLoop(this.animate);
         this.container_.appendChild(this.renderer_.domElement);
@@ -61,13 +79,24 @@ export class Models3DVisualisation {
 
 
     onWindowResize() {
-        const width = this.container_.clientWidth;
-        const height = this.container_.clientHeight;
+        this.width_ = this.container_.clientWidth;
+        this.height_ = this.container_.clientHeight;
 
-        this.camera_.aspect = width / height;
+        this.rotationModelX_ = Math.PI / 8;
+
+        if (this.container_.clientWidth < 768) {
+            this.width_ = this.container_.clientWidth * 0.6;
+            this.height_ = this.container_.clientHeight * 0.6;
+
+            this.rotationModelX_ = Math.PI / 6;
+
+        }
+
+
+        this.camera_.aspect = this.width_ / this.height_;
         this.camera_.updateProjectionMatrix();
 
-        this.renderer_.setSize(width, height);
+        this.renderer_.setSize(this.width_, this.height_);
     }
 
 
@@ -95,7 +124,7 @@ export class Models3DVisualisation {
 
 
                 model.position.set(0, 0, 0);
-                model.rotation.set(Math.PI/3.5, 0, Math.PI/4);
+                model.rotation.set(this.rotationModelX_, this.rotationModelY_, this.rotationModelZ_);
                 this.scene_.add(model);
 
                 resolve();
@@ -114,7 +143,7 @@ export class Models3DVisualisation {
 
         const scrollY = window.scrollY;
         gsap.to(this.model_.rotation, {
-            z: scrollY * 0.008,
+            z: scrollY * 0.008 + this.rotationModelZ_,
             duration: 1,
             ease: 'power2.out',
         });

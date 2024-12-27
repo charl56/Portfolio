@@ -5,7 +5,7 @@
         </div>
         <div class="div-skills__content">
             <p>J'ai pas eu le temps de finir, je fais de l'argent</p>
-            <Models3dLoader modelPath="../../../../images/models/swordfish2/scene.gltf" :idIs="'model_spacesword'" />
+            <Models3dLoader />
         </div>
     </div>
 </template>

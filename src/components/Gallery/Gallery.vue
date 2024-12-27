@@ -50,6 +50,7 @@ export default {
 
             var imgs = []
 
+
             this.imgsPath.forEach(photo => {
                 imgs.push(this.getImageUrl("Gallery" + photo.src))
             });
@@ -100,7 +101,7 @@ export default {
             }
 
 
-            for (let i = 0; i < 80; i++) {
+            for (let i = 0; i < imgs.length; i++) {
                 const item = document.createElement('div');
                 item.classList.add('item');
                 item.className = 'item';
@@ -115,7 +116,7 @@ export default {
                 img.style.height = '100%';
                 img.style.objectFit = 'cover';
                 img.style.borderRadius = '5px';
-                img.src = imgs[i % imgs.length]
+                img.src = imgs[i];
 
 
                 item.appendChild(img);
@@ -298,8 +299,6 @@ export default {
     margin: 10px;
 
     transform-style: preserve-3d;
-    background: #b0b0b0;
-    box-shadow: rgb(255 255 255) 15px -10px 25px -5px;
 }
 
 

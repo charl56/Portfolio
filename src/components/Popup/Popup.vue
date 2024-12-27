@@ -429,21 +429,6 @@ export default {
 }
 
 
-
-.item {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 45px;
-    height: 60px;
-    margin: 10px;
-    transform-style: preserve-3d;
-    background: #b0b0b0;
-    box-shadow: rgb(255 255 255) 15px -10px 25px -5px;
-}
-
-
 .popup-div__content::-webkit-scrollbar {
     /* Fond de la barre de scroll */
     width: 10px;

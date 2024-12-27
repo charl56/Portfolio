@@ -16,7 +16,7 @@ function generatePhotoList() {
             const ext = path.extname(file).toLowerCase();
             return validExtensions.includes(ext);
         })
-        .map(file => ({ name: `/${file}` })); // Formater chaque fichier
+        .map(file => ({ src: `/${file}` })); // Formater chaque fichier
 
     // Écrire la liste dans un fichier JSON
     fs.writeFileSync(outputJson, JSON.stringify(photos, null, 4), "utf8");
