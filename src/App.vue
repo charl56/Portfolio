@@ -20,6 +20,7 @@ import { defineAsyncComponent } from 'vue';
 import Loader from "./components/Loader/Loader.vue";
 import Projets from "./components/Projets/Projets.vue";
 
+
 const Particles = defineAsyncComponent(() => 
   import('./components/Particles/Particles.vue')
 )

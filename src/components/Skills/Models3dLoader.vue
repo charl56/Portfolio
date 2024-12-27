@@ -14,7 +14,7 @@ export default {
     methods: {
         initVizualisation() {
             this.container.innerHTML = '';
-            new Models3DVisualisation(this.getModelUrl("models/swordfish2/scene.gltf"), this.container);
+            new Models3DVisualisation(this.getModelUrl("models/swordfish2/scene.glb"), this.container);
         },
         getModelUrl(src) {
             return import.meta.env.DEV

@@ -1,8 +1,8 @@
 <template>
     <!-- Inspiration => gallery : https://www.youtube.com/watch?v=v0UoqZJRP5M -->
-    <div class="gallery-div" v-observe-visibility="handleVisibility">
+    <div class="gallery-div" >
         <div class="preview-img">
-            <img src="" alt="image de prevision"> <!-- Preview image when hover img -->
+            <img alt="image de prevision"> <!-- Preview image when hover img -->
         </div>
         <div class="gallery"></div>
     </div>
@@ -24,25 +24,6 @@ export default {
     },
     mounted() {
         this.initGallery();
-    },
-    directives: {
-        observeVisibility: {
-            mounted(el, binding) {
-                const observer = new IntersectionObserver((entries) => {
-                    const isVisible = entries[0].isIntersecting;
-                    if (binding.value) binding.value(isVisible);
-                }, {
-                    threshold: 0.1 // Déclenche quand 10% de l'élément est visible
-                });
-                observer.observe(el);
-            },
-            unmounted(el) {
-                // Nettoyer l'observer
-                if (el._observer) {
-                    el._observer.disconnect();
-                }
-            }
-        }
     },
     methods: {
         initGallery() {
@@ -174,23 +155,10 @@ export default {
             });
             this.initRotationInterval();
         },
-        handleVisibility(isVisible) {
-            this.isVisible = isVisible;
-            if (isVisible) {
-                this.resumeAnimation();
-            } else {
-                this.pauseAnimation();
-            }
-        },
         pauseAnimation() {
             if (this.rotationInterval) {
                 clearInterval(this.rotationInterval);
                 this.rotationInterval = null;
-            }
-        },
-        resumeAnimation() {
-            if (!this.rotationInterval) {
-                this.initRotationInterval();
             }
         },
         initRotationInterval() {
