@@ -63,7 +63,7 @@ export class Models3DVisualisation {
         light.position.set(-15, 0, -15);
         this.scene_.add(light);
 
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.3); // Intensité 0.5
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.3); // Intensité 0.3
         this.scene_.add(ambientLight);
 
         this.controls_ = new OrbitControls(this.camera_, this.renderer_.domElement);

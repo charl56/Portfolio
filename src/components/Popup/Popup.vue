@@ -40,10 +40,6 @@
                 </div>
                 <div class="modal-content__image" :style="{ backgroundImage: `url(${getImageUrlWithIndex(index)})` }">
                 </div>
-
-                <!-- <div class="modal-content__image">
-                    <img class="cursor-hover" :src="getImageUrlWithIndex(index)" alt="">
-                </div> -->
             </div>
             <div v-if="project" class="modal-content text-outil">
                 <p v-html="project.outil"></p>

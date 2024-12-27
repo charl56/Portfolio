@@ -2,7 +2,7 @@
     <!-- Inspiration => gallery : https://www.youtube.com/watch?v=v0UoqZJRP5M -->
     <div class="gallery-div" v-observe-visibility="handleVisibility">
         <div class="preview-img">
-            <img src="" alt=""> <!-- Preview image when hover img -->
+            <img src="" alt="image de prevision"> <!-- Preview image when hover img -->
         </div>
         <div class="gallery"></div>
     </div>
@@ -117,6 +117,7 @@ export default {
                 img.style.objectFit = 'cover';
                 img.style.borderRadius = '5px';
                 img.src = imgs[i];
+                img.alt = `Image ${i + 1}`;
 
 
                 item.appendChild(img);
