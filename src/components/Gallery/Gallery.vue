@@ -11,6 +11,7 @@
 <script>
 import { gsap } from "gsap";
 import dataFR from '../../data/appData/dataFR.json'
+import getAssetSrc from '@/utils/imageUtils';
 
 export default {
     name: 'Gallery',
@@ -33,7 +34,7 @@ export default {
 
 
             this.imgsPath.forEach(photo => {
-                imgs.push(this.getImageUrl("Gallery" + photo.src))
+                imgs.push(getAssetSrc("Gallery" + photo.src))
             });
 
             const gallery = document.querySelector('.gallery');
@@ -70,7 +71,7 @@ export default {
             this.imagesWithIndex = null;
 
             if (this.project != null) {
-                this.imagesWithIndex = this.project.photos.map(photo => this.getImageUrl(photo.src));
+                this.imagesWithIndex = this.project.photos.map(photo => getAssetSrc(photo.src));
             }
 
 
@@ -183,11 +184,6 @@ export default {
                     });
                 });
             }, 50);
-        },
-        getImageUrl(src) {
-            return import.meta.env.DEV
-                ? new URL(`../../../images/${src}`, import.meta.url).href
-                : `images/${src}`;
         },
     },
     beforeDestroy() {

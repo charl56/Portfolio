@@ -17,6 +17,7 @@
 <script>
 import { gsap } from "gsap";
 import dataFR from '../../data/appData/dataFR.json'
+import getAssetSrc from '@/utils/imageUtils';
 
 export default {
     name: 'AppLoader',
@@ -28,7 +29,7 @@ export default {
         }
     },
     mounted() {
-        this.initLoader();
+        document.documentElement.style.overflow = 'hidden';
 
         this.projetcs.forEach(project => {
             project.photos.forEach(photo => {
@@ -38,29 +39,7 @@ export default {
 
         setTimeout(this.loadImages(), 1000);
     },
-    onMounted() {
-    },
     methods: {
-        initLoader() {
-            document.documentElement.style.overflow = 'hidden';
-        },
-        animateLoaderText() {
-            // Faire agrandir le text en largeur, pour qu'il passe de width 0 et left 50vw, à width 100vw et left 0. Seulmement pour les balsies p dans la div loader-div__horizontal
-            const tl = gsap.timeline({});
-
-            tl.to('.loader-div__horizontal', {
-                duration: 0.2,
-                width: this.percentage + '%',
-                left: 50 - this.percentage / 2 + '%',
-                ease: "power2.in",
-            }, 0)
-                .to('.loader-div__vertical', {
-                    duration: 0.2,
-                    height: this.percentage + '%',
-                    top: 50 - this.percentage / 2 + '%',
-                    ease: "power2.in",
-                }, 0);
-        },
         loadImages() {
             const totalImages = this.calculateTotalImages();
             const imagePromises = this.createImagePromises(totalImages);
@@ -78,7 +57,7 @@ export default {
             return this.images.reduce((promises, i) => {
                 if (i) {
                     const img = new Image();
-                    img.src = this.getImageSrc(i);
+                    img.src = getAssetSrc(i);
                     promises.push(this.createImageLoadPromise(img, () => {
                         loadedImages++;
                         this.updatePercentage(loadedImages, totalImages);
@@ -86,11 +65,6 @@ export default {
                 }
                 return promises;
             }, []);
-        },
-        getImageSrc(imagePath) {
-            return import.meta.env.DEV
-                ? new URL(`../../../images/${imagePath}`, import.meta.url).href
-                : `images/${imagePath}`;
         },
         createImageLoadPromise(img, onLoad) {
             return new Promise((resolve, reject) => {
@@ -104,7 +78,6 @@ export default {
         updatePercentage(loaded, total) {
             const targetValue = Math.round((loaded / total) * 100);
 
-            
             // If the target value is the same as the current value, do nothing
             if (this.percentage === targetValue) return;
 
@@ -122,6 +95,23 @@ export default {
                 this.animateLoaderText();
 
             }, 50); // Adjust the interval timing as needed
+        },
+        animateLoaderText() {
+            // Faire agrandir le text en largeur, pour qu'il passe de width 0 et left 50vw, à width 100vw et left 0. Seulmement pour les balsies p dans la div loader-div__horizontal
+            const tl = gsap.timeline({});
+
+            tl.to('.loader-div__horizontal', {
+                duration: 0.2,
+                width: this.percentage + '%',
+                left: 50 - this.percentage / 2 + '%',
+                ease: "power2.in",
+            }, 0)
+                .to('.loader-div__vertical', {
+                    duration: 0.2,
+                    height: this.percentage + '%',
+                    top: 50 - this.percentage / 2 + '%',
+                    ease: "power2.in",
+                }, 0);
         },
         handleLoadingComplete() {
             // If the percentage is at 100, start text loader animation

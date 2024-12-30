@@ -34,9 +34,7 @@
 
             <div v-if="project" v-for="(info, index) in project.infos" class="modal-content text-infos">
                 <div class="modal-content__infos">
-                    <div class="modal-content__animation">
-                        <p v-if="info" v-html="info.value"></p>
-                    </div>
+                    <p v-if="info" v-html="info.value"></p>
                 </div>
                 <div class="modal-content__image" :style="{ backgroundImage: `url(${getImageUrlWithIndex(index)})` }">
                 </div>
@@ -59,6 +57,7 @@
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { nextTick } from "vue";
+import getAssetSrc from '@/utils/imageUtils';
 
 export default {
     name: 'Popup',
@@ -76,7 +75,7 @@ export default {
                 this.imagesWithIndex = null;
 
                 if (this.project != null) {
-                    this.imagesWithIndex = this.project.photos.map(photo => this.getImageUrl(photo.src));
+                    this.imagesWithIndex = this.project.photos.map(photo => getAssetSrc(photo.src));
                 }
 
                 this.initImagesAnimation();
@@ -131,17 +130,13 @@ export default {
             const images = document.querySelectorAll('.modal-content__image');
 
 
-            var backgroundTranslateY = '-60px';
-            if (window.innerWidth < 768) {
-                backgroundTranslateY = '-30px';
-            }
-
             images.forEach((img, i) => {
+                console.log();
 
                 gsap.fromTo(img, {
-                    backgroundPosition: () => `50% 0px`
+                    backgroundPosition: () => `${i % 2 === 0 ? '20%' : '80%'} center`
                 }, {
-                    backgroundPosition: () => `50% ${backgroundTranslateY}`,
+                    backgroundPosition: () => `${i % 2 === 0 ? '80%' : '20%'} center`,
                     ease: "none",
                     scrollTrigger: {
                         trigger: img,
@@ -192,11 +187,6 @@ export default {
             });
 
 
-        },
-        getImageUrl(src) {
-            return import.meta.env.DEV
-                ? new URL(`../../../images/${src}`, import.meta.url).href
-                : `images/${src}`;
         },
         getImageUrlWithIndex(index) {
             if (this.imagesWithIndex && this.imagesWithIndex.length > 0) {
@@ -311,24 +301,6 @@ export default {
 
 }
 
-@media (min-width: 768px) {
-
-    .text-infos:nth-child(even) {
-        flex-direction: row;
-        left: auto;
-        right: 20vw;
-
-
-        .modal-content__infos {
-            align-items: flex-start;
-
-            p {
-                text-align: start;
-            }
-        }
-    }
-}
-
 /* modal */
 .modal-content {
     p {
@@ -370,6 +342,26 @@ export default {
         width: 150vw;
     }
 }
+
+
+@media (min-width: 768px) {
+
+    .text-infos:nth-child(even) {
+        flex-direction: row;
+        left: auto;
+        right: 20vw;
+
+
+        .modal-content__infos {
+            align-items: flex-start;
+
+            p {
+                text-align: start;
+            }
+        }
+    }
+}
+
 
 
 /* text */
@@ -414,6 +406,14 @@ export default {
 
     .text-infos:nth-child(even) {
         flex-direction: row;
+
+        .modal-content__infos {
+            align-items: flex-start;
+
+            p {
+                text-align: start;
+            }
+        }
     }
 
     .text-title,

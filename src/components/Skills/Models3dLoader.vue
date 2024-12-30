@@ -5,6 +5,7 @@
 
 <script>
 import { Models3DVisualisation } from './script.js';
+import getAssetSrc from '@/utils/imageUtils';
 
 export default {
     mounted() {
@@ -14,12 +15,7 @@ export default {
     methods: {
         initVizualisation() {
             this.container.innerHTML = '';
-            new Models3DVisualisation(this.getModelUrl("models/swordfish2/scene.glb"), this.container);
-        },
-        getModelUrl(src) {
-            return import.meta.env.DEV
-                ? new URL(`../../../images/${src}`, import.meta.url).href
-                : `images/${src}`;
+            new Models3DVisualisation(getAssetSrc("models/swordfish2/scene.glb"), this.container);
         },
     },
 
