@@ -1,9 +1,9 @@
 <template>
-    <div class="div-skills">
-        <div class="div-skills__title">
+    <div class="skills-div">
+        <div class="skills-div__title">
             <p>Compétences</p>
         </div>
-        <div class="div-skills__content">
+        <div class="skills-div__content">
             <p>J'ai pas eu le temps de finir, je fais de l'argent</p>
             <Models3dLoader />
         </div>
@@ -29,7 +29,7 @@ export default {
         // Move texts and rocket during scroll
         gsap.timeline({
             scrollTrigger: {
-                trigger: ".div-skills",        // Element where trigger actions
+                trigger: ".skills-div",        // Element where trigger actions
                 start: "top top",               // Where trigger start : top of component, top of screen
                 end: "bottom top",              // Where trigger end : bottom of component, 70% of top of screen
                 pin: true,                      // Stay on component during animations
@@ -44,14 +44,14 @@ export default {
 
 
 <style scoped>
-.div-skills {
+.skills-div {
     position: relative;
     width: 100vw;
     height: 100vh;
     padding: 0px 5px;
 }
 
-.div-skills__title {
+.skills-div__title {
     height: 10vh;
     width: 100%;
 
@@ -61,7 +61,7 @@ export default {
     }
 }
 
-.div-skills__content {
+.skills-div__content {
     height: 90vh;
     width: 100%;
 

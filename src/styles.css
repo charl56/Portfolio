@@ -2,12 +2,7 @@
 	--background-color-1: #f5f9ff;
 	--font-color: #2c3e50;
 
-	--first-color: #414141;
-	--second-color: #1f6398;
-	--third-color: #6e23ac;
-	--fourth-color: #ab0106;
-	--five-color: #cfcf39;
-
+	/* Popup */
 	--popup-first-color: white;
 	--popup-second-color: black;
 	--popup-third-color: black;
@@ -24,7 +19,6 @@
 
 @font-face {
 	font-family: 'audio_wide';
-	/* src: url('@/assets/fonts/alata/Alata-Regular.ttf') format('truetype'); */
 	src: url('@/assets/fonts/Bebas_Neue/BebasNeue-Regular.ttf') format('truetype');
 }
 

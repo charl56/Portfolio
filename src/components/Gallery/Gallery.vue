@@ -1,8 +1,9 @@
 <template>
     <!-- Inspiration => gallery : https://www.youtube.com/watch?v=v0UoqZJRP5M -->
-    <div class="gallery-div" >
+    <div class="gallery-div" ref="galleryContainer">
         <div class="preview-img">
-            <img alt="image de prevision"> <!-- Preview image when hover img -->
+            <!-- Preview image when hover img -->
+            <img alt="image de prevision"> 
         </div>
         <div class="gallery"></div>
     </div>
@@ -21,17 +22,33 @@ export default {
             progress: 0,
             imagesWithIndex: null,
             imgsPath: dataFR[2],
+            observer: null,
+            isVisible: false,
         }
     },
     mounted() {
-        this.initGallery();
+        this.setupIntersectionObserver();
     },
     methods: {
+        setupIntersectionObserver() {
+            this.observer = new IntersectionObserver(
+                (entries) => {
+                    if (entries[0].isIntersecting && !this.isVisible) {
+                        this.isVisible = true;
+                        this.initGallery();
+                        this.observer.disconnect();
+                    }
+                },
+                {
+                    threshold: 0.1
+                }
+            );
+            
+            this.observer.observe(this.$refs.galleryContainer);
+        },
         initGallery() {
 
-
             var imgs = []
-
 
             this.imgsPath.forEach(photo => {
                 imgs.push(getAssetSrc("Gallery" + photo.src))
@@ -85,6 +102,7 @@ export default {
 
             for (let i = 0; i < imgs.length; i++) {
                 const item = document.createElement('div');
+                // Css class isn't appplied in local
                 item.classList.add('item');
                 item.className = 'item';
                 item.style.position = 'absolute';
@@ -201,11 +219,6 @@ export default {
     top: -50vh;
 
     z-index: 5;
-
-    /* display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column; */
 }
 
 
@@ -264,27 +277,5 @@ export default {
     margin: 10px;
 
     transform-style: preserve-3d;
-}
-
-
-.gallery-div__content::-webkit-scrollbar {
-    /* Fond de la barre de scroll */
-    width: 10px;
-    background-color: var(--popup-first-color);
-    border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px;
-}
-
-.gallery-div__content::-webkit-scrollbar-button {
-    /* Boutons haut/bas */
-    display: none;
-}
-
-.gallery-div__content::-webkit-scrollbar-thumb {
-    /* Bouton de la barre de scroll */
-    background-color: var(--popup-second-color);
-    border-radius: 10px;
-    /* border-top-right-radius: 10px;
-    border-bottom-right-radius: 10px; */
 }
 </style>
