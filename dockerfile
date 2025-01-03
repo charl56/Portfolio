@@ -4,7 +4,7 @@
 #####
 ##### Docker multi-stage build : Node.js build image
 #####
-FROM node:lts-alpine as build-stage
+FROM node:lts-alpine AS build-stage
 
 # make the 'app' folder the current working directory
 WORKDIR /app
@@ -20,16 +20,13 @@ COPY src/ ./src
 COPY vite.config.js ./
 COPY index.html ./
 
-# Args
-ARG VITE_FRONT_URL=$VITE_FRONT_URL
-
 # build app for production with minification
 RUN npm run build
 
 COPY images/ /app/dist/images
 
 # production stage
-FROM nginx:stable-alpine as production-stage
+FROM nginx:stable-alpine AS production-stage
 COPY --from=build-stage /app/dist /usr/share/nginx/html
 
 
