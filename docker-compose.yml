@@ -1,4 +1,3 @@
-version: '3.8'
 services:
   charles:
     container_name: charles
@@ -6,15 +5,7 @@ services:
       # context: ./Portfolio # Lieu du dossier 'frontend' dans le projet
       dockerfile: ./Dockerfile # Lieu du dockerfile, par rapport au context
 
-    image: studi0426/charles:frontend
+    image: ghcr.io/charl56/portfolio:latest
     restart: always
     ports:
       - "127.0.0.1:8081:80"
-    networks:
-      - charles-network
-
-networks:
-  charles-network:
-    driver: bridge
-    ipam:
-      driver: default
