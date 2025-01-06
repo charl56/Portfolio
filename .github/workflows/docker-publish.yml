@@ -46,8 +46,9 @@ jobs:
           run: |
             ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
             "cd ${{ secrets.WORK_DIR }} && \
-            docker compose pull \
-            && docker compose up -d \
-            && exit"
+            docker compose stop && \
+            docker compose pull && \
+            docker compose up -d && \
+            exit"
         - name: cleanup
           run: rm -rf ~/.ssh
