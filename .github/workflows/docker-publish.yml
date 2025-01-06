@@ -38,6 +38,7 @@ jobs:
         - name: connect and pull
           run: |
             ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
+            docker login ghcr.io -u ${{ github.actor }} -p ${{ secrets.PAT }} && \
             "cd ${{ secrets.WORK_DIR }} && \
             docker compose stop && \
             docker compose pull && \
