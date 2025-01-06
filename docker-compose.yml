@@ -1,10 +1,6 @@
 services:
   charles:
     container_name: charles
-    build:
-      # context: ./Portfolio # Lieu du dossier 'frontend' dans le projet
-      dockerfile: ./Dockerfile # Lieu du dockerfile, par rapport au context
-
     image: ghcr.io/charl56/portfolio:latest
     restart: always
     ports:
