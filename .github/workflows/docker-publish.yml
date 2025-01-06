@@ -39,6 +39,7 @@ jobs:
           run: 
             ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
               "cd ${{ secrets.WORK_DIR }} && \
+              echo ls -li && \
               docker compose down && \
               docker compose pull && \
               docker compose up -d && \
