@@ -35,9 +35,9 @@ jobs:
             install -m 600 -D /dev/null ~/.ssh/id_rsa
             echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
             ssh-keyscan -H -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
-        - name: Login Github Container Registry
-          run: |
-            echo ${{ secrets.PAT }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+        # - name: Login Github Container Registry
+        #   run: |
+        #     echo ${{ secrets.PAT }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
         - name: connect and pull
           run: |
             ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}
