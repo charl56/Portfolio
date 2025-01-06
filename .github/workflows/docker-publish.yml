@@ -5,9 +5,9 @@ on:
     branches: [ "main" ]
 
 env:
-  # Use docker.io for Docker Hub if empty
+  # Use GitHub Container Registry
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.actor }}/Portfolio:latest
+  IMAGE_NAME: ${{ github.actor }}/portfolio:latest
 
 jobs:
     publish:
