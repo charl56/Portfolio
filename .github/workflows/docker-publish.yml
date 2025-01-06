@@ -37,9 +37,9 @@ jobs:
             ssh-keyscan -H -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
         - name: connect and pull
           run: |
-            ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
+            ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "\
             echo ${{ secrets.PAT }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin && \
-            "cd ${{ secrets.WORK_DIR }} && \
+            cd ${{ secrets.WORK_DIR }} && \
             docker compose stop && \
             docker compose pull && \
             docker compose up -d && \
