@@ -39,7 +39,7 @@ jobs:
           run: |
             ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
             echo ${{ secrets.PAT }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin && \
-            "cd ${{ secrets.WORK_DIR }} && \
+            "cd /srv/Portfolio/ && \
             docker compose stop && \
             docker compose pull && \
             docker compose up -d && \
