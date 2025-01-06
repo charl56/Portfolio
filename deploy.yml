@@ -20,11 +20,11 @@ jobs:
 
     - name: Copy modified files via rsync
       run: |
-        rsync -avz --exclude='.git*' -e "ssh -o StrictHostKeyChecking=no -p ${{ secrets.SSH_PORT }}" --delete ${{ github.workspace }}/ ${{ secrets.USER }}@${{ secrets.SERVER_IP }}:/srv/Portfolio
+        rsync -avz --exclude='.git*' -e "ssh -o StrictHostKeyChecking=no -p ${{ secrets.SSH_PORT }}" --delete ${{ github.workspace }}/ ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }}:/srv/Portfolio
 
     - name: Deploy
       run: |
-        ssh -p ${{ secrets.SSH_PORT }} -o StrictHostKeyChecking=no ${{ secrets.USER }}@${{ secrets.SERVER_IP }} << 'EOF'
+        ssh -p ${{ secrets.SSH_PORT }} -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
         cd /srv
         docker compose stop charles
         docker container prune --force

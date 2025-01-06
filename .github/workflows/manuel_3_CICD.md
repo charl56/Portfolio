@@ -3,13 +3,13 @@
 Clé SSH : Génère une clé SSH sur ton serveur et ajoute la clé publique à ton dépôt GitHub sous Settings > Secrets and variables > Actions > New repository secret.
 Liste des variables : 
 - SERVER_IP
-- USER
+- SSH_USER
 - SSH_PRIVATE_KEY
 - SSH_PORT
 
 #### Sur ton serveur, génère clé avec un nom définit stuv
 ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
-Ajouter la clé au fichier `/home/{USER}/.ssh/autorizedkey`, ou un truc comme ça
+Ajouter la clé au fichier `/home/{SSH_USER}/.ssh/autorizedkey`, ou un truc comme ça
 
 ### Étape 2 : Créer un Workflow GitHub Actions
 Crée un fichier .github/workflows/deploy.yml dans ton dépôt GitHub.
