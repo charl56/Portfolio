@@ -36,13 +36,15 @@ jobs:
             echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
             ssh-keyscan -H -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
         - name: connect and pull
-          run: 
-            ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
-              "cd ${{ secrets.WORK_DIR }} && \
-              echo ls -li && \
-              docker compose down && \
-              docker compose pull && \
-              docker compose up -d && \
-              exit"
+          # run: 
+          #   ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
+          #     "cd ${{ secrets.WORK_DIR }} && \
+          #     docker compose down && \
+          #     docker compose pull && \
+          #     docker compose up -d && \
+          #     exit"
+            echo "Host: ${{ secrets.WORK_DIR }}"
+
+          run: ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }} && docker compose pull && docker compose up -d && exit"
         - name: cleanup
           run: rm -rf ~/.ssh
