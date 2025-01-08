@@ -21,8 +21,3 @@ Exemple du fichier docker-compose.yml
 ### Étape 4 : Tester le Workflow
 Push le code sur la branche main de ton dépôt GitHub.
 GitHub Actions exécutera le workflow de déploiement.
-
-
-
-
-
