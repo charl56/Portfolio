@@ -52,6 +52,7 @@ export default {
 
             this.imgsPath.forEach(photo => {
                 imgs.push(getAssetSrc("Gallery" + photo.src))
+                console.log("Gallery" + photo.src)
             });
 
             const gallery = document.querySelector('.gallery');

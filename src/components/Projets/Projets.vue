@@ -269,7 +269,7 @@ export default {
 
 <style scoped>
 .projects-div {
-    height: 100dvh;
+    height: 100vh;
     width: 100vw;
     z-index: 1;
 
@@ -284,7 +284,7 @@ export default {
 
 .projects-div__background-color {
     width: 100%;
-    height: 100dvh;
+    height: 100vh;
     z-index: 1;
 
     /* Usefull to move with GSAP */
@@ -301,7 +301,7 @@ export default {
 
 
 .background__pop-up {
-    height: 100dvh;
+    height: 100vh;
     width: 100vw;
     top: 0;
     position: fixed;

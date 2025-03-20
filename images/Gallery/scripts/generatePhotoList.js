@@ -13,6 +13,7 @@ function generatePhotoList() {
     // Lire les fichiers du dossier
     const photos = fs.readdirSync(pathFolder)
         .filter(file => {
+            console.log(file);
             const ext = path.extname(file).toLowerCase();
             return validExtensions.includes(ext);
         })
