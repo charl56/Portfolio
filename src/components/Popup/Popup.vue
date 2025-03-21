@@ -208,7 +208,7 @@ export default {
 
 <style>
 .popup-div {
-    height: 100vh;
+    height: 100svh;
     width: 100vw;
     top: 0;
     left: -100vw;
