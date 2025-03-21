@@ -2,6 +2,7 @@
 	<v-app id="app">
 		<div>
 			<Loader />
+			<Logo />
 			<Projets />
 			<Particles />
 			<Skills />
@@ -18,6 +19,7 @@
 import { defineAsyncComponent } from 'vue';
 
 import Loader from "./components/Loader/Loader.vue";
+import Logo from './components/Logo/Logo.vue';
 import Projets from "./components/Projets/Projets.vue";
 
 
@@ -42,6 +44,7 @@ export default {
 	name: 'App',
 	components: {
 		Loader,
+		Logo,
 		Projets,
 		Cursor,
 		Particles,

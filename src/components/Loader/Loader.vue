@@ -18,6 +18,7 @@
 import { gsap } from "gsap";
 import dataFR from '../../data/appData/dataFR.json'
 import getAssetSrc from '@/utils/imageUtils';
+import { EventBus } from '@/utils/eventBus';
 
 export default {
     name: 'AppLoader',
@@ -213,6 +214,7 @@ export default {
             // Une fois toutes les animations terminées, réactive le scroll
             tl.then(() => {
                 document.documentElement.style.overflow = '';
+                EventBus.emit('showLogo', true);
             });
         }
     }
