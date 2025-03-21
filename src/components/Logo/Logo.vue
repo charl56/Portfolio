@@ -1,13 +1,16 @@
 <template>
     <div class="logo">
-        <img v-if="showLogo" src="@/assets/icons/logo.png" alt="Logo">
+        <img v-if="showLogo" :src="getAssetSrc('logo.png')" alt="Logo">
     </div>
 </template>
 
 <script>
 import { EventBus } from '@/utils/eventBus';
+import getAssetSrc from '@/utils/imageUtils';
 
 export default {
+  created () {
+  },
     name: 'Logo',
     data() {
         return {
@@ -21,6 +24,9 @@ export default {
     },
     beforeUnmount() {
         EventBus.off('showLogo');
+    },
+    methods: {
+        getAssetSrc
     }
 }
 </script>
