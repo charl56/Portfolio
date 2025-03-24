@@ -147,10 +147,7 @@
             "date": "septembre 2022 - mai 2023",
             "infos": [
                 {
-                    "value": "Lecteur de CD"
-                },
-                {
-                    "value": "Application Web"
+                    "value": "<a href='/jukebox/' target='_blank'>Application</a> Web"
                 },
                 {
                     "value": "Système embarqué, permet la prise de CD"
