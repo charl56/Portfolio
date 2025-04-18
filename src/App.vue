@@ -2,7 +2,7 @@
 	<v-app id="app">
 		<div>
 			<Loader />
-			<Logo />
+			<!-- <Logo /> -->
 			<Projets />
 			<Particles />
 			<Skills />
