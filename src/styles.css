@@ -84,3 +84,7 @@ a:hover{
 	transform: scale(1.1);
 	text-decoration: underline;
 }
+
+ul{
+	color: var(--font-color);
+}
