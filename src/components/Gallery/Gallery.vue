@@ -52,7 +52,6 @@ export default {
 
             this.imgsPath.forEach(photo => {
                 imgs.push(getAssetSrc("Gallery" + photo.src))
-                console.log("Gallery" + photo.src)
             });
 
             const gallery = document.querySelector('.gallery');
@@ -93,11 +92,11 @@ export default {
             }
 
 
-            var divWidth = "100px"
-            var divheight = "80px"
+            var divWidth = "250px"
+            var divheight = "200px"
             if (window.innerWidth < 768) {
-                divWidth = "45px"
-                divheight = "60px"
+                divWidth = "100px"
+                divheight = "120px"
             }
 
 
@@ -130,7 +129,7 @@ export default {
             const angleIncrement = 360 / numberOfItems;
 
 
-            var tranformY = "600px"
+            var tranformY = "500px"
             if (window.innerWidth < 768) {
                 tranformY = "200px"
             }
