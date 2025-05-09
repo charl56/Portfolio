@@ -95,8 +95,8 @@ export default {
             var divWidth = "250px"
             var divheight = "200px"
             if (window.innerWidth < 768) {
-                divWidth = "100px"
-                divheight = "120px"
+                divWidth = "200px"
+                divheight = "130px"
             }
 
 
@@ -215,8 +215,8 @@ export default {
 .gallery-div {
     position: relative;
     width: 100vw;
-    height: 50vh;
-    top: -50vh;
+    height: 100vh;
+    /* top: 40vh; */
 
     z-index: 5;
 }
@@ -239,7 +239,7 @@ export default {
         width: auto;
 
         position: relative;
-        border-radius: 20px;
+        border-radius: 10px;
 
         object-fit: cover;
     }

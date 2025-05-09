@@ -29,7 +29,7 @@
         <div class="popup-div__content">
 
             <div v-if="project" class="modal-content text-title">
-                <p v-html="project.name"></p>
+                <p v-html="project.name.toLowerCase()"></p>
             </div>
 
             <div v-if="project" v-for="(info, index) in project.infos" class="modal-content text-infos">
@@ -127,25 +127,25 @@ export default {
             });
 
 
-            const images = document.querySelectorAll('.modal-content__image');
+            // const images = document.querySelectorAll('.modal-content__image');
 
 
-            images.forEach((img, i) => {
-                console.log();
+            // images.forEach((img, i) => {
+            //     console.log();
 
-                gsap.fromTo(img, {
-                    backgroundPosition: () => `${i % 2 === 0 ? '20%' : '80%'} center`
-                }, {
-                    backgroundPosition: () => `${i % 2 === 0 ? '80%' : '20%'} center`,
-                    ease: "none",
-                    scrollTrigger: {
-                        trigger: img,
-                        start: `top bottom`,     // Trigger at the top of component, and bottom of screen
-                        end: `bottom top`,          // Trigger at the bottom of component, and top of screen
-                        scrub: true,
-                    }
-                });
-            })
+            //     gsap.fromTo(img, {
+            //         backgroundPosition: () => `${i % 2 === 0 ? '20%' : '80%'} center`
+            //     }, {
+            //         backgroundPosition: () => `${i % 2 === 0 ? '80%' : '20%'} center`,
+            //         ease: "none",
+            //         scrollTrigger: {
+            //             trigger: img,
+            //             start: `top bottom`,     // Trigger at the top of component, and bottom of screen
+            //             end: `bottom top`,          // Trigger at the bottom of component, and top of screen
+            //             scrub: true,
+            //         }
+            //     });
+            // })
 
             // Refresh ScrollTrigger to ensure proper positioning
             ScrollTrigger.refresh();
@@ -155,28 +155,28 @@ export default {
                 return
             }
             ////// Hover animation 
-            const textInfos = document.querySelectorAll('.text-infos');
+            // const textInfos = document.querySelectorAll('.text-infos');
 
-            textInfos.forEach((element, index) => {
-                const direction = index % 2 === 0 ? 'right' : 'left';
+            // textInfos.forEach((element, index) => {
+            //     const direction = index % 2 === 0 ? 'right' : 'left';
 
-                element.addEventListener('mouseenter', () => {
-                    gsap.to(element, {
-                        [direction]: 'auto',
-                        duration: 0.6,
-                        ease: 'power2.inOut'
-                    });
-                });
+            //     element.addEventListener('mouseenter', () => {
+            //         gsap.to(element, {
+            //             [direction]: 'auto',
+            //             duration: 0.6,
+            //             ease: 'power2.inOut'
+            //         });
+            //     });
 
 
-                element.addEventListener('mouseleave', () => {
-                    gsap.to(element, {
-                        [direction]: '20vw',
-                        duration: 0.6,
-                        ease: 'power2.inOut'
-                    });
-                });
-            });
+            //     element.addEventListener('mouseleave', () => {
+            //         gsap.to(element, {
+            //             [direction]: '20vw',
+            //             duration: 0.6,
+            //             ease: 'power2.inOut'
+            //         });
+            //     });
+            // });
 
             // Change color. It don't take css class because elements aren't set when window is loaded
             textInfos.forEach(textInfo => {
@@ -223,6 +223,7 @@ export default {
     flex-direction: column;
 
     a {
+        color: black;
         text-decoration: underline;
         text-decoration-style: dotted;
     }
@@ -288,7 +289,7 @@ export default {
     align-items: flex-end;
 
     position: relative;
-    left: 20vw;
+    /* left: 20vw; */
     right: auto;
 
     margin-bottom: 20px;
@@ -304,14 +305,14 @@ export default {
 /* modal */
 .modal-content {
     p {
-        color: #001446;
+        color: black;
         text-align: justify;
         padding: 2px 5px;
     }
 }
 
 .modal-content__infos {
-    width: 100%;
+    width: 140vw;
 
     display: flex;
     flex-direction: column;
@@ -324,13 +325,14 @@ export default {
 }
 
 .modal-content__image {
-    height: 30vh;
-    width: 40vw;
+    height: 60vh;
+    width: 100%;
 
 
-    background-size: 115%;
+    /* background-size: 115%; */
     background-position: center;
     background-repeat: no-repeat;
+    background-size: cover;
     border-radius: 20px;
 
 }
@@ -349,7 +351,7 @@ export default {
     .text-infos:nth-child(even) {
         flex-direction: row;
         left: auto;
-        right: 20vw;
+        /* right: 20vw; */
 
 
         .modal-content__infos {

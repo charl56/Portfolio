@@ -32,11 +32,11 @@ export default {
                 trigger: ".skills-div",        // Element where trigger actions
                 start: "top top",               // Where trigger start : top of component, top of screen
                 end: "bottom top",              // Where trigger end : bottom of component, 70% of top of screen
-                pin: true,                      // Stay on component during animations
+                pin: false,                      // Stay on component during animations
                 scrub: 3,                       // Sscrubbing, takes 0.3 second to "catch up" to the scrollbar
             }
         })
-        .to('#model_spacesword', { top: "90vh", left: "170vw", duration: 1, stagger: 1 }, "<")
+        .to('#model_spacesword', { top: "120vh", left: "170vw", duration: 1, stagger: 1 }, "<")
 
     },
 }
