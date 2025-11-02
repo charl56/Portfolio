@@ -4,7 +4,7 @@
             <p>Compétences</p>
         </div>
         <div class="skills-div__content">
-            <p>J'ai pas eu le temps de finir, je fais de l'argent</p>
+            <p>Développement en cours...</p>
             <Models3dLoader />
         </div>
     </div>

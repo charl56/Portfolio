@@ -1,5 +1,5 @@
 const config = {
-    pathFolder: '../'
+    pathFolder: './'
 };
 
 module.exports = config;
