@@ -216,8 +216,7 @@ export default {
     position: relative;
     width: 100vw;
     height: 100vh;
-    /* top: 40vh; */
-
+    margin-bottom: 20vh;
     z-index: 5;
 }
 
